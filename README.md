@@ -1,0 +1,2 @@
+# SimpleRPGTutorial
+シンプルなRPGを作るチュートリアル向けリポジトリです。
