@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace SimpleRpg
 {
@@ -10,10 +9,10 @@ namespace SimpleRpg
     public class PlayerMover : MonoBehaviour
     {
         /// <summary>
-        /// 座標計算のベースとなるTilemapへの参照です。
+        /// Tilemapを管理するクラスへの参照です。
         /// </summary>
         [SerializeField]
-        Tilemap _baseTilemap;
+        TilemapManager _tilemapManager;
 
         /// <summary>
         /// キャラクターの移動にかかる時間です。
@@ -63,12 +62,12 @@ namespace SimpleRpg
         /// </summary>
         void GetCurrentPositionOnTilemap()
         {
-            if (_baseTilemap == null)
+            if (_tilemapManager == null)
             {
                 return;
             }
 
-            _posOnTile = _baseTilemap.WorldToCell(gameObject.transform.position);
+            _posOnTile = _tilemapManager.GetPositionOnTilemap(gameObject.transform.position);
         }
 
         /// <summary>
@@ -122,18 +121,25 @@ namespace SimpleRpg
                 return;
             }
 
-            _isMoving = true;
-
-            // 論理的な座標から移動先の座標を計算し、ワールド座標に変換します。
-            _posOnTile += (Vector3Int)moveDirection;
-            var targetWorldPos = _baseTilemap.CellToWorld(_posOnTile);
-            targetWorldPos += _baseTilemap.tileAnchor;
-
             // 移動方向に応じたアニメーションに切り替えます。
             if (_animator != null)
             {
                 _animator.SetInteger(AnimationSettings.DirectionParameterName, (int)animDirection);
             }
+
+            // 移動できるかの確認を行います。
+            var targetPos = _posOnTile + (Vector3Int)moveDirection;
+            bool canMove = _tilemapManager.CanEntryTile(targetPos);
+            if (!canMove)
+            {
+                return;
+            }
+
+            _isMoving = true;
+
+            // 論理的な座標から移動先の座標を計算し、ワールド座標に変換します。
+            _posOnTile = targetPos;
+            var targetWorldPos = _tilemapManager.GetWorldPosition(_posOnTile);
 
             // コルーチンを使ってキャラクターのゲームオブジェクトを移動させます。
             var sourcePos = gameObject.transform.position;

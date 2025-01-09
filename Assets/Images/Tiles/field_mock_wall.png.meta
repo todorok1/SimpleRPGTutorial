@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: bf8d429c81fa04e2d87e955d78293d6a
+guid: 90df80d78dcc142c79f5896091245609
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7507981964377672862
-    second: field_mock_props_flower_0
+      213: 4872613431328637847
+    second: field_mock_wall_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
