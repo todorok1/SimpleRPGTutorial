@@ -34,6 +34,14 @@ namespace SimpleRpg
         NoEntryTileData _noEntryTileData;
 
         /// <summary>
+        /// キャラクターがいるTilemap上の座標の辞書です。
+        /// Key: キャラクターのインスタンスID
+        /// Value: 座標
+        /// </summary>
+        [SerializeField]
+        Dictionary<int, Vector3Int> _characterPositions = new();
+
+        /// <summary>
         /// ワールド座標からTilemap上の論理的な座標を取得します。
         /// </summary>
         /// <param name="worldPos">変換元のワールド座標</param>
@@ -73,6 +81,13 @@ namespace SimpleRpg
             if (_noEntryTileData == null)
             {
                 Debug.LogWarning("侵入できないタイル一覧の定義ファイルがnullです。[NoEntryTileData]のフィールドに定義ファイルをアサインしてください。");
+                return canEntry;
+            }
+
+            // 移動先の座標にキャラクターがいるか確認します。
+            if (IsPositionUsed(targetPos))
+            {
+                canEntry = false;
                 return canEntry;
             }
 
@@ -118,6 +133,32 @@ namespace SimpleRpg
                 tile = tilemap.GetTile(targetPos);
             }
             return tile;
+        }
+
+        /// <summary>
+        /// 他のキャラクターが移動対象の位置にいるか確認します。
+        /// </summary>
+        /// <param name="targetPos">Tilemap上の座標</param>
+        bool IsPositionUsed(Vector3Int targetPos)
+        {
+            return _characterPositions.ContainsValue(targetPos);
+        }
+
+        /// <summary>
+        /// 移動先の位置を辞書に登録します。
+        /// </summary>
+        /// <param name="instanceId">キャラクターのインスタンスID</param>
+        /// <param name="targetPos">移動先のTilemap上の座標</param>
+        public void ReservePosition(int instanceId, Vector3Int targetPos)
+        {
+            if (_characterPositions.ContainsKey(instanceId))
+            {
+                _characterPositions[instanceId] = targetPos;
+            }
+            else
+            {
+                _characterPositions.Add(instanceId, targetPos);
+            }
         }
     }
 }

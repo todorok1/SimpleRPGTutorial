@@ -9,5 +9,10 @@ namespace SimpleRpg
         /// 操作キャラクターのタグ名です。
         /// </summary>
         public static readonly string Player = "Player";
+
+        /// <summary>
+        /// NPCのタグ名です。
+        /// </summary>
+        public static readonly string Npc = "NPC";
     }
 }
