@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SimpleRpg
@@ -57,5 +58,10 @@ namespace SimpleRpg
         /// ゴールドの値です。
         /// </summary>
         public int gold;
+
+        /// <summary>
+        /// 行動パターンのリストです。
+        /// </summary>
+        public List<EnemyActionRecord> enemyActionRecords;
     }
 }

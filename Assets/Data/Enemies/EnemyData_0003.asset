@@ -22,3 +22,12 @@ MonoBehaviour:
   speed: 8
   exp: 15
   gold: 50
+  enemyActionRecords:
+  - enemyActionCategory: 2
+    enemyConditionRecords:
+    - conditionCategory: 1
+      comparisonOperator: 5
+      turnCriteria: 0
+      hpRateCriteria: 50
+    magicData: {fileID: 11400000, guid: 4d160971bacd049ab83d04c08b110bc9, type: 2}
+    priority: 50
