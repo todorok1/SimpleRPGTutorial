@@ -1,0 +1,230 @@
+using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
+using UnityEngine;
+
+namespace SimpleRpg
+{
+    /// <summary>
+    /// キャラクターのステータスを管理するクラスです。
+    /// </summary>
+    public static class CharacterStatusManager
+    {
+        /// <summary>
+        /// パーティ内にいるキャラクターのIDのリストです。
+        /// </summary>
+        public static List<int> partyCharacter;
+
+        /// <summary>
+        /// キャラクターのステータスのリストです。
+        /// </summary>
+        public static List<CharacterStatus> characterStatuses;
+
+        /// <summary>
+        /// プレイヤーの所持金です。
+        /// </summary>
+        public static int partyGold;
+
+        /// <summary>
+        /// プレイヤーの所持アイテムのリストです。
+        /// </summary>
+        public static List<PartyItemInfo> partyItemInfoList;
+
+        /// <summary>
+        /// パーティ内のキャラクターのステータスをIDで取得します。
+        /// </summary>
+        /// <param name="characterId">キャラクターのID</param>
+        public static CharacterStatus GetCharacterStatusById(int characterId)
+        {
+            return characterStatuses.Find(character => character.characterId == characterId);
+        }
+
+        /// <summary>
+        /// パーティ内のキャラクターの装備も含めた攻撃力をIDで取得します。
+        /// </summary>
+        /// <param name="characterId">キャラクターのID</param>
+        public static BattleParameter GetCharacterBattleParameterById(int characterId)
+        {
+            var characterStatus = GetCharacterStatusById(characterId);
+            var parameterTable = CharacterDataManager.GetParameterTable(characterId);
+            var parameterRecord = parameterTable.parameterRecords.Find(p => p.level == characterStatus.level);
+
+            BattleParameter battleParameter = new()
+            {
+                strength = parameterRecord.strength,
+                guard = parameterRecord.guard,
+                speed = parameterRecord.speed,
+            };
+
+            var weaponData = ItemDataManager.GetItemDataById(characterStatus.equipWeaponId);
+            if (weaponData != null)
+            {
+                battleParameter.strength += weaponData.strength;
+                battleParameter.guard += weaponData.guard;
+                battleParameter.speed += weaponData.speed;
+            }
+
+            var armorData = ItemDataManager.GetItemDataById(characterStatus.equipArmorId);
+            if (armorData != null)
+            {
+                battleParameter.strength += armorData.strength;
+                battleParameter.guard += armorData.guard;
+                battleParameter.speed += armorData.speed;
+            }
+
+            return battleParameter;
+        }
+
+        /// <summary>
+        /// 対象のキャラクターのステータスを増減させます。
+        /// </summary>
+        /// <param name="characterId">キャラクターのID</param>
+        public static void ChangeCharacterStatus(int characterId, int hpDelta, int mpDelta)
+        {
+            var characterStatus = GetCharacterStatusById(characterId);
+            if (characterStatus == null)
+            {
+                Debug.LogWarning($"キャラクターのステータスが見つかりませんでした。 ID : {characterId}");
+                return;
+            }
+
+            var parameterTable = CharacterDataManager.GetParameterTable(characterId);
+            var parameterRecord = parameterTable.parameterRecords.Find(p => p.level == characterStatus.level);
+
+            characterStatus.currentHp += hpDelta;
+            if (characterStatus.currentHp > parameterRecord.hp)
+            {
+                characterStatus.currentHp = parameterRecord.hp;
+            }
+            else if (characterStatus.currentHp < 0)
+            {
+                characterStatus.currentHp = 0;
+            }
+
+            if (characterStatus.currentHp == 0)
+            {
+                characterStatus.isDefeated = true;
+                return;
+            }
+
+            characterStatus.currentMp += mpDelta;
+            if (characterStatus.currentMp > parameterRecord.mp)
+            {
+                characterStatus.currentMp = parameterRecord.mp;
+            }
+            else if (characterStatus.currentMp < 0)
+            {
+                characterStatus.currentMp = 0;
+            }
+        }
+
+        /// <summary>
+        /// 対象のキャラクターが倒れたかどうかを取得します。
+        /// </summary>
+        /// <param name="characterId">キャラクターのID</param>
+        public static bool IsCharacterDefeated(int characterId)
+        {
+            var characterStatus = GetCharacterStatusById(characterId);
+            return characterStatus.isDefeated;
+        }
+
+        /// <summary>
+        /// 全てのキャラクターが倒れたかどうかを取得します。
+        /// </summary>
+        public static bool IsAllCharacterDefeated()
+        {
+            bool isAllDefeated = true;
+            foreach (var characterStatus in characterStatuses)
+            {
+                if (!characterStatus.isDefeated)
+                {
+                    isAllDefeated = false;
+                    break;
+                }
+            }
+            return isAllDefeated;
+        }
+
+        /// <summary>
+        /// 引数のアイテムを使用します。
+        /// </summary>
+        /// <param name="itemId">アイテムのID</param>
+        public static void UseItem(int itemId)
+        {
+            var partyItemInfo = partyItemInfoList.Find(info => info.itemId == itemId);
+            if (partyItemInfo == null)
+            {
+                Debug.LogWarning($"対象のアイテムを所持していません。 ID : {itemId}");
+                return;
+            }
+
+            partyItemInfo.usedNum++;
+
+            var itemData = ItemDataManager.GetItemDataById(itemId);
+            if (partyItemInfo.usedNum >= itemData.numberOfUse && itemData.numberOfUse > 0)
+            {
+                partyItemInfo.itemNum--;
+            }
+
+            if (partyItemInfo.itemNum <= 0)
+            {
+                partyItemInfoList.Remove(partyItemInfo);
+            }
+        }
+
+        /// <summary>
+        /// HPが0でないパーティキャラクターの経験値を増加させます。
+        /// </summary>
+        /// <param name="exp">増加させる経験値</param>
+        public static void IncreaseExp(int exp)
+        {
+            foreach (var characterId in partyCharacter)
+            {
+                var characterStatus = GetCharacterStatusById(characterId);
+                if (characterStatus.currentHp > 0)
+                {
+                    characterStatus.exp += exp;
+                }
+            }
+        }
+
+        /// <summary>
+        /// パーティの所持金を増加させます。
+        /// </summary>
+        /// <param name="exp">増加させる経験値</param>
+        public static void IncreaseGold(int gold)
+        {
+            partyGold += gold;
+        }
+
+        /// <summary>
+        /// 指定したキャラクターがレベルアップしたかどうかを返します。
+        /// Trueでレベルアップしています。
+        /// </summary>
+        public static bool CheckLevelUp(int characterId)
+        {
+            var characterStatus = GetCharacterStatusById(characterId);
+            var expTable = CharacterDataManager.GetExpTable();
+            int targetLevel = 1;
+            for (int i = 0; i < expTable.expRecords.Count; i++)
+            {
+                var expRecord = expTable.expRecords[i];
+                if (characterStatus.exp >= expRecord.exp)
+                {
+                    targetLevel = expRecord.level;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (targetLevel > characterStatus.level)
+            {
+                characterStatus.level = targetLevel;
+                return true;
+            }
+
+            return false;
+        }
+    }
+}

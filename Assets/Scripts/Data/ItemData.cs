@@ -29,9 +29,9 @@ namespace SimpleRpg
         public ItemCategory itemCategory;
 
         /// <summary>
-        /// アイテムの効果量です。
+        /// アイテムの効果です。
         /// </summary>
-        public int value;
+        public ItemEffect itemEffect;
 
         /// <summary>
         /// 使用可能回数です。

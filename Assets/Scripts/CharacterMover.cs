@@ -40,10 +40,16 @@ namespace SimpleRpg
         /// </summary>
         protected bool _isMoving;
 
+        /// <summary>
+        /// 移動できる状況かどうかのフラグです。
+        /// </summary>
+        protected bool _isMovingPaused;
+
         protected void Start()
         {
             CheckComponents();
             GetCurrentPositionOnTilemap();
+            RegisterComponent();
         }
 
         void Update()
@@ -86,6 +92,18 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 管理クラスにこのコンポーネントを登録します。
+        /// </summary>
+        protected void RegisterComponent()
+        {
+            var manager = FindAnyObjectByType<CharacterMoverManager>();
+            if (manager != null)
+            {
+                manager.RegisterCharacterMover(this);
+            }
+        }
+
+        /// <summary>
         /// キャラクターを移動させます。
         /// </summary>
         /// <param name="moveDirection">移動方向</param>
@@ -93,6 +111,12 @@ namespace SimpleRpg
         protected virtual void MoveCharacter(Vector2Int moveDirection, MoveAnimationDirection animDirection)
         {
             if (moveDirection == Vector2Int.zero)
+            {
+                return;
+            }
+
+            // 移動機能が一時停止されている場合は処理を抜けます。
+            if (_isMovingPaused)
             {
                 return;
             }
@@ -141,6 +165,12 @@ namespace SimpleRpg
             var startedTime = Time.time;
             while (Time.time < animFinishTime)
             {
+                if (_isMovingPaused)
+                {
+                    animFinishTime += Time.deltaTime;
+                    yield return null;
+                    continue;
+                }
                 var elapsedTime = Time.time - startedTime;
                 var rate = Mathf.Clamp01(elapsedTime / _moveTime);
                 Vector3 pos = Vector3.Lerp(sourcePos, targetPos, rate);
@@ -201,6 +231,44 @@ namespace SimpleRpg
             bool isTargetTag = collider.CompareTag(ObjectTagSettings.Npc)
                             || collider.CompareTag(ObjectTagSettings.Player);
             return isTargetTag;
+        }
+
+        /// <summary>
+        /// アニメーションを停止します。
+        /// </summary>
+        public virtual void StopAnimation()
+        {
+            if (_animator != null)
+            {
+                _animator.speed = 0;
+            }
+        }
+
+        /// <summary>
+        /// アニメーションを再開します。
+        /// </summary>
+        public virtual void ResumeAnimation()
+        {
+            if (_animator != null)
+            {
+                _animator.speed = 1;
+            }
+        }
+
+        /// <summary>
+        /// キャラクターの移動を停止します。
+        /// </summary>
+        public virtual void StopMoving()
+        {
+            _isMovingPaused = true;
+        }
+
+        /// <summary>
+        /// キャラクターの移動を再開します。
+        /// </summary>
+        public virtual void ResumeMoving()
+        {
+            _isMovingPaused = false;
         }
     }
 }

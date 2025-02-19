@@ -16,7 +16,7 @@ namespace SimpleRpg
         /// <summary>
         /// 魔法の効果範囲です。
         /// </summary>
-        public MagicTarget magicTarget;
+        public EffectTarget effectTarget;
 
         /// <summary>
         /// 効果量です。

@@ -35,12 +35,12 @@ namespace SimpleRpg
         /// <summary>
         /// 逃走できるかどうかの判定を行います。
         /// </summary>
-        /// <param name="friendSpeed">逃走を試みる側の素早さ</param>
-        /// <param name="enemySpeed">逃走を試みられる側の素早さ</param>
-        public static bool CalculateCanRun(int friendSpeed, int enemySpeed)
+        /// <param name="actorSpeed">逃走を試みる側の素早さ</param>
+        /// <param name="targetSpeed">逃走を試みられる側の素早さ</param>
+        public static bool CalculateCanRun(int actorSpeed, int targetSpeed)
         {
             float baseProbability = 50.0f;
-            float speedDifference = friendSpeed - enemySpeed;
+            float speedDifference = actorSpeed - targetSpeed;
             float escapeRate = baseProbability + Mathf.Max(speedDifference, 0);
             float rand = Random.Range(0.0f, 1.0f) * 100f;
             return rand < escapeRate;
