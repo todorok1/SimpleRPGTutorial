@@ -3,18 +3,18 @@ using System;
 namespace SimpleRpg
 {
     /// <summary>
-    /// 魔法の効果に関する設定を保持するクラスです。
+    /// アイテムの効果に関する設定を保持するクラスです。
     /// </summary>
     [Serializable]
-    public class MagicEffect
+    public class ItemEffect
     {
         /// <summary>
-        /// 魔法のカテゴリです。
+        /// アイテム効果のカテゴリです。
         /// </summary>
-        public MagicCategory magicCategory;
+        public ItemEffectCategory itemEffectCategory;
 
         /// <summary>
-        /// 魔法の効果範囲です。
+        /// アイテムの効果範囲です。
         /// </summary>
         public EffectTarget effectTarget;
 
