@@ -10,6 +10,11 @@ namespace SimpleRpg
     public class ParameterTable : ScriptableObject
     {
         /// <summary>
+        /// 対応するキャラクターのIDです。
+        /// </summary>
+        public int characterId;
+
+        /// <summary>
         /// レベルとパラメータの対応レコードのリストです。
         /// </summary>
         public List<ParameterRecord> parameterRecords;
