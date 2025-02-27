@@ -48,30 +48,19 @@ namespace SimpleRpg
             var parameterTable = CharacterDataManager.GetParameterTable(characterId);
             var parameterRecord = parameterTable.parameterRecords.Find(p => p.level == characterStatus.level);
 
-            BattleParameter battleParameter = new()
+            BattleParameter baseParameter = new()
             {
                 strength = parameterRecord.strength,
                 guard = parameterRecord.guard,
                 speed = parameterRecord.speed,
             };
 
-            var weaponData = ItemDataManager.GetItemDataById(characterStatus.equipWeaponId);
-            if (weaponData != null)
-            {
-                battleParameter.strength += weaponData.strength;
-                battleParameter.guard += weaponData.guard;
-                battleParameter.speed += weaponData.speed;
-            }
+            BattleParameter equipmentParameter = EquipmentCalculator.GetEquipmentParameter(characterStatus.equipWeaponId, characterStatus.equipArmorId);
+            baseParameter.strength += equipmentParameter.strength;
+            baseParameter.guard += equipmentParameter.guard;
+            baseParameter.speed += equipmentParameter.speed;
 
-            var armorData = ItemDataManager.GetItemDataById(characterStatus.equipArmorId);
-            if (armorData != null)
-            {
-                battleParameter.strength += armorData.strength;
-                battleParameter.guard += armorData.guard;
-                battleParameter.speed += armorData.speed;
-            }
-
-            return battleParameter;
+            return baseParameter;
         }
 
         /// <summary>

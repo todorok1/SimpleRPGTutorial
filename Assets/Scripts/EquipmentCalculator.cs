@@ -8,25 +8,25 @@ namespace SimpleRpg
         /// <summary>
         /// 装備品のIDから補正値を取得します。
         /// </summary>
-        public static CorrectedValue GetCorrectedParameter(int weaponId, int armorId)
+        public static BattleParameter GetEquipmentParameter(int weaponId, int armorId)
         {
-            CorrectedValue correctedValue = new();
-            CalculateCorrectedValue(weaponId, correctedValue);
-            CalculateCorrectedValue(armorId, correctedValue);
-            return correctedValue;
+            BattleParameter battleParameter = new();
+            CalculateBattleParameter(weaponId, battleParameter);
+            CalculateBattleParameter(armorId, battleParameter);
+            return battleParameter;
         }
 
         /// <summary>
-        /// IDからアイテムデータを取得します。
+        /// IDからアイテムデータを取得して、戦闘パラメータに加算します。
         /// </summary>
-        static void CalculateCorrectedValue(int itemId, CorrectedValue correctedValue)
+        static void CalculateBattleParameter(int itemId, BattleParameter battleParameter)
         {
             ItemData itemData = ItemDataManager.GetItemDataById(itemId);
             if (itemData != null)
             {
-                correctedValue.strength += itemData.strength;
-                correctedValue.guard += itemData.guard;
-                correctedValue.speed += itemData.speed;
+                battleParameter.strength += itemData.strength;
+                battleParameter.guard += itemData.guard;
+                battleParameter.speed += itemData.speed;
             }
         }
     }
