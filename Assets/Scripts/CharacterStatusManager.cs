@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SimpleRpg
 {
@@ -37,6 +38,76 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// パーティ内のキャラクターの装備も含めたパラメータをIDで取得します。
+        /// </summary>
+        /// <param name="characterId">キャラクターのID</param>
+        public static BattleParameter GetCharacterBattleParameterById(int characterId)
+        {
+            var characterStatus = GetCharacterStatusById(characterId);
+            var parameterTable = CharacterDataManager.GetParameterTable(characterId);
+            var parameterRecord = parameterTable.parameterRecords.Find(p => p.level == characterStatus.level);
+
+            BattleParameter baseParameter = new()
+            {
+                strength = parameterRecord.strength,
+                guard = parameterRecord.guard,
+                speed = parameterRecord.speed,
+            };
+
+            BattleParameter equipmentParameter = EquipmentCalculator.GetEquipmentParameter(characterStatus.equipWeaponId, characterStatus.equipArmorId);
+            baseParameter.strength += equipmentParameter.strength;
+            baseParameter.guard += equipmentParameter.guard;
+            baseParameter.speed += equipmentParameter.speed;
+
+            return baseParameter;
+        }
+
+        /// <summary>
+        /// 対象のキャラクターのステータスを増減させます。
+        /// </summary>
+        /// <param name="characterId">キャラクターのID</param>
+        /// <param name="hpDelta">増減させるHP</param>
+        /// <param name="mpDelta">増減させるMP</param>
+        public static void ChangeCharacterStatus(int characterId, int hpDelta, int mpDelta)
+        {
+            var characterStatus = GetCharacterStatusById(characterId);
+            if (characterStatus == null)
+            {
+                Debug.LogWarning($"キャラクターのステータスが見つかりませんでした。 ID : {characterId}");
+                return;
+            }
+
+            var parameterTable = CharacterDataManager.GetParameterTable(characterId);
+            var parameterRecord = parameterTable.parameterRecords.Find(p => p.level == characterStatus.level);
+
+            characterStatus.currentHp += hpDelta;
+            if (characterStatus.currentHp > parameterRecord.hp)
+            {
+                characterStatus.currentHp = parameterRecord.hp;
+            }
+            else if (characterStatus.currentHp < 0)
+            {
+                characterStatus.currentHp = 0;
+            }
+
+            if (characterStatus.currentHp == 0)
+            {
+                characterStatus.isDefeated = true;
+                return;
+            }
+
+            characterStatus.currentMp += mpDelta;
+            if (characterStatus.currentMp > parameterRecord.mp)
+            {
+                characterStatus.currentMp = parameterRecord.mp;
+            }
+            else if (characterStatus.currentMp < 0)
+            {
+                characterStatus.currentMp = 0;
+            }
+        }
+
+        /// <summary>
         /// 対象のキャラクターが倒れたかどうかを取得します。
         /// </summary>
         /// <param name="characterId">キャラクターのID</param>
@@ -65,6 +136,33 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 引数のアイテムを使用します。
+        /// </summary>
+        /// <param name="itemId">アイテムのID</param>
+        public static void UseItem(int itemId)
+        {
+            var partyItemInfo = partyItemInfoList.Find(info => info.itemId == itemId);
+            if (partyItemInfo == null)
+            {
+                Debug.LogWarning($"対象のアイテムを所持していません。 ID : {itemId}");
+                return;
+            }
+
+            partyItemInfo.usedNum++;
+
+            var itemData = ItemDataManager.GetItemDataById(itemId);
+            if (partyItemInfo.usedNum >= itemData.numberOfUse && itemData.numberOfUse > 0)
+            {
+                partyItemInfo.itemNum--;
+            }
+
+            if (partyItemInfo.itemNum <= 0)
+            {
+                partyItemInfoList.Remove(partyItemInfo);
+            }
+        }
+
+        /// <summary>
         /// HPが0でないパーティキャラクターの経験値を増加させます。
         /// </summary>
         /// <param name="exp">増加させる経験値</param>
@@ -87,6 +185,37 @@ namespace SimpleRpg
         public static void IncreaseGold(int gold)
         {
             partyGold += gold;
+        }
+
+        /// <summary>
+        /// 指定したキャラクターがレベルアップしたかどうかを返します。
+        /// Trueでレベルアップしています。
+        /// </summary>
+        public static bool CheckLevelUp(int characterId)
+        {
+            var characterStatus = GetCharacterStatusById(characterId);
+            var expTable = CharacterDataManager.GetExpTable();
+            int targetLevel = 1;
+            for (int i = 0; i < expTable.expRecords.Count; i++)
+            {
+                var expRecord = expTable.expRecords[i];
+                if (characterStatus.exp >= expRecord.exp)
+                {
+                    targetLevel = expRecord.level;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (targetLevel > characterStatus.level)
+            {
+                characterStatus.level = targetLevel;
+                return true;
+            }
+
+            return false;
         }
     }
 }
