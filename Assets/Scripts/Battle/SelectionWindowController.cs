@@ -21,7 +21,7 @@ namespace SimpleRpg
         /// <summary>
         /// 選択ウィンドウのUIを制御するクラスへの参照です。
         /// </summary>
-        BattleUIControllerSelectItem _uiController;
+        SelectionUIController _uiController;
 
         /// <summary>
         /// 現在選択中の項目のインデックスです。

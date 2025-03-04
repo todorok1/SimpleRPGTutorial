@@ -104,9 +104,9 @@ namespace SimpleRpg
                 return;
             }
 
-            var controller = _battleManager.GetUIManager().GetUIControllerStatus();
+            var controller = _battleManager.GetWindowManager().GetStatusWindowController();
             controller.SetCharacterStatus(characterStatus);
-            controller.Show();
+            controller.ShowWindow();
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace SimpleRpg
         /// </summary>
         void ShowCommand()
         {
-            var controller = _battleManager.GetCommandWindowController();
+            var controller = _battleManager.GetWindowManager().GetCommandWindowController();
             controller.ShowWindow();
             controller.InitializeCommand();
         }
@@ -146,7 +146,7 @@ namespace SimpleRpg
             }
 
             // メッセージ表示後、BattleManagerに制御が戻ります。
-            var controller = _battleManager.GetMessageWindowController();
+            var controller = _battleManager.GetWindowManager().GetMessageWindowController();
             controller.ShowWindow();
             controller.GenerateEnemyAppearMessage(enemyData.enemyName, _startMessageTime);
         }

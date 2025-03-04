@@ -5,7 +5,7 @@ namespace SimpleRpg
     /// <summary>
     /// コマンドのUIを制御するクラスです。
     /// </summary>
-    public class BattleUIControllerCommand : BattleUIControllerBase
+    public class CommandUIController : BattleUIControllerBase
     {
         /// <summary>
         /// 攻撃コマンドのカーソルオブジェクトです。

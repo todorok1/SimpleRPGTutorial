@@ -21,28 +21,16 @@ namespace SimpleRpg
         BattleUIManager _uiManager;
 
         /// <summary>
+        /// 戦闘関連のウィンドウ全体を管理するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        BattleWindowManager _battleWindowManager;
+
+        /// <summary>
         /// 戦闘関連のスプライトを制御するクラスへの参照です。
         /// </summary>
         [SerializeField]
         BattleSpriteController _battleSpriteController;
-
-        /// <summary>
-        /// コマンド入力ウィンドウの制御を行うクラスへの参照です。
-        /// </summary>
-        [SerializeField]
-        CommandWindowController _commandWindowController;
-
-        /// <summary>
-        /// 選択ウィンドウを制御するクラスへの参照です。
-        /// </summary>
-        [SerializeField]
-        SelectionWindowController _selectionWindowController;
-
-        /// <summary>
-        /// メッセージウィンドウの制御を行うクラスへの参照です。
-        /// </summary>
-        [SerializeField]
-        MessageWindowController _messageWindowController;
 
         /// <summary>
         /// 敵キャラクターのコマンドを選択するクラスへの参照です。
@@ -132,12 +120,14 @@ namespace SimpleRpg
             SimpleLogger.Instance.Log("戦闘を開始します。");
             TurnCount = 1;
             IsBattleFinished = false;
-            _messageWindowController.SetUpController(this, _uiManager);
-            _messageWindowController.HidePager();
+
+            _battleWindowManager.SetUpWindowControllers(this, _uiManager);
+            var messageWindowController = _battleWindowManager.GetMessageWindowController();
+            messageWindowController.HidePager();
+
             _battleActionProcessor.InitializeProcessor(this);
             _battleActionRegister.InitializeRegister(_battleActionProcessor);
             _enemyCommandSelector.SetReferences(this, _battleActionRegister);
-            _commandWindowController.SetUpController(this, _uiManager);
             _battleResultManager.SetReferences(this);
             _characterMoverManager.StopCharacterMover();
             _battleStarter.StartBattle(this);
@@ -152,11 +142,11 @@ namespace SimpleRpg
         }
 
         /// <summary>
-        /// コマンド入力の制御を行うクラスへの参照を取得します。
+        /// ウィンドウの管理を行うクラスへの参照を取得します。
         /// </summary>
-        public CommandWindowController GetCommandWindowController()
+        public BattleWindowManager GetWindowManager()
         {
-            return _commandWindowController;
+            return _battleWindowManager;
         }
 
         /// <summary>
@@ -165,14 +155,6 @@ namespace SimpleRpg
         public BattleSpriteController GetBattleSpriteController()
         {
             return _battleSpriteController;
-        }
-
-        /// <summary>
-        /// メッセージウィンドウの制御を行うクラスへの参照を取得します。
-        /// </summary>
-        public MessageWindowController GetMessageWindowController()
-        {
-            return _messageWindowController;
         }
 
         /// <summary>
@@ -189,9 +171,9 @@ namespace SimpleRpg
         public void StartInputCommandPhase()
         {
             SimpleLogger.Instance.Log($"コマンド入力のフェーズを開始します。現在のターン数: {TurnCount}");
-            _messageWindowController.HideWindow();
+            var messageWindowController = _battleWindowManager.GetMessageWindowController();
+            messageWindowController.HideWindow();
             BattlePhase = BattlePhase.InputCommand;
-            _commandWindowController.SetUpController(this, _uiManager);
             _battleActionProcessor.InitializeActions();
         }
 
@@ -241,11 +223,11 @@ namespace SimpleRpg
         {
             yield return null;
             BattlePhase = BattlePhase.SelectItem;
-            _selectionWindowController.SetUpController(this, _uiManager);
-            _selectionWindowController.SetUpWindow();
-            _selectionWindowController.SetPageElement();
-            _selectionWindowController.ShowWindow();
-            _selectionWindowController.SetCanSelectState(true);
+            var selectionWindowController = _battleWindowManager.GetSelectionWindowController();
+            selectionWindowController.SetUpWindow();
+            selectionWindowController.SetPageElement();
+            selectionWindowController.ShowWindow();
+            selectionWindowController.SetCanSelectState(true);
         }
 
         /// <summary>
@@ -332,7 +314,8 @@ namespace SimpleRpg
         {
             SimpleLogger.Instance.Log("選択したアクションを実行します。");
             BattlePhase = BattlePhase.Action;
-            _messageWindowController.ShowWindow();
+            var messageWindowController = _battleWindowManager.GetMessageWindowController();
+            messageWindowController.ShowWindow();
             _battleActionProcessor.SetPriorities();
             _battleActionProcessor.StartActions();
         }
@@ -359,7 +342,8 @@ namespace SimpleRpg
         public void OnItemCanceled()
         {
             BattlePhase = BattlePhase.InputCommand;
-            _selectionWindowController.HideWindow();
+            var selectionWindowController = _battleWindowManager.GetSelectionWindowController();
+            selectionWindowController.HideWindow();
         }
 
         /// <summary>
@@ -367,7 +351,7 @@ namespace SimpleRpg
         /// </summary>
         public void OnUpdateStatus()
         {
-            _uiManager.GetUIControllerStatus().UpdateAllCharacterStatus();
+            _battleWindowManager.GetStatusWindowController().UpdateAllCharacterStatus();
         }
 
         /// <summary>

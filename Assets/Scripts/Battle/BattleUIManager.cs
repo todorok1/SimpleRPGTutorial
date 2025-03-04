@@ -12,31 +12,31 @@ namespace SimpleRpg
         /// ステータス表示のUIを制御するクラスです。
         /// </summary>
         [SerializeField]
-        BattleUIControllerStatus _battleUIControllerStatus;
+        StatusUIController _statusUIController;
 
         /// <summary>
         /// 敵キャラクターの名前表示のUIを制御するクラスです。
         /// </summary>
         [SerializeField]
-        BattleUIControllerEnemyName _battleUIControllerEnemyName;
+        EnemyNameUIController _enemyNameUIController;
 
         /// <summary>
         /// コマンドのUIを制御するクラスです。
         /// </summary>
         [SerializeField]
-        BattleUIControllerCommand _battleUIControllerCommand;
+        CommandUIController _commandUIController;
 
         /// <summary>
         /// 選択ウィンドウのUIを制御するクラスです。
         /// </summary>
         [SerializeField]
-        BattleUIControllerSelectItem _battleUIControllerSelectItem;
+        SelectionUIController _selectItemUIControllerSelect;
 
         /// <summary>
         /// メッセージウィンドウのUIを制御するクラスです。
         /// </summary>
         [SerializeField]
-        BattleUIControllerMessage _battleUIControllerMessage;
+        MessageUIController _messageUIController;
 
         /// <summary>
         /// UIコントローラのリストです。
@@ -60,11 +60,11 @@ namespace SimpleRpg
         {
             _battleUIControllers = new()
             {
-                _battleUIControllerStatus,
-                _battleUIControllerEnemyName,
-                _battleUIControllerCommand,
-                _battleUIControllerSelectItem,
-                _battleUIControllerMessage
+                _statusUIController,
+                _enemyNameUIController,
+                _commandUIController,
+                _selectItemUIControllerSelect,
+                _messageUIController
             };
         }
 
@@ -98,43 +98,43 @@ namespace SimpleRpg
         }
 
         /// <summary>
-        /// ステータス表示のUIを取得します。
+        /// ステータス表示のUIを制御するクラスへの参照を取得します。
         /// </summary>
-        public BattleUIControllerStatus GetUIControllerStatus()
+        public StatusUIController GetUIControllerStatus()
         {
-            return _battleUIControllerStatus;
+            return _statusUIController;
         }
 
         /// <summary>
-        /// 敵キャラクターの名前表示のUIを取得します。
+        /// 敵キャラクターの名前表示のUIを制御するクラスへの参照を取得します。
         /// </summary>
-        public BattleUIControllerEnemyName GetUIControllerEnemyName()
+        public EnemyNameUIController GetUIControllerEnemyName()
         {
-            return _battleUIControllerEnemyName;
+            return _enemyNameUIController;
         }
 
         /// <summary>
-        /// コマンド表示のUIを取得します。
+        /// コマンド表示のUIを制御するクラスへの参照を取得します。
         /// </summary>
-        public BattleUIControllerCommand GetUIControllerCommand()
+        public CommandUIController GetUIControllerCommand()
         {
-            return _battleUIControllerCommand;
+            return _commandUIController;
         }
 
         /// <summary>
-        /// 選択ウィンドウのUIを取得します。
+        /// 選択ウィンドウのUIを制御するクラスへの参照を取得します。
         /// </summary>
-        public BattleUIControllerSelectItem GetUIControllerSelectItem()
+        public SelectionUIController GetUIControllerSelectItem()
         {
-            return _battleUIControllerSelectItem;
+            return _selectItemUIControllerSelect;
         }
 
         /// <summary>
-        /// 選択ウィンドウのUIを取得します。
+        /// 選択ウィンドウのUIを制御するクラスへの参照を取得します。
         /// </summary>
-        public BattleUIControllerMessage GetUIControllerMessage()
+        public MessageUIController GetUIControllerMessage()
         {
-            return _battleUIControllerMessage;
+            return _messageUIController;
         }
     }
 }

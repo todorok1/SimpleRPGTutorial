@@ -7,7 +7,7 @@ namespace SimpleRpg
     /// <summary>
     /// メッセージウィンドウのUIを制御するクラスです。
     /// </summary>
-    public class BattleUIControllerMessage : BattleUIControllerBase
+    public class MessageUIController : BattleUIControllerBase
     {
         /// <summary>
         /// メッセージを表示するテキストです。

@@ -40,7 +40,7 @@ namespace SimpleRpg
         {
             _battleManager = battleManager;
             _enemyStatusManager = battleManager.GetEnemyStatusManager();
-            _messageWindowController = _battleManager.GetMessageWindowController();
+            _messageWindowController = _battleManager.GetWindowManager().GetMessageWindowController();
         }
 
         void Update()

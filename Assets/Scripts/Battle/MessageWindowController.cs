@@ -21,7 +21,7 @@ namespace SimpleRpg
         /// <summary>
         /// メッセージウィンドウのUIを制御するクラスへの参照です。
         /// </summary>
-        BattleUIControllerMessage _uiController;
+        MessageUIController _uiController;
 
         /// <summary>
         /// メッセージの表示間隔です。

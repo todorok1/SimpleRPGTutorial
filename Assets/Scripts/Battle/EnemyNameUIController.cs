@@ -6,7 +6,7 @@ namespace SimpleRpg
     /// <summary>
     /// 敵キャラクターの名前を表示するUIを制御するクラスです。
     /// </summary>
-    public class BattleUIControllerEnemyName : BattleUIControllerBase
+    public class EnemyNameUIController : BattleUIControllerBase
     {
         /// <summary>
         /// 敵キャラクターの名前を表示するテキストです。
@@ -21,6 +21,14 @@ namespace SimpleRpg
         public void SetEnemyName(string enemyName)
         {
             _enemyNameText.text = enemyName;
+        }
+
+        /// <summary>
+        /// 敵キャラクターの名前を空欄にします。
+        /// </summary>
+        public void ClearEnemyName()
+        {
+            _enemyNameText.text = "";
         }
     }
 }

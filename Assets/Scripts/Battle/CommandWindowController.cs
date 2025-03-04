@@ -20,7 +20,7 @@ namespace SimpleRpg
         /// <summary>
         /// コマンドウィンドウのUIを制御するクラスへの参照です。
         /// </summary>
-        BattleUIControllerCommand _uiController;
+        CommandUIController _uiController;
 
         /// <summary>
         /// 現在選択中のコマンドです。

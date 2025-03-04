@@ -6,7 +6,7 @@ namespace SimpleRpg
     /// <summary>
     /// ステータス表示のUIを制御するクラスです。
     /// </summary>
-    public class BattleUIControllerStatus : BattleUIControllerBase
+    public class StatusUIController : BattleUIControllerBase
     {
         /// <summary>
         /// キャラクターの名前を表示するテキストです。
@@ -81,43 +81,6 @@ namespace SimpleRpg
         public void SetMaxMp(int maxMp)
         {
             _maxMpText.text = maxMp.ToString();
-        }
-
-        /// <summary>
-        /// キャラクターのステータスを全てセットします。
-        /// </summary>
-        /// <param name="characterStatus">キャラクターのステータス</param>
-        public void SetCharacterStatus(CharacterStatus characterStatus)
-        {
-            if (characterStatus == null)
-            {
-                SimpleLogger.Instance.LogWarning("キャラクターステータスがnullです。");
-                return;
-            }
-
-            var characterName = CharacterDataManager.GetCharacterName(characterStatus.characterId);
-            SetCharacterName(characterName);
-
-            var level = characterStatus.level;
-            var parameterTable = CharacterDataManager.GetParameterTable(characterStatus.characterId);
-            var record = parameterTable.parameterRecords.Find(r => r.level == level);
-
-            SetCurrentHp(characterStatus.currentHp);
-            SetMaxHp(record.hp);
-            SetCurrentMp(characterStatus.currentMp);
-            SetMaxMp(record.mp);
-        }
-
-        /// <summary>
-        /// 全キャラクターのステータスを更新します。
-        /// </summary>
-        public void UpdateAllCharacterStatus()
-        {
-            foreach (var characterId in CharacterStatusManager.partyCharacter)
-            {
-                var characterStatus = CharacterStatusManager.GetCharacterStatusById(characterId);
-                SetCharacterStatus(characterStatus);
-            }
         }
     }
 }

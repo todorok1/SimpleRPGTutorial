@@ -35,7 +35,7 @@ namespace SimpleRpg
         {
             _battleManager = battleManager;
             _actionProcessor = actionProcessor;
-            _messageWindowController = _battleManager.GetMessageWindowController();
+            _messageWindowController = _battleManager.GetWindowManager().GetMessageWindowController();
             _enemyStatusManager = _battleManager.GetEnemyStatusManager();
         }
 

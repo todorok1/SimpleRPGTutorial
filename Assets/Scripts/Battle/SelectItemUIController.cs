@@ -7,7 +7,7 @@ namespace SimpleRpg
     /// <summary>
     /// 選択ウィンドウのUIを制御するクラスです。
     /// </summary>
-    public class BattleUIControllerSelectItem : BattleUIControllerBase
+    public class SelectionUIController : BattleUIControllerBase
     {
         /// <summary>
         /// 説明テキストへの参照です。
