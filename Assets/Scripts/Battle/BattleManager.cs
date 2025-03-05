@@ -35,5 +35,22 @@ namespace SimpleRpg
         {
             BattlePhase = battlePhase;
         }
+
+        /// <summary>
+        /// 敵キャラクターのステータスをセットします。
+        /// </summary>
+        /// <param name="enemyId">敵キャラクターのID</param>
+        public void SetUpEnemyStatus(int enemyId)
+        {
+            EnemyId = enemyId;
+        }
+
+        /// <summary>
+        /// 戦闘の開始処理を行います。
+        /// </summary>
+        public void StartBattle()
+        {
+            SimpleLogger.Instance.Log("戦闘を開始します。");
+        }
     }
 }
