@@ -8,6 +8,12 @@ namespace SimpleRpg
     public class BattleManager : MonoBehaviour
     {
         /// <summary>
+        /// 戦闘開始の処理を行うクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        BattleStarter _battleStarter;
+
+        /// <summary>
         /// 戦闘のフェーズです。
         /// </summary>
         public BattlePhase BattlePhase { get; private set; }
@@ -51,6 +57,10 @@ namespace SimpleRpg
         public void StartBattle()
         {
             SimpleLogger.Instance.Log("戦闘を開始します。");
+            GameStateManager.ChangeToBattle();
+            SetBattlePhase(BattlePhase.ShowEnemy);
+
+            _battleStarter.StartBattle(this);
         }
     }
 }
