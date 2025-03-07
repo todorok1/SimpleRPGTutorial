@@ -1666,6 +1666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _battleStarter: {fileID: 1528759966}
+  _battleSpriteController: {fileID: 1407348079}
 --- !u!1 &445136633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1965,6 +1966,11 @@ MonoBehaviour:
   _tilemapProps: {fileID: 445136636}
   _tilemapOverray: {fileID: 404389711}
   _noEntryTileData: {fileID: 11400000, guid: f9d764acf9d6a49e2b02cc3b923c5a0b, type: 2}
+--- !u!212 &927600092 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6356155015232353054, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+  m_PrefabInstance: {fileID: 6097013214743356182}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1035850371
 GameObject:
   m_ObjectHideFlags: 0
@@ -2168,6 +2174,7 @@ Transform:
   m_Children:
   - {fileID: 412059258}
   - {fileID: 1528759965}
+  - {fileID: 1407348078}
   m_Father: {fileID: 6097013214743356183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1131406902
@@ -2547,6 +2554,52 @@ Transform:
   - {fileID: 355466890}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1407348077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1407348078}
+  - component: {fileID: 1407348079}
+  m_Layer: 0
+  m_Name: BattleSpriteController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1407348078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407348077}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1065950527}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1407348079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407348077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2c694c89b04442eba25f28bdfb6557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _backgroundRenderer: {fileID: 927600092}
+  _enenyRenderer: {fileID: 2022799931}
 --- !u!1 &1528759964
 GameObject:
   m_ObjectHideFlags: 0
@@ -3030,6 +3083,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveTime: 0.25
   _moveFrequency: 2
+--- !u!212 &2022799931 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7783737492547085660, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+  m_PrefabInstance: {fileID: 6097013214743356182}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2057553237
 GameObject:
   m_ObjectHideFlags: 0
@@ -3311,6 +3369,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 549601253213187498, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+      propertyPath: m_Name
+      value: BackgroundRenderer
+      objectReference: {fileID: 0}
+    - target: {fileID: 549601253213187498, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1519210967167836598, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2941431861183777199, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+      propertyPath: m_Name
+      value: EnemyRenderer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2941431861183777199, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3602463310248766057, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
       propertyPath: m_Name
       value: BattleParent

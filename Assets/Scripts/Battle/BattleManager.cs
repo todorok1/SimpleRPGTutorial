@@ -14,6 +14,12 @@ namespace SimpleRpg
         BattleStarter _battleStarter;
 
         /// <summary>
+        /// 戦闘関連のスプライトを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        BattleSpriteController _battleSpriteController;
+
+        /// <summary>
         /// 戦闘のフェーズです。
         /// </summary>
         public BattlePhase BattlePhase { get; private set; }
@@ -61,6 +67,14 @@ namespace SimpleRpg
             SetBattlePhase(BattlePhase.ShowEnemy);
 
             _battleStarter.StartBattle(this);
+        }
+
+        /// <summary>
+        /// 戦闘関連のスプライトを制御するクラスへの参照を取得します。
+        /// </summary>
+        public BattleSpriteController GetBattleSpriteController()
+        {
+            return _battleSpriteController;
         }
     }
 }

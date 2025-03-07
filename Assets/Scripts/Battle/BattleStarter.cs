@@ -51,7 +51,10 @@ namespace SimpleRpg
         /// </summary>
         void ShowSprites()
         {
-
+            var battleSpriteController = _battleManager.GetBattleSpriteController();
+            battleSpriteController.SetSpritePosition();
+            battleSpriteController.ShowBackground();
+            battleSpriteController.ShowEnemy(_battleManager.EnemyId);
         }
 
         /// <summary>
