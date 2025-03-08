@@ -73,7 +73,7 @@ namespace SimpleRpg
         /// </summary>
         void HideAllUI()
         {
-            _battleManager.GetUIManager().HideAllUI();
+            _battleManager.GetWindowManager().HideAllWindow();
         }
 
         /// <summary>
@@ -124,8 +124,8 @@ namespace SimpleRpg
         /// </summary>
         void ShowEnemyNameWindow()
         {
-            var controller = _battleManager.GetUIManager().GetUIControllerEnemyName();
-            controller.Show();
+            var controller = _battleManager.GetWindowManager().GetEnemyNameWindowController();
+            controller.ShowWindow();
 
             int enemyId = _battleManager.EnemyId;
             var enemyData = EnemyDataManager.GetEnemyDataById(enemyId);

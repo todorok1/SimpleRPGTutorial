@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SimpleRpg
@@ -38,17 +39,51 @@ namespace SimpleRpg
         MessageWindowController _messageWindowController;
 
         /// <summary>
+        /// ウィンドウのコントローラのリストです。
+        /// </summary>
+        List<IBattleWindowController> _battleWindowControllers = new();
+
+        void Start()
+        {
+            SetControllerList();
+        }
+
+        /// <summary>
+        /// UIコントローラのリストをセットアップします。
+        /// </summary>
+        public void SetControllerList()
+        {
+            _battleWindowControllers = new()
+            {
+                _statusWindowController,
+                _enemyNameWindowController,
+                _commandWindowController,
+                _selectItemWindowControllerSelect,
+                _messageWindowController,
+            };
+        }
+
+        /// <summary>
         /// 各ウィンドウのコントローラをセットアップします。
         /// </summary>
         /// <param name="battleManager">戦闘に関する機能を管理するクラス</param>
-        /// <param name="uIManager">戦闘関連のUI全体を管理するクラス</param>
-        public void SetUpWindowControllers(BattleManager battleManager, BattleUIManager uIManager)
+        public void SetUpWindowControllers(BattleManager battleManager)
         {
-            _statusWindowController.SetUpController(uIManager);
-            _enemyNameWindowController.SetUpController(uIManager);
-            _commandWindowController.SetUpController(battleManager, uIManager);
-            _selectItemWindowControllerSelect.SetUpController(battleManager, uIManager);
-            _messageWindowController.SetUpController(battleManager, uIManager);
+            foreach (var controller in _battleWindowControllers)
+            {
+                controller.SetUpController(battleManager);
+            }
+        }
+
+        /// <summary>
+        /// 各UIを非表示にします。
+        /// </summary>
+        public void HideAllWindow()
+        {
+            foreach (var controller in _battleWindowControllers)
+            {
+                controller.HideWindow();
+            }
         }
 
         /// <summary>
@@ -62,7 +97,7 @@ namespace SimpleRpg
         /// <summary>
         /// 敵キャラクターの名前を表示するウィンドウを制御するクラスへの参照を取得します。
         /// </summary>
-        public EnemyNameWindowController GetUIControllerEnemyName()
+        public EnemyNameWindowController GetEnemyNameWindowController()
         {
             return _enemyNameWindowController;
         }

@@ -5,26 +5,21 @@ namespace SimpleRpg
     /// <summary>
     /// 敵キャラクターの名前を表示するウィンドウを制御するクラスです。
     /// </summary>
-    public class EnemyNameWindowController : MonoBehaviour
+    public class EnemyNameWindowController : MonoBehaviour, IBattleWindowController
     {
-        /// <summary>
-        /// 戦闘関連のUI全体を管理するクラスへの参照です。
-        /// </summary>
-        BattleUIManager _uiManager;
-
         /// <summary>
         /// 敵キャラクターの名前を表示するUIを制御するクラスへの参照です。
         /// </summary>
-        EnemyNameUIController _uiController;
+        [SerializeField]
+        EnemyNameUIController uiController;
 
         /// <summary>
         /// コントローラの状態をセットアップします。
         /// </summary>
-        /// <param name="uiManager">戦闘関連のUI全体を管理するクラス</param>
-        public void SetUpController(BattleUIManager uiManager)
+        /// <param name="battleManager">戦闘に関する機能を管理するクラス</param>
+        public void SetUpController(BattleManager battleManager)
         {
-            _uiManager = uiManager;
-            _uiController = _uiManager.GetUIControllerEnemyName();
+
         }
 
         /// <summary>
@@ -33,7 +28,7 @@ namespace SimpleRpg
         /// <param name="enemyName">敵キャラクターの名前</param>
         public void SetEnemyName(string enemyName)
         {
-            _uiController.SetEnemyName(enemyName);
+            uiController.SetEnemyName(enemyName);
         }
 
         /// <summary>
@@ -41,7 +36,23 @@ namespace SimpleRpg
         /// </summary>
         public void ClearEnemyName()
         {
-            _uiController.ClearEnemyName();
+            uiController.ClearEnemyName();
+        }
+
+        /// <summary>
+        /// コマンドウィンドウを表示します。
+        /// </summary>
+        public void ShowWindow()
+        {
+            uiController.Show();
+        }
+
+        /// <summary>
+        /// コマンドウィンドウを非表示にします。
+        /// </summary>
+        public void HideWindow()
+        {
+            uiController.Hide();
         }
     }
 }

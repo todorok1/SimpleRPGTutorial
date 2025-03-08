@@ -6,7 +6,7 @@ namespace SimpleRpg
     /// <summary>
     /// 選択ウィンドウを制御するクラスです。
     /// </summary>
-    public class SelectionWindowController : MonoBehaviour
+    public class SelectionWindowController : MonoBehaviour, IBattleWindowController
     {
         /// <summary>
         /// 戦闘に関する機能を管理するクラスへの参照です。
@@ -14,14 +14,10 @@ namespace SimpleRpg
         BattleManager _battleManager;
 
         /// <summary>
-        /// 戦闘関連のUI全体を管理するクラスへの参照です。
-        /// </summary>
-        BattleUIManager _uiManager;
-
-        /// <summary>
         /// 選択ウィンドウのUIを制御するクラスへの参照です。
         /// </summary>
-        SelectionUIController _uiController;
+        [SerializeField]
+        SelectionUIController uiController;
 
         /// <summary>
         /// 現在選択中の項目のインデックスです。
@@ -56,11 +52,9 @@ namespace SimpleRpg
         /// <summary>
         /// コントローラの状態をセットアップします。
         /// </summary>
-        public void SetUpController(BattleManager battleManager, BattleUIManager uiManager)
+        public void SetUpController(BattleManager battleManager)
         {
             _battleManager = battleManager;
-            _uiManager = uiManager;
-            _uiController = _uiManager.GetUIControllerSelectItem();
         }
 
         void Update()
@@ -291,7 +285,7 @@ namespace SimpleRpg
         void ShowSelectionCursor()
         {
             int index = _selectedIndex % 4;
-            _uiController.ShowSelectedCursor(index);
+            uiController.ShowSelectedCursor(index);
         }
 
         /// <summary>
@@ -300,9 +294,9 @@ namespace SimpleRpg
         public void SetUpWindow()
         {
             SimpleLogger.Instance.Log($"SetUpWindow()が呼ばれました。");
-            _uiController.SetUpControllerDictionary();
-            _uiController.ClearAllItemText();
-            _uiController.ClearDescriptionText();
+            uiController.SetUpControllerDictionary();
+            uiController.ClearAllItemText();
+            uiController.ClearDescriptionText();
             InitializeSelect();
             SetCharacterMagic();
         }
@@ -314,7 +308,7 @@ namespace SimpleRpg
         {
             _page = 0;
             _selectedIndex = SelectionItemPosition.LeftTop;
-            _uiController.ShowSelectedCursor(_selectedIndex);
+            uiController.ShowSelectedCursor(_selectedIndex);
         }
 
         /// <summary>
@@ -353,8 +347,8 @@ namespace SimpleRpg
             // ページ送りのカーソルの表示状態を確認します。
             bool isVisiblePrevCursor = _page > 0;
             bool isVisibleNextCursor = _page < GetMaxPageNum();
-            _uiController.SetPrevCursorVisibility(isVisiblePrevCursor);
-            _uiController.SetNextCursorVisibility(isVisibleNextCursor);
+            uiController.SetPrevCursorVisibility(isVisiblePrevCursor);
+            uiController.SetNextCursorVisibility(isVisibleNextCursor);
         }
 
         /// <summary>
@@ -372,20 +366,20 @@ namespace SimpleRpg
                     string magicName = magicData.magicName;
                     int magicCost = magicData.cost;
                     bool canSelect = CanSelectMagic(magicData);
-                    _uiController.SetItemText(positionIndex, magicName, magicCost, canSelect);
-                    _uiController.SetDescriptionText(magicData.magicDesc);
+                    uiController.SetItemText(positionIndex, magicName, magicCost, canSelect);
+                    uiController.SetDescriptionText(magicData.magicDesc);
                     _magicIdDictionary.Add(positionIndex, magicData.magicId);
                 }
                 else
                 {
-                    _uiController.ClearItemText(positionIndex);
+                    uiController.ClearItemText(positionIndex);
                 }
             }
 
             if (_magicIdDictionary.Count == 0)
             {
                 string noMagicText = "* 選択できる魔法がありません！ *";
-                _uiController.SetDescriptionText(noMagicText);
+                uiController.SetDescriptionText(noMagicText);
             }
         }
 
@@ -415,20 +409,20 @@ namespace SimpleRpg
                     string itemName = itemData.itemName;
                     int itemNum = partyItemInfo.itemNum;
                     bool canSelect = CanSelectItem(itemData);
-                    _uiController.SetItemText(positionIndex, itemName, itemNum, canSelect);
-                    _uiController.SetDescriptionText(itemData.itemDesc);
+                    uiController.SetItemText(positionIndex, itemName, itemNum, canSelect);
+                    uiController.SetDescriptionText(itemData.itemDesc);
                     _itemIdDictionary.Add(positionIndex, itemData.itemId);
                 }
                 else
                 {
-                    _uiController.ClearItemText(positionIndex);
+                    uiController.ClearItemText(positionIndex);
                 }
             }
 
             if (_itemIdDictionary.Count == 0)
             {
                 string noItemText = "* 選択できるアイテムがありません！ *";
-                _uiController.SetDescriptionText(noItemText);
+                uiController.SetDescriptionText(noItemText);
             }
         }
 
@@ -478,7 +472,7 @@ namespace SimpleRpg
         /// </summary>
         public void ShowWindow()
         {
-            _uiController.Show();
+            uiController.Show();
         }
 
         /// <summary>
@@ -486,7 +480,7 @@ namespace SimpleRpg
         /// </summary>
         public void HideWindow()
         {
-            _uiController.Hide();
+            uiController.Hide();
         }
 
         /// <summary>

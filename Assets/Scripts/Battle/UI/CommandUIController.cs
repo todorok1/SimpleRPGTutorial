@@ -5,7 +5,7 @@ namespace SimpleRpg
     /// <summary>
     /// コマンドのUIを制御するクラスです。
     /// </summary>
-    public class CommandUIController : BattleUIControllerBase
+    public class CommandUIController : MonoBehaviour, IBattleUIController
     {
         /// <summary>
         /// 攻撃コマンドのカーソルオブジェクトです。
@@ -64,6 +64,22 @@ namespace SimpleRpg
                     _cursorObjRun.SetActive(true);
                     break;
             }
+        }
+
+        /// <summary>
+        /// UIを表示します。
+        /// </summary>
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// UIを非表示にします。
+        /// </summary>
+        public void Hide()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

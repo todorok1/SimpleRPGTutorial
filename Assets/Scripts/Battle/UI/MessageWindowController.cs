@@ -6,7 +6,7 @@ namespace SimpleRpg
     /// <summary>
     /// メッセージウィンドウの動作を制御するクラスです。
     /// </summary>
-    public class MessageWindowController : MonoBehaviour
+    public class MessageWindowController : MonoBehaviour, IBattleWindowController
     {
         /// <summary>
         /// 戦闘に関する機能を管理するクラスへの参照です。
@@ -14,14 +14,10 @@ namespace SimpleRpg
         BattleManager _battleManager;
 
         /// <summary>
-        /// 戦闘関連のUI全体を管理するクラスへの参照です。
-        /// </summary>
-        BattleUIManager _uiManager;
-
-        /// <summary>
         /// メッセージウィンドウのUIを制御するクラスへの参照です。
         /// </summary>
-        MessageUIController _uiController;
+        [SerializeField]
+        MessageUIController uiController;
 
         /// <summary>
         /// メッセージの表示間隔です。
@@ -32,11 +28,10 @@ namespace SimpleRpg
         /// <summary>
         /// コントローラの状態をセットアップします。
         /// </summary>
-        public void SetUpController(BattleManager battleManager, BattleUIManager uiManager)
+        /// <param name="battleManager">戦闘に関する機能を管理するクラス</param>
+        public void SetUpController(BattleManager battleManager)
         {
             _battleManager = battleManager;
-            _uiManager = uiManager;
-            _uiController = _uiManager.GetUIControllerMessage();
         }
 
         /// <summary>
@@ -44,8 +39,8 @@ namespace SimpleRpg
         /// </summary>
         public void ShowWindow()
         {
-            _uiController.ClearMessage();
-            _uiController.Show();
+            uiController.ClearMessage();
+            uiController.Show();
         }
 
         /// <summary>
@@ -53,8 +48,8 @@ namespace SimpleRpg
         /// </summary>
         public void HideWindow()
         {
-            _uiController.ClearMessage();
-            _uiController.Hide();
+            uiController.ClearMessage();
+            uiController.Hide();
         }
 
         /// <summary>
@@ -62,7 +57,7 @@ namespace SimpleRpg
         /// </summary>
         public void GenerateEnemyAppearMessage(string enemyName, float appearInterval)
         {
-            _uiController.ClearMessage();
+            uiController.ClearMessage();
             string message = $"{enemyName}{BattleMessage.EnemyAppearSuffix}";
             StartCoroutine(ShowMessageAutoProcess(message, appearInterval));
         }
@@ -72,7 +67,7 @@ namespace SimpleRpg
         /// </summary>
         public void GenerateAttackMessage(string attackerName)
         {
-            _uiController.ClearMessage();
+            uiController.ClearMessage();
             string message = $"{attackerName}{BattleMessage.AttackSuffix}";
             StartCoroutine(ShowMessageAutoProcess(message));
         }
@@ -109,7 +104,7 @@ namespace SimpleRpg
         /// </summary>
         public void GenerateMagicCastMessage(string magicUserName, string magicName)
         {
-            _uiController.ClearMessage();
+            uiController.ClearMessage();
             string message = $"{magicUserName}{BattleMessage.MagicUserSuffix} {magicName} {BattleMessage.MagicNameSuffix}";
             StartCoroutine(ShowMessageAutoProcess(message));
         }
@@ -128,7 +123,7 @@ namespace SimpleRpg
         /// </summary>
         public void GenerateUseItemMessage(string itemUserName, string itemName)
         {
-            _uiController.ClearMessage();
+            uiController.ClearMessage();
             string message = $"{itemUserName}{BattleMessage.ItemUserSuffix} {itemName} {BattleMessage.ItemNameSuffix}";
             StartCoroutine(ShowMessageAutoProcess(message));
         }
@@ -138,7 +133,7 @@ namespace SimpleRpg
         /// </summary>
         public void GenerateRunMessage(string characterName)
         {
-            _uiController.ClearMessage();
+            uiController.ClearMessage();
             string message = $"{characterName}{BattleMessage.RunnerSuffix}";
             StartCoroutine(ShowMessageAutoProcess(message));
         }
@@ -157,7 +152,7 @@ namespace SimpleRpg
         /// </summary>
         public void GenerateGameoverMessage(string characterName)
         {
-            _uiController.ClearMessage();
+            uiController.ClearMessage();
             string message = $"{characterName}{BattleMessage.GameoverSuffix}";
             StartCoroutine(ShowMessageAutoProcess(message));
         }
@@ -167,7 +162,7 @@ namespace SimpleRpg
         /// </summary>
         public void GenerateWinMessage(string characterName)
         {
-            _uiController.ClearMessage();
+            uiController.ClearMessage();
             string message = $"{characterName}{BattleMessage.WinSuffix}";
             StartCoroutine(ShowMessageAutoProcess(message));
         }
@@ -195,7 +190,7 @@ namespace SimpleRpg
         /// </summary>
         public void GenerateLevelUpMessage(string characterName, int level)
         {
-            _uiController.ClearMessage();
+            uiController.ClearMessage();
             string message = $"{characterName}{BattleMessage.LevelUpNameSuffix} {level} {BattleMessage.LevelUpNumberSuffix}";
             StartCoroutine(ShowMessageAutoProcess(message));
         }
@@ -205,7 +200,7 @@ namespace SimpleRpg
         /// </summary>
         public void ShowPager()
         {
-            _uiController.ShowCursor();
+            uiController.ShowCursor();
         }
 
         /// <summary>
@@ -213,7 +208,7 @@ namespace SimpleRpg
         /// </summary>
         public void HidePager()
         {
-            _uiController.HideCursor();
+            uiController.HideCursor();
         }
 
         /// <summary>
@@ -221,7 +216,7 @@ namespace SimpleRpg
         /// </summary>
         IEnumerator ShowMessageAutoProcess(string message)
         {
-            _uiController.AppendMessage(message);
+            uiController.AppendMessage(message);
             yield return new WaitForSeconds(_messageInterval);
             _battleManager.OnFinishedShowMessage();
         }
@@ -234,7 +229,7 @@ namespace SimpleRpg
         IEnumerator ShowMessageAutoProcess(string message, float interval)
         {
             SimpleLogger.Instance.Log(message);
-            _uiController.AppendMessage(message);
+            uiController.AppendMessage(message);
             yield return new WaitForSeconds(interval);
             _battleManager.OnFinishedShowMessage();
         }

@@ -6,7 +6,7 @@ namespace SimpleRpg
     /// <summary>
     /// ステータス表示のUIを制御するクラスです。
     /// </summary>
-    public class StatusUIController : BattleUIControllerBase
+    public class StatusUIController : MonoBehaviour, IBattleUIController
     {
         /// <summary>
         /// キャラクターの名前を表示するテキストです。
@@ -81,6 +81,22 @@ namespace SimpleRpg
         public void SetMaxMp(int maxMp)
         {
             _maxMpText.text = maxMp.ToString();
+        }
+
+        /// <summary>
+        /// UIを表示します。
+        /// </summary>
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// UIを非表示にします。
+        /// </summary>
+        public void Hide()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

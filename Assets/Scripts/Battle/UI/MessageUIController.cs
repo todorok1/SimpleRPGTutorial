@@ -7,7 +7,7 @@ namespace SimpleRpg
     /// <summary>
     /// メッセージウィンドウのUIを制御するクラスです。
     /// </summary>
-    public class MessageUIController : BattleUIControllerBase
+    public class MessageUIController : MonoBehaviour, IBattleUIController
     {
         /// <summary>
         /// メッセージを表示するテキストです。
@@ -66,6 +66,22 @@ namespace SimpleRpg
         public void HideCursor()
         {
             _pagerCursor.SetActive(false);
+        }
+
+        /// <summary>
+        /// UIを表示します。
+        /// </summary>
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// UIを非表示にします。
+        /// </summary>
+        public void Hide()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

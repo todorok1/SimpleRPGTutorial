@@ -5,22 +5,18 @@ namespace SimpleRpg
     /// <summary>
     /// コマンドウィンドウを制御するクラスです。
     /// </summary>
-    public class CommandWindowController : MonoBehaviour
+    public class CommandWindowController : MonoBehaviour, IBattleWindowController
     {
+        /// <summary>
+        /// コマンドウィンドウのUIを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        CommandUIController uiController;
+
         /// <summary>
         /// 戦闘に関する機能を管理するクラスへの参照です。
         /// </summary>
         BattleManager _battleManager;
-
-        /// <summary>
-        /// 戦闘関連のUI全体を管理するクラスへの参照です。
-        /// </summary>
-        BattleUIManager _uiManager;
-
-        /// <summary>
-        /// コマンドウィンドウのUIを制御するクラスへの参照です。
-        /// </summary>
-        CommandUIController _uiController;
 
         /// <summary>
         /// 現在選択中のコマンドです。
@@ -28,18 +24,11 @@ namespace SimpleRpg
         BattleCommand _selectedCommand;
 
         /// <summary>
-        /// コマンドを選択できるかどうかのフラグです。
-        /// </summary>
-        bool _canSelectCommand;
-
-        /// <summary>
         /// コントローラの状態をセットアップします。
         /// </summary>
-        public void SetUpController(BattleManager battleManager, BattleUIManager uiManager)
+        public void SetUpController(BattleManager battleManager)
         {
             _battleManager = battleManager;
-            _uiManager = uiManager;
-            _uiController = _uiManager.GetUIControllerCommand();
         }
 
         void Update()
@@ -65,12 +54,12 @@ namespace SimpleRpg
             if (Input.GetKeyUp(KeyCode.UpArrow))
             {
                 SetPreCommand();
-                _uiController.ShowSelectedCursor(_selectedCommand);
+                uiController.ShowSelectedCursor(_selectedCommand);
             }
             else if (Input.GetKeyUp(KeyCode.DownArrow))
             {
                 SetNextCommand();
-                _uiController.ShowSelectedCursor(_selectedCommand);
+                uiController.ShowSelectedCursor(_selectedCommand);
             }
             else if (InputGameKey.ConfirmButton())
             {
@@ -112,7 +101,7 @@ namespace SimpleRpg
         public void InitializeCommand()
         {
             _selectedCommand = BattleCommand.Attack;
-            _uiController.ShowSelectedCursor(_selectedCommand);
+            uiController.ShowSelectedCursor(_selectedCommand);
         }
 
         /// <summary>
@@ -120,7 +109,7 @@ namespace SimpleRpg
         /// </summary>
         public void ShowWindow()
         {
-            _uiController.Show();
+            uiController.Show();
         }
 
         /// <summary>
@@ -128,7 +117,7 @@ namespace SimpleRpg
         /// </summary>
         public void HideWindow()
         {
-            _uiController.Hide();
+            uiController.Hide();
         }
     }
 }

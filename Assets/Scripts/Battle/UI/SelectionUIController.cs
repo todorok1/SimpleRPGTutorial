@@ -7,7 +7,7 @@ namespace SimpleRpg
     /// <summary>
     /// 選択ウィンドウのUIを制御するクラスです。
     /// </summary>
-    public class SelectionUIController : BattleUIControllerBase
+    public class SelectionUIController : MonoBehaviour, IBattleUIController
     {
         /// <summary>
         /// 説明テキストへの参照です。
@@ -168,6 +168,22 @@ namespace SimpleRpg
         public void SetNextCursorVisibility(bool isVisible)
         {
             _cursorObjNext.SetActive(isVisible);
+        }
+
+        /// <summary>
+        /// UIを表示します。
+        /// </summary>
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// UIを非表示にします。
+        /// </summary>
+        public void Hide()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

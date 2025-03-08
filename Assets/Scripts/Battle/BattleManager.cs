@@ -15,12 +15,6 @@ namespace SimpleRpg
         BattleStarter _battleStarter;
 
         /// <summary>
-        /// UIの管理を行うクラスへの参照です。
-        /// </summary>
-        [SerializeField]
-        BattleUIManager _uiManager;
-
-        /// <summary>
         /// 戦闘関連のウィンドウ全体を管理するクラスへの参照です。
         /// </summary>
         [SerializeField]
@@ -121,7 +115,7 @@ namespace SimpleRpg
             TurnCount = 1;
             IsBattleFinished = false;
 
-            _battleWindowManager.SetUpWindowControllers(this, _uiManager);
+            _battleWindowManager.SetUpWindowControllers(this);
             var messageWindowController = _battleWindowManager.GetMessageWindowController();
             messageWindowController.HidePager();
 
@@ -131,14 +125,6 @@ namespace SimpleRpg
             _battleResultManager.SetReferences(this);
             _characterMoverManager.StopCharacterMover();
             _battleStarter.StartBattle(this);
-        }
-
-        /// <summary>
-        /// UIの管理を行うクラスへの参照を取得します。
-        /// </summary>
-        public BattleUIManager GetUIManager()
-        {
-            return _uiManager;
         }
 
         /// <summary>
@@ -440,7 +426,7 @@ namespace SimpleRpg
         {
             SimpleLogger.Instance.Log("戦闘に勝利して終了します。");
 
-            _uiManager.HideAllUI();
+            _battleWindowManager.HideAllWindow();
             _battleSpriteController.HideBackground();
             _battleSpriteController.HideEnemy();
             _enemyStatusManager.InitializeEnemyStatusList();
@@ -457,7 +443,7 @@ namespace SimpleRpg
         public void OnFinishBattleWithGameover()
         {
             SimpleLogger.Instance.Log("ゲームオーバーとして戦闘を終了します。");
-            _uiManager.HideAllUI();
+            _battleWindowManager.HideAllWindow();
             _battleSpriteController.HideBackground();
             _battleSpriteController.HideEnemy();
             _enemyStatusManager.InitializeEnemyStatusList();

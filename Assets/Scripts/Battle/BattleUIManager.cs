@@ -41,7 +41,7 @@ namespace SimpleRpg
         /// <summary>
         /// UIコントローラのリストです。
         /// </summary>
-        List<BattleUIControllerBase> _battleUIControllers = new();
+        List<IBattleUIController> _battleUIControllers = new();
 
         void Start()
         {
@@ -71,7 +71,7 @@ namespace SimpleRpg
         /// <summary>
         /// 各UIを非表示にします。
         /// </summary>
-        public void HideAllUI()
+        public void HideAllWindow()
         {
             foreach (var controller in _battleUIControllers)
             {
