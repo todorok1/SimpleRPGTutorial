@@ -88,7 +88,12 @@ namespace SimpleRpg
         /// </summary>
         void ShowEnemyNameWindow()
         {
+            var controller = _battleManager.GetWindowManager().GetEnemyNameWindowController();
+            controller.ShowWindow();
 
+            int enemyId = _battleManager.EnemyId;
+            var enemyData = EnemyDataManager.GetEnemyDataById(enemyId);
+            controller.SetEnemyName(enemyData.enemyName);
         }
 
         /// <summary>

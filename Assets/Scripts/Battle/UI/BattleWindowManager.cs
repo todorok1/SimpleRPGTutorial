@@ -15,6 +15,12 @@ namespace SimpleRpg
         StatusWindowController _statusWindowController;
 
         /// <summary>
+        /// 敵キャラクターの名前を表示するウィンドウを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        EnemyNameWindowController _enemyNameWindowController;
+
+        /// <summary>
         /// ウィンドウのコントローラのリストです。
         /// </summary>
         List<IBattleWindowController> _battleWindowControllers = new();
@@ -32,6 +38,7 @@ namespace SimpleRpg
             _battleWindowControllers = new()
             {
                 _statusWindowController,
+                _enemyNameWindowController,
             };
         }
 
@@ -64,6 +71,14 @@ namespace SimpleRpg
         public StatusWindowController GetStatusWindowController()
         {
             return _statusWindowController;
+        }
+
+        /// <summary>
+        /// 敵キャラクターの名前を表示するウィンドウを制御するクラスへの参照を取得します。
+        /// </summary>
+        public EnemyNameWindowController GetEnemyNameWindowController()
+        {
+            return _enemyNameWindowController;
         }
     }
 }
