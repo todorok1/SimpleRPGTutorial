@@ -14,6 +14,12 @@ namespace SimpleRpg
         BattleStarter _battleStarter;
 
         /// <summary>
+        /// 戦闘関連のウィンドウ全体を管理するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        BattleWindowManager _battleWindowManager;
+
+        /// <summary>
         /// 戦闘関連のスプライトを制御するクラスへの参照です。
         /// </summary>
         [SerializeField]
@@ -66,7 +72,16 @@ namespace SimpleRpg
             GameStateManager.ChangeToBattle();
             SetBattlePhase(BattlePhase.ShowEnemy);
 
+            _battleWindowManager.SetUpWindowControllers(this);
             _battleStarter.StartBattle(this);
+        }
+
+        /// <summary>
+        /// ウィンドウの管理を行うクラスへの参照を取得します。
+        /// </summary>
+        public BattleWindowManager GetWindowManager()
+        {
+            return _battleWindowManager;
         }
 
         /// <summary>

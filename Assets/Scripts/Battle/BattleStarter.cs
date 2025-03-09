@@ -43,7 +43,7 @@ namespace SimpleRpg
         /// </summary>
         void HideAllUI()
         {
-
+            _battleManager.GetWindowManager().HideAllWindow();
         }
 
         /// <summary>
@@ -62,7 +62,17 @@ namespace SimpleRpg
         /// </summary>
         void ShowStatus()
         {
+            int characterId = 1;
+            var characterStatus = CharacterStatusManager.GetCharacterStatusById(characterId);
+            if (characterStatus == null)
+            {
+                SimpleLogger.Instance.LogWarning($"キャラクターステータスが取得できませんでした。 ID : {characterId}");
+                return;
+            }
 
+            var controller = _battleManager.GetWindowManager().GetStatusWindowController();
+            controller.SetCharacterStatus(characterStatus);
+            controller.ShowWindow();
         }
 
         /// <summary>
