@@ -119,6 +119,92 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &77896171 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4622873706506262015, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+  m_PrefabInstance: {fileID: 6097013214743356182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &77896172 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5999155864583168579, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+  m_PrefabInstance: {fileID: 6097013214743356182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &77896173 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7674429500042275539, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+  m_PrefabInstance: {fileID: 6097013214743356182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &77896174 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6774899701805547622, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+  m_PrefabInstance: {fileID: 6097013214743356182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &77896175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4611392089083966073, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+  m_PrefabInstance: {fileID: 6097013214743356182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &77896176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77896175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2108d5c652fef4d49a3a34ba26681e31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cursorObjAttack: {fileID: 77896174}
+  _cursorObjMagic: {fileID: 77896173}
+  _cursorObjItem: {fileID: 77896172}
+  _cursorObjRun: {fileID: 77896171}
+--- !u!1 &176342837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 176342838}
+  - component: {fileID: 176342839}
+  m_Layer: 0
+  m_Name: CommandWindowController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &176342838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176342837}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 566721990}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &176342839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176342837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0dc15e0e035a490288f3635d873ba53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiController: {fileID: 77896176}
 --- !u!1 &281469342
 GameObject:
   m_ObjectHideFlags: 0
@@ -1952,6 +2038,7 @@ Transform:
   m_Children:
   - {fileID: 1911865420}
   - {fileID: 407571854}
+  - {fileID: 176342838}
   m_Father: {fileID: 1065950527}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &566721991
@@ -1968,6 +2055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _statusWindowController: {fileID: 1911865421}
   _enemyNameWindowController: {fileID: 407571855}
+  _commandWindowController: {fileID: 176342839}
 --- !u!1 &693821325
 GameObject:
   m_ObjectHideFlags: 0
@@ -3632,6 +3720,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4988523306773445341, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6097013214743356190}
+    - targetCorrespondingSourceObject: {fileID: 4611392089083966073, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 77896176}
     - targetCorrespondingSourceObject: {fileID: 4626340120213896413, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
       insertIndex: -1
       addedObject: {fileID: 863164430}

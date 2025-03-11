@@ -36,6 +36,9 @@ namespace SimpleRpg
 
             // 敵出現のメッセージを表示します。
             ShowEnemyAppearMessage();
+
+            // テスト用機能
+            _battleManager.StartInputCommandPhase();
         }
 
         /// <summary>
@@ -80,7 +83,9 @@ namespace SimpleRpg
         /// </summary>
         void ShowCommand()
         {
-
+            var controller = _battleManager.GetWindowManager().GetCommandWindowController();
+            controller.ShowWindow();
+            controller.InitializeCommand();
         }
 
         /// <summary>

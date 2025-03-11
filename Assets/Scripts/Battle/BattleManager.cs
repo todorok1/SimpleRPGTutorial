@@ -91,5 +91,33 @@ namespace SimpleRpg
         {
             return _battleSpriteController;
         }
+
+        /// <summary>
+        /// コマンド入力を開始します。
+        /// </summary>
+        public void StartInputCommandPhase()
+        {
+            SimpleLogger.Instance.Log($"コマンド入力のフェーズを開始します。現在のターン数: {TurnCount}");
+            BattlePhase = BattlePhase.InputCommand;
+        }
+
+        /// <summary>
+        /// コマンドが選択された時のコールバックです。
+        /// </summary>
+        public void OnCommandSelected(BattleCommand selectedCommand)
+        {
+            SimpleLogger.Instance.Log($"コマンドが選択されました: {selectedCommand}");
+            SelectedCommand = selectedCommand;
+            HandleCommand();
+        }
+
+        /// <summary>
+        /// コマンド入力に応じた処理を行います。
+        /// </summary>
+        void HandleCommand()
+        {
+            SimpleLogger.Instance.Log($"入力されたコマンドに応じた処理を行います。選択されたコマンド: {SelectedCommand}");
+            BattlePhase = BattlePhase.Action;
+        }
     }
 }
