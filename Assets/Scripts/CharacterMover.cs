@@ -163,15 +163,19 @@ namespace SimpleRpg
             // 完了後の時間を算出して、それまでの間、毎フレームLerpメソッドで位置を計算します。
             var animFinishTime = Time.time + _moveTime;
             var startedTime = Time.time;
+            var pausedTime = 0.0f;
             while (Time.time < animFinishTime)
             {
                 if (_isMovingPaused)
                 {
+                    pausedTime += Time.deltaTime;
                     animFinishTime += Time.deltaTime;
                     yield return null;
                     continue;
                 }
-                var elapsedTime = Time.time - startedTime;
+
+                // 開始時刻からの経過時間を計算します。移動が停止している場合は経過時間から除外します。
+                var elapsedTime = Time.time - startedTime - pausedTime;
                 var rate = Mathf.Clamp01(elapsedTime / _moveTime);
                 Vector3 pos = Vector3.Lerp(sourcePos, targetPos, rate);
                 gameObject.transform.position = pos;

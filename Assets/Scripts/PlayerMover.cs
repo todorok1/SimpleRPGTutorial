@@ -24,6 +24,12 @@ namespace SimpleRpg
                 return;
             }
 
+            // 移動のポーズフラグがtrueなら処理を抜けます。
+            if (_isMovingPaused)
+            {
+                return;
+            }
+
             var moveDirection = Vector2Int.zero;
             MoveAnimationDirection animDirection = MoveAnimationDirection.Front;
 

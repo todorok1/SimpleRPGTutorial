@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb5919ac2fb064c1dad4966218c67e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiController: {fileID: 1436209128}
   _messageInterval: 1
 --- !u!1 &145267915
 GameObject:
@@ -280,6 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07af702113de0473bb39eb415ad6722e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiController: {fileID: 395279993}
 --- !u!4 &251007336 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8099511104681855014, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
@@ -2294,6 +2296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0dd5829d04b48fc862bac6739a81d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiController: {fileID: 1881174493}
 --- !u!1 &1018200223
 GameObject:
   m_ObjectHideFlags: 0
@@ -3333,7 +3336,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _battleStarter: {fileID: 1053131748}
-  _uiManager: {fileID: 1350549491}
   _battleWindowManager: {fileID: 1921258219}
   _battleSpriteController: {fileID: 145267917}
   _enemyCommandSelector: {fileID: 838729023}
@@ -3650,6 +3652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e867cbcc8e0848ca8ea791763df3d20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiController: {fileID: 1940216488}
 --- !u!1 &1881174489 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4988523306773445341, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
@@ -4090,6 +4093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02bc50a337ad4c158e43d7332720aa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiController: {fileID: 1922427862}
 --- !u!1 &2057553237
 GameObject:
   m_ObjectHideFlags: 0
