@@ -64,6 +64,12 @@ namespace SimpleRpg
         /// </summary>
         void MoveNpc()
         {
+            // 移動のポーズフラグがtrueなら処理を抜けます。
+            if (_isMovingPaused)
+            {
+                return;
+            }
+
             if (!IsFinishedInterval())
             {
                 return;

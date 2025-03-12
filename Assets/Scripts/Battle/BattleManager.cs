@@ -26,6 +26,12 @@ namespace SimpleRpg
         BattleSpriteController _battleSpriteController;
 
         /// <summary>
+        /// キャラクターの移動を行うクラスを管理するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        CharacterMoverManager _characterMoverManager;
+
+        /// <summary>
         /// 戦闘のフェーズです。
         /// </summary>
         public BattlePhase BattlePhase { get; private set; }
@@ -73,6 +79,7 @@ namespace SimpleRpg
             SetBattlePhase(BattlePhase.ShowEnemy);
 
             _battleWindowManager.SetUpWindowControllers(this);
+            _characterMoverManager.StopCharacterMover();
             _battleStarter.StartBattle(this);
         }
 
