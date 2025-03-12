@@ -17,3 +17,21 @@ MonoBehaviour:
   characterMagicRecords:
   - level: 2
     magicId: 1
+  - level: 2
+    magicId: 2
+  - level: 2
+    magicId: 3
+  - level: 2
+    magicId: 4
+  - level: 2
+    magicId: 5
+  - level: 2
+    magicId: 6
+  - level: 2
+    magicId: 7
+  - level: 2
+    magicId: 8
+  - level: 2
+    magicId: 9
+  - level: 2
+    magicId: 10

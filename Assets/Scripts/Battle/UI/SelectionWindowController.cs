@@ -17,7 +17,19 @@ namespace SimpleRpg
         /// 選択ウィンドウのUIを制御するクラスへの参照です。
         /// </summary>
         [SerializeField]
-        SelectionUIController uiController;
+        SelectionUIController _uiController;
+
+        /// <summary>
+        /// 選択ウィンドウにてアイテムに関する処理を制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        SelectionWindowMagicController _magicController;
+
+        /// <summary>
+        /// 選択ウィンドウにて魔法に関する処理を制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        SelectionWindowItemController _itemController;
 
         /// <summary>
         /// 現在選択中の項目のインデックスです。
@@ -28,21 +40,6 @@ namespace SimpleRpg
         /// 現在のページ数です。
         /// </summary>
         int _page;
-
-        /// <summary>
-        /// 項目オブジェクトと魔法IDの対応辞書です。
-        /// </summary>
-        Dictionary<int, int> _magicIdDictionary = new();
-
-        /// <summary>
-        /// 項目オブジェクトとアイテムIDの対応辞書です。
-        /// </summary>
-        Dictionary<int, int> _itemIdDictionary = new();
-
-        /// <summary>
-        /// キャラクターが覚えている魔法の一覧です。
-        /// </summary>
-        List<MagicData> _characterMagicList = new();
 
         /// <summary>
         /// 項目選択が可能かどうかのフラグです。
@@ -118,11 +115,11 @@ namespace SimpleRpg
             bool isValid = false;
             if (_battleManager.SelectedCommand == BattleCommand.Magic)
             {
-                isValid = index >= 0 && index < _characterMagicList.Count;
+                isValid = _magicController.IsValidIndex(index);
             }
             else if (_battleManager.SelectedCommand == BattleCommand.Item)
             {
-                isValid = index >= 0 && index < CharacterStatusManager.partyItemInfoList.Count;
+                isValid = _itemController.IsValidIndex(index);
             }
             return isValid;
         }
@@ -136,27 +133,11 @@ namespace SimpleRpg
             bool isValid = false;
             if (_battleManager.SelectedCommand == BattleCommand.Magic)
             {
-                if (!_magicIdDictionary.ContainsKey(_selectedIndex))
-                {
-                    return isValid;
-                }
-
-                var magicId = _magicIdDictionary[_selectedIndex];
-                var magicData = MagicDataManager.GetMagicDataById(magicId);
-                var currentSelectingCharacter = CharacterStatusManager.partyCharacter[0];
-                var characterStatus = CharacterStatusManager.GetCharacterStatusById(currentSelectingCharacter);
-                isValid = characterStatus.currentMp >= magicData.cost;
+                isValid = _magicController.IsValidSelection(_selectedIndex);
             }
             else if (_battleManager.SelectedCommand == BattleCommand.Item)
             {
-                if (!_itemIdDictionary.ContainsKey(_selectedIndex))
-                {
-                    return isValid;
-                }
-
-                var itemId = _itemIdDictionary[_selectedIndex];
-                var partyItemInfo = CharacterStatusManager.partyItemInfoList.Find(info => info.itemId == itemId);
-                isValid = partyItemInfo.itemNum > 0;
+                isValid = _itemController.IsValidSelection(_selectedIndex);
             }
             return isValid;
         }
@@ -166,11 +147,8 @@ namespace SimpleRpg
         /// </summary>
         void SelectRightItem()
         {
-            int currentColmun = _selectedIndex % 2;
-            int leftColumn = 0;
-
             // 左側の項目を選択していない場合は何もしません。
-            if (currentColmun != leftColumn)
+            if (!IsLeftColumn())
             {
                 return;
             }
@@ -189,11 +167,8 @@ namespace SimpleRpg
         /// </summary>
         void SelectLeftItem()
         {
-            int currentColmun = _selectedIndex % 2;
-            int rightColumn = 1;
-
-            // 右側の項目を選択していない場合は何もしません。
-            if (currentColmun != rightColumn)
+           // 右側の項目を選択していない場合は何もしません。
+            if (IsLeftColumn())
             {
                 return;
             }
@@ -208,14 +183,21 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 現在の選択位置が左側のカラムかどうかを確認します。
+        /// </summary>
+        bool IsLeftColumn()
+        {
+            int currentColmun = _selectedIndex % 2;
+            int leftColumn = 0;
+            return currentColmun == leftColumn;
+        }
+
+        /// <summary>
         /// ひとつ上の項目を選択します。
         /// </summary>
         void SelectUpperItem()
         {
-            int currentRow = _selectedIndex / 2;
-            int upperRow = 0;
-            int lowerRow = 1;
-            if (currentRow == upperRow)
+            if (IsUpperRow())
             {
                 if (_page > 0)
                 {
@@ -224,7 +206,7 @@ namespace SimpleRpg
                     _selectedIndex = _page * 4;
                 }
             }
-            else if (currentRow == lowerRow)
+            else
             {
                 if (IsValidIndex(_selectedIndex - 2))
                 {
@@ -240,26 +222,34 @@ namespace SimpleRpg
         /// </summary>
         void SelectLowerItem()
         {
-            int currentRow = _selectedIndex / 2;
-            int upperRow = 0;
-            int lowerRow = 1;
-            if (currentRow == lowerRow)
-            {
-                if (_page < GetMaxPageNum())
-                {
-                    _page += 1;
-                    SetPageElement();
-                }
-            }
-            else if (currentRow == upperRow)
+            if (IsUpperRow())
             {
                 if (IsValidIndex(_selectedIndex + 2))
                 {
                     _selectedIndex += 2;
                 }
             }
+            else
+            {
+                if (_page < GetMaxPageNum() - 1)
+                {
+                    _page += 1;
+                    SetPageElement();
+                    _selectedIndex = _page * 4;
+                }
+            }
 
             ShowSelectionCursor();
+        }
+
+        /// <summary>
+        /// 現在の選択位置が上側の行かどうかを確認します。
+        /// </summary>
+        bool IsUpperRow()
+        {
+            int currentRow = _selectedIndex % 4;
+            int upperRowMax = 1;
+            return currentRow <= upperRowMax;
         }
 
         /// <summary>
@@ -270,11 +260,11 @@ namespace SimpleRpg
             int maxPage = 0;
             if (_battleManager.SelectedCommand == BattleCommand.Magic)
             {
-                maxPage = Mathf.FloorToInt(_characterMagicList.Count / 4.0f);
+                maxPage = _magicController.GetMaxPageNum();
             }
             else if (_battleManager.SelectedCommand == BattleCommand.Item)
             {
-                maxPage = Mathf.FloorToInt(CharacterStatusManager.partyItemInfoList.Count / 4.0f);
+                maxPage = _itemController.GetMaxPageNum();
             }
             return maxPage;
         }
@@ -285,7 +275,7 @@ namespace SimpleRpg
         void ShowSelectionCursor()
         {
             int index = _selectedIndex % 4;
-            uiController.ShowSelectedCursor(index);
+            _uiController.ShowSelectedCursor(index);
         }
 
         /// <summary>
@@ -293,12 +283,11 @@ namespace SimpleRpg
         /// </summary>
         public void SetUpWindow()
         {
-            SimpleLogger.Instance.Log($"SetUpWindow()が呼ばれました。");
-            uiController.SetUpControllerDictionary();
-            uiController.ClearAllItemText();
-            uiController.ClearDescriptionText();
+            _uiController.SetUpControllerDictionary();
+            _uiController.ClearAllItemText();
+            _uiController.ClearDescriptionText();
             InitializeSelect();
-            SetCharacterMagic();
+            _magicController.SetCharacterMagic();
         }
 
         /// <summary>
@@ -308,24 +297,7 @@ namespace SimpleRpg
         {
             _page = 0;
             _selectedIndex = SelectionItemPosition.LeftTop;
-            uiController.ShowSelectedCursor(_selectedIndex);
-        }
-
-        /// <summary>
-        /// キャラクターが覚えている魔法をリストにセットします。
-        /// </summary>
-        void SetCharacterMagic()
-        {
-            _characterMagicList.Clear();
-
-            // 指定したキャラクターのステータスを取得します。
-            var currentSelectingCharacter = CharacterStatusManager.partyCharacter[0];
-            var characterStatus = CharacterStatusManager.GetCharacterStatusById(currentSelectingCharacter);
-            foreach (var magicId in characterStatus.magicList)
-            {
-                var magicData = MagicDataManager.GetMagicDataById(magicId);
-                _characterMagicList.Add(magicData);
-            }
+            _uiController.ShowSelectedCursor(_selectedIndex);
         }
 
         /// <summary>
@@ -333,106 +305,20 @@ namespace SimpleRpg
         /// </summary>
         public void SetPageElement()
         {
-            _itemIdDictionary.Clear();
-            _magicIdDictionary.Clear();
             if (_battleManager.SelectedCommand == BattleCommand.Magic)
             {
-                SetPageMagic();
+                _magicController.SetPageMagic(_page, _uiController);
             }
             else if (_battleManager.SelectedCommand == BattleCommand.Item)
             {
-                SetPageItem();
+                _itemController.SetPageItem(_page, _uiController);
             }
 
             // ページ送りのカーソルの表示状態を確認します。
             bool isVisiblePrevCursor = _page > 0;
-            bool isVisibleNextCursor = _page < GetMaxPageNum();
-            uiController.SetPrevCursorVisibility(isVisiblePrevCursor);
-            uiController.SetNextCursorVisibility(isVisibleNextCursor);
-        }
-
-        /// <summary>
-        /// ページ内の魔法の項目をセットします。
-        /// </summary>
-        void SetPageMagic()
-        {
-            int startIndex = _page * 4;
-            for (int i = startIndex; i < startIndex + 4; i++)
-            {
-                int positionIndex = i - startIndex;
-                if (i < _characterMagicList.Count)
-                {
-                    var magicData = _characterMagicList[i];
-                    string magicName = magicData.magicName;
-                    int magicCost = magicData.cost;
-                    bool canSelect = CanSelectMagic(magicData);
-                    uiController.SetItemText(positionIndex, magicName, magicCost, canSelect);
-                    uiController.SetDescriptionText(magicData.magicDesc);
-                    _magicIdDictionary.Add(positionIndex, magicData.magicId);
-                }
-                else
-                {
-                    uiController.ClearItemText(positionIndex);
-                }
-            }
-
-            if (_magicIdDictionary.Count == 0)
-            {
-                string noMagicText = "* 選択できる魔法がありません！ *";
-                uiController.SetDescriptionText(noMagicText);
-            }
-        }
-
-        /// <summary>
-        /// 魔法を使えるか確認します。
-        /// </summary>
-        bool CanSelectMagic(MagicData magicData)
-        {
-            var currentSelectingCharacter = CharacterStatusManager.partyCharacter[0];
-            var characterStatus = CharacterStatusManager.GetCharacterStatusById(currentSelectingCharacter);
-            return characterStatus.currentMp >= magicData.cost;
-        }
-
-        /// <summary>
-        /// ページ内のアイテムの項目をセットします。
-        /// </summary>
-        void SetPageItem()
-        {
-            int startIndex = _page * 4;
-            for (int i = startIndex; i < startIndex + 4; i++)
-            {
-                int positionIndex = i - startIndex;
-                if (i < CharacterStatusManager.partyItemInfoList.Count)
-                {
-                    var partyItemInfo = CharacterStatusManager.partyItemInfoList[i];
-                    var itemData = ItemDataManager.GetItemDataById(partyItemInfo.itemId);
-                    string itemName = itemData.itemName;
-                    int itemNum = partyItemInfo.itemNum;
-                    bool canSelect = CanSelectItem(itemData);
-                    uiController.SetItemText(positionIndex, itemName, itemNum, canSelect);
-                    uiController.SetDescriptionText(itemData.itemDesc);
-                    _itemIdDictionary.Add(positionIndex, itemData.itemId);
-                }
-                else
-                {
-                    uiController.ClearItemText(positionIndex);
-                }
-            }
-
-            if (_itemIdDictionary.Count == 0)
-            {
-                string noItemText = "* 選択できるアイテムがありません！ *";
-                uiController.SetDescriptionText(noItemText);
-            }
-        }
-
-        /// <summary>
-        /// アイテムを使えるか確認します。
-        /// </summary>
-        bool CanSelectItem(ItemData itemData)
-        {
-            var partyItemInfo = CharacterStatusManager.partyItemInfoList.Find(info => info.itemId == itemData.itemId);
-            return partyItemInfo.itemNum > 0;
+            bool isVisibleNextCursor = _page < GetMaxPageNum() - 1;
+            _uiController.SetPrevCursorVisibility(isVisiblePrevCursor);
+            _uiController.SetNextCursorVisibility(isVisibleNextCursor);
         }
 
         /// <summary>
@@ -447,9 +333,9 @@ namespace SimpleRpg
 
             if (_battleManager.SelectedCommand == BattleCommand.Magic)
             {
-                if (_selectedIndex >= 0 && _selectedIndex < _characterMagicList.Count)
+                var magicData = _magicController.GetMagicData(_selectedIndex);
+                if (magicData != null)
                 {
-                    var magicData = _characterMagicList[_selectedIndex];
                     _battleManager.OnItemSelected(magicData.magicId);
                     HideWindow();
                     SetCanSelectState(false);
@@ -457,7 +343,8 @@ namespace SimpleRpg
             }
             else if (_battleManager.SelectedCommand == BattleCommand.Item)
             {
-                if (_selectedIndex >= 0 && _selectedIndex < CharacterStatusManager.partyItemInfoList.Count)
+                var itemInfo = _itemController.GetItemInfo(_selectedIndex);
+                if (itemInfo != null)
                 {
                     var itemData = CharacterStatusManager.partyItemInfoList[_selectedIndex];
                     _battleManager.OnItemSelected(itemData.itemId);
@@ -472,7 +359,7 @@ namespace SimpleRpg
         /// </summary>
         public void ShowWindow()
         {
-            uiController.Show();
+            _uiController.Show();
         }
 
         /// <summary>
@@ -480,7 +367,7 @@ namespace SimpleRpg
         /// </summary>
         public void HideWindow()
         {
-            uiController.Hide();
+            _uiController.Hide();
         }
 
         /// <summary>

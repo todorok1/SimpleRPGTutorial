@@ -15,8 +15,62 @@ MonoBehaviour:
   m_GroupName: Magic
   m_GUID: 9023a75de0bf84b51b5bc35e70d4b5ef
   m_SerializeEntries:
+  - m_GUID: 3dae591a7c65d4c009cecb375385da97
+    m_Address: MagicData_0009
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Magic
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4d160971bacd049ab83d04c08b110bc9
     m_Address: MagicData_0001
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Magic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f4fac23f52d64a9c8638976b105c996
+    m_Address: MagicData_0008
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Magic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1a8c09497ab343b5a45356f7899d467
+    m_Address: MagicData_0006
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Magic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b23bbd9ac1c3540db86d440756182383
+    m_Address: MagicData_0002
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Magic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b36aa6f64b52e4d6da61f35d720cb752
+    m_Address: MagicData_0003
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Magic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c45f209c5482f45a4af7ae42fa2c0f4a
+    m_Address: MagicData_0010
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Magic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0b936797648448fda3818a6d62d9adc
+    m_Address: MagicData_0004
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Magic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d3719508cef564b578f93823c1c727d1
+    m_Address: MagicData_0007
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Magic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fea94b5ecb7fb4877b8389e130611a82
+    m_Address: MagicData_0005
     m_ReadOnly: 0
     m_SerializedLabels:
     - Magic

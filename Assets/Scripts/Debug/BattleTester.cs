@@ -63,6 +63,11 @@ namespace SimpleRpg
         /// </summary>
         void CheckStartFlag()
         {
+            if (Time.frameCount < 5)
+            {
+                return;
+            }
+
             if (!_executeBattle)
             {
                 return;

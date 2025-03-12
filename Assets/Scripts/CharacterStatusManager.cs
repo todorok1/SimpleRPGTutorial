@@ -157,6 +157,7 @@ namespace SimpleRpg
             if (partyItemInfo.itemNum <= 0)
             {
                 partyItemInfoList.Remove(partyItemInfo);
+                SimpleLogger.Instance.Log($"アイテムを全て使用したので削除します。 ID : {itemId}");
             }
         }
 
