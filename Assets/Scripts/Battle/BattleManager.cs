@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace SimpleRpg
@@ -124,7 +125,64 @@ namespace SimpleRpg
         void HandleCommand()
         {
             SimpleLogger.Instance.Log($"入力されたコマンドに応じた処理を行います。選択されたコマンド: {SelectedCommand}");
-            BattlePhase = BattlePhase.Action;
+            switch (SelectedCommand)
+            {
+                case BattleCommand.Attack:
+                case BattleCommand.Run:
+                    BattlePhase = BattlePhase.Action;
+                    break;
+                case BattleCommand.Magic:
+                case BattleCommand.Item:
+                    ShowSelectionWindow();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 選択ウィンドウを表示します。
+        /// </summary>
+        void ShowSelectionWindow()
+        {
+            SimpleLogger.Instance.Log($"ShowSelectionWindow()が呼ばれました。選択されたコマンド: {SelectedCommand}");
+            StartCoroutine(ShowSelectionWindowProcess());
+        }
+
+         /// <summary>
+        /// 選択ウィンドウを表示する処理です。
+        /// </summary>
+        IEnumerator ShowSelectionWindowProcess()
+        {
+            yield return null;
+            BattlePhase = BattlePhase.SelectItem;
+            var selectionWindowController = _battleWindowManager.GetSelectionWindowController();
+            selectionWindowController.SetUpWindow();
+            selectionWindowController.SetPageElement();
+            selectionWindowController.ShowWindow();
+            selectionWindowController.SetCanSelectState(true);
+        }
+
+        /// <summary>
+        /// 選択ウィンドウで項目が選択された時のコールバックです。
+        /// </summary>
+        public void OnItemSelected(int itemId)
+        {
+            switch (SelectedCommand)
+            {
+                case BattleCommand.Magic:
+                    SimpleLogger.Instance.Log($"選択された魔法のID: {itemId}");
+                    break;
+                case BattleCommand.Item:
+                    SimpleLogger.Instance.Log($"選択されたアイテムのID: {itemId}");
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 選択ウィンドウでキャンセルボタンが押された時のコールバックです。
+        /// </summary>
+        public void OnItemCanceled()
+        {
+            BattlePhase = BattlePhase.InputCommand;
         }
     }
 }
