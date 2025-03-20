@@ -33,6 +33,12 @@ namespace SimpleRpg
         SelectionWindowController _selectItemWindowController;
 
         /// <summary>
+        /// メッセージウィンドウの動作を制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        MessageWindowController _messageWindowController;
+
+        /// <summary>
         /// ウィンドウのコントローラのリストです。
         /// </summary>
         List<IBattleWindowController> _battleWindowControllers = new();
@@ -53,6 +59,7 @@ namespace SimpleRpg
                 _enemyNameWindowController,
                 _commandWindowController,
                 _selectItemWindowController,
+                _messageWindowController,
             };
         }
 
@@ -109,6 +116,14 @@ namespace SimpleRpg
         public SelectionWindowController GetSelectionWindowController()
         {
             return _selectItemWindowController;
+        }
+
+        /// <summary>
+        /// メッセージウィンドウの動作を制御するクラスへの参照を取得します。
+        /// </summary>
+        public MessageWindowController GetMessageWindowController()
+        {
+            return _messageWindowController;
         }
     }
 }

@@ -80,6 +80,8 @@ namespace SimpleRpg
             SetBattlePhase(BattlePhase.ShowEnemy);
 
             _battleWindowManager.SetUpWindowControllers(this);
+            var messageWindowController = _battleWindowManager.GetMessageWindowController();
+            messageWindowController.HidePager();
             _characterMoverManager.StopCharacterMover();
             _battleStarter.StartBattle(this);
         }
@@ -106,6 +108,8 @@ namespace SimpleRpg
         public void StartInputCommandPhase()
         {
             SimpleLogger.Instance.Log($"コマンド入力のフェーズを開始します。現在のターン数: {TurnCount}");
+            var messageWindowController = _battleWindowManager.GetMessageWindowController();
+            messageWindowController.HideWindow();
             BattlePhase = BattlePhase.InputCommand;
         }
 
@@ -183,6 +187,20 @@ namespace SimpleRpg
         public void OnItemCanceled()
         {
             BattlePhase = BattlePhase.InputCommand;
+        }
+
+        /// <summary>
+        /// メッセージウィンドウでメッセージの表示が完了した時のコールバックです。
+        /// </summary>
+        public void OnFinishedShowMessage()
+        {
+            switch (BattlePhase)
+            {
+                case BattlePhase.ShowEnemy:
+                    SimpleLogger.Instance.Log("敵の表示が完了しました。");
+                    StartInputCommandPhase();
+                    break;
+            }
         }
     }
 }

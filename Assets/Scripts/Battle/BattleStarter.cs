@@ -8,6 +8,12 @@ namespace SimpleRpg
     public class BattleStarter : MonoBehaviour
     {
         /// <summary>
+        /// 戦闘開始メッセージを表示する時間です。
+        /// </summary>
+        [SerializeField]
+        float _startMessageTime = 1.5f;
+
+        /// <summary>
         /// 戦闘の管理を行うクラスへの参照です。
         /// </summary>
         BattleManager _battleManager;
@@ -36,9 +42,6 @@ namespace SimpleRpg
 
             // 敵出現のメッセージを表示します。
             ShowEnemyAppearMessage();
-
-            // テスト用機能
-            _battleManager.StartInputCommandPhase();
         }
 
         /// <summary>
@@ -106,7 +109,18 @@ namespace SimpleRpg
         /// </summary>
         void ShowEnemyAppearMessage()
         {
+            int enemyId = _battleManager.EnemyId;
+            var enemyData = EnemyDataManager.GetEnemyDataById(enemyId);
+            if (enemyData == null)
+            {
+                SimpleLogger.Instance.LogWarning($"敵データが取得できませんでした。 ID : {enemyId}");
+                return;
+            }
 
+            // メッセージ表示後、BattleManagerに制御が戻ります。
+            var controller = _battleManager.GetWindowManager().GetMessageWindowController();
+            controller.ShowWindow();
+            controller.GenerateEnemyAppearMessage(enemyData.enemyName, _startMessageTime);
         }
     }
 }
