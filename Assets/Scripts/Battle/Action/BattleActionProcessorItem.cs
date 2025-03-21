@@ -6,7 +6,7 @@ namespace SimpleRpg
     /// <summary>
     /// 戦闘中のアイテムアクションを処理するクラスです。
     /// </summary>
-    public class BattleActionProcessorItem : MonoBehaviour
+    public class BattleActionProcessorItem : MonoBehaviour, IBattleActionProcessor
     {
         /// <summary>
         /// 戦闘中のアクションを処理するクラスへの参照です。
@@ -42,7 +42,7 @@ namespace SimpleRpg
         /// <summary>
         /// アイテムのアクションを処理します。
         /// </summary>
-        public void ProcessItemAction(BattleAction action)
+        public void ProcessAction(BattleAction action)
         {
             var itemData = ItemDataManager.GetItemDataById(action.itemId);
             if (itemData == null)

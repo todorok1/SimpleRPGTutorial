@@ -6,7 +6,7 @@ namespace SimpleRpg
     /// <summary>
     /// 戦闘中の逃走アクションを処理するクラスです。
     /// </summary>
-    public class BattleActionProcessorRun : MonoBehaviour
+    public class BattleActionProcessorRun : MonoBehaviour, IBattleActionProcessor
     {
         /// <summary>
         /// 戦闘中のアクションを処理するクラスへの参照です。
@@ -36,7 +36,7 @@ namespace SimpleRpg
         /// <summary>
         /// 逃走のアクションを処理します。
         /// </summary>
-        public void ProcessRunAction(BattleAction action)
+        public void ProcessAction(BattleAction action)
         {
             var actorStatus = _actionProcessor.GetCharacterParameter(action.actorId, action.isActorFriend);
             var targetStatus = _actionProcessor.GetCharacterParameter(action.targetId, action.isTargetFriend);

@@ -158,16 +158,16 @@ namespace SimpleRpg
                 switch (action.battleCommand)
                 {
                     case BattleCommand.Attack:
-                        _battleActionProcessorAttack.ProcessAttackAction(action);
+                        _battleActionProcessorAttack.ProcessAction(action);
                         break;
                     case BattleCommand.Magic:
-                        _battleActionProcessorMagic.ProcessMagicAction(action);
+                        _battleActionProcessorMagic.ProcessAction(action);
                         break;
                     case BattleCommand.Item:
-                        _battleActionProcessorItem.ProcessItemAction(action);
+                        _battleActionProcessorItem.ProcessAction(action);
                         break;
                     case BattleCommand.Run:
-                        _battleActionProcessorRun.ProcessRunAction(action);
+                        _battleActionProcessorRun.ProcessAction(action);
                         break;
                 }
 

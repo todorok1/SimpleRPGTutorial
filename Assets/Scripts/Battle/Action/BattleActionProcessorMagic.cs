@@ -6,7 +6,7 @@ namespace SimpleRpg
     /// <summary>
     /// 戦闘中の魔法アクションを処理するクラスです。
     /// </summary>
-    public class BattleActionProcessorMagic : MonoBehaviour
+    public class BattleActionProcessorMagic : MonoBehaviour, IBattleActionProcessor
     {
         /// <summary>
         /// 戦闘中のアクションを処理するクラスへの参照です。
@@ -47,7 +47,7 @@ namespace SimpleRpg
         /// <summary>
         /// 魔法のアクションを処理します。
         /// </summary>
-        public void ProcessMagicAction(BattleAction action)
+        public void ProcessAction(BattleAction action)
         {
             var magicData = MagicDataManager.GetMagicDataById(action.itemId);
 
