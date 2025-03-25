@@ -33,6 +33,12 @@ namespace SimpleRpg
         CharacterMoverManager _characterMoverManager;
 
         /// <summary>
+        /// 戦闘中の敵キャラクターの管理を行うクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        EnemyStatusManager _enemyStatusManager;
+
+        /// <summary>
         /// 戦闘のフェーズです。
         /// </summary>
         public BattlePhase BattlePhase { get; private set; }
@@ -68,6 +74,7 @@ namespace SimpleRpg
         public void SetUpEnemyStatus(int enemyId)
         {
             EnemyId = enemyId;
+            _enemyStatusManager.SetUpEnemyStatus(enemyId);
         }
 
         /// <summary>
@@ -100,6 +107,14 @@ namespace SimpleRpg
         public BattleSpriteController GetBattleSpriteController()
         {
             return _battleSpriteController;
+        }
+
+        /// <summary>
+        /// 戦闘中の敵キャラクターの管理を行うクラスへの参照を取得します。
+        /// </summary>
+        public EnemyStatusManager GetEnemyStatusManager()
+        {
+            return _enemyStatusManager;
         }
 
         /// <summary>
