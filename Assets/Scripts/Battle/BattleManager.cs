@@ -39,6 +39,18 @@ namespace SimpleRpg
         EnemyStatusManager _enemyStatusManager;
 
         /// <summary>
+        /// 敵キャラクターのコマンドを選択するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        EnemyCommandSelector _enemyCommandSelector;
+
+        /// <summary>
+        /// 戦闘中のアクションを登録するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        BattleActionRegister _battleActionRegister;
+
+        /// <summary>
         /// 戦闘のフェーズです。
         /// </summary>
         public BattlePhase BattlePhase { get; private set; }
@@ -89,6 +101,8 @@ namespace SimpleRpg
             _battleWindowManager.SetUpWindowControllers(this);
             var messageWindowController = _battleWindowManager.GetMessageWindowController();
             messageWindowController.HidePager();
+
+            _enemyCommandSelector.SetReferences(this, _battleActionRegister);
             _characterMoverManager.StopCharacterMover();
             _battleStarter.StartBattle(this);
         }
@@ -216,6 +230,23 @@ namespace SimpleRpg
                     StartInputCommandPhase();
                     break;
             }
+        }
+
+        /// <summary>
+        /// コマンド選択が完了した後の処理です。
+        /// </summary>
+        void PostCommandSelect()
+        {
+            SimpleLogger.Instance.Log("敵のコマンド入力を行います。");
+            _enemyCommandSelector.SelectEnemyCommand();
+        }
+
+        /// <summary>
+        /// 敵キャラクターのコマンドが選択された時のコールバックです。
+        /// </summary>
+        public void OnEnemyCommandSelected()
+        {
+            SimpleLogger.Instance.Log("敵味方の行動が決まったので実際に行動させます。");
         }
     }
 }
