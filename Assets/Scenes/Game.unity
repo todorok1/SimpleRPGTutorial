@@ -305,6 +305,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiController: {fileID: 77896176}
+--- !u!1 &178172278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 178172279}
+  - component: {fileID: 178172280}
+  m_Layer: 0
+  m_Name: EnemyCommandSelector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &178172279
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178172278}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1065950527}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &178172280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178172278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c84addce8f3c4009ae3442bbd9ffba4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &281469342
 GameObject:
   m_ObjectHideFlags: 0
@@ -1634,7 +1678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _battleManager: {fileID: 412059259}
-  _enemyId: 2
+  _enemyId: 1
   _playerLevel: 2
   _weaponId: 0
   _armorId: 0
@@ -1948,6 +1992,9 @@ MonoBehaviour:
   _battleSpriteController: {fileID: 1407348079}
   _characterMoverManager: {fileID: 496981833}
   _enemyStatusManager: {fileID: 969476242}
+  _enemyCommandSelector: {fileID: 178172280}
+  _battleActionRegister: {fileID: 497574161}
+  _battleActionProcessor: {fileID: 1712984544}
 --- !u!1 &445136633
 GameObject:
   m_ObjectHideFlags: 0
@@ -2683,6 +2730,7 @@ Transform:
   - {fileID: 1712984543}
   - {fileID: 497574160}
   - {fileID: 969476241}
+  - {fileID: 178172279}
   m_Father: {fileID: 6097013214743356183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1131406902
@@ -3305,6 +3353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f8bdef2dce84e23b08c05aaf421946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _actionInterval: 0.5
 --- !u!1 &1787039917
 GameObject:
   m_ObjectHideFlags: 0

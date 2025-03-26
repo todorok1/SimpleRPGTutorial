@@ -51,6 +51,12 @@ namespace SimpleRpg
         BattleActionRegister _battleActionRegister;
 
         /// <summary>
+        /// 戦闘中のアクションを処理するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        BattleActionProcessor _battleActionProcessor;
+
+        /// <summary>
         /// 戦闘のフェーズです。
         /// </summary>
         public BattlePhase BattlePhase { get; private set; }
@@ -69,6 +75,11 @@ namespace SimpleRpg
         /// 戦闘開始からのターン数です。
         /// </summary>
         public int TurnCount { get; private set; }
+
+        /// <summary>
+        /// 戦闘が終了したかどうかのフラグです。
+        /// </summary>
+        public bool IsBattleFinished { get; private set; }
 
         /// <summary>
         /// 戦闘のフェーズを変更します。
@@ -102,6 +113,8 @@ namespace SimpleRpg
             var messageWindowController = _battleWindowManager.GetMessageWindowController();
             messageWindowController.HidePager();
 
+            _battleActionProcessor.InitializeProcessor(this);
+            _battleActionRegister.InitializeRegister(_battleActionProcessor);
             _enemyCommandSelector.SetReferences(this, _battleActionRegister);
             _characterMoverManager.StopCharacterMover();
             _battleStarter.StartBattle(this);
@@ -140,6 +153,7 @@ namespace SimpleRpg
             var messageWindowController = _battleWindowManager.GetMessageWindowController();
             messageWindowController.HideWindow();
             BattlePhase = BattlePhase.InputCommand;
+            _battleActionProcessor.InitializeActions();
         }
 
         /// <summary>
@@ -229,7 +243,26 @@ namespace SimpleRpg
                     SimpleLogger.Instance.Log("敵の表示が完了しました。");
                     StartInputCommandPhase();
                     break;
+                case BattlePhase.Action:
+                    _battleActionProcessor.ShowNextMessage();
+                    break;
             }
+        }
+
+        /// <summary>
+        /// ターン内の行動が完了した時のコールバックです。
+        /// </summary>
+        public void OnFinishedActions()
+        {
+            if (IsBattleFinished)
+            {
+                SimpleLogger.Instance.Log("OnFinishedActions() || 戦闘が終了しているため、処理を中断します。");
+                return;
+            }
+
+            SimpleLogger.Instance.Log("ターン内の行動が完了しました。");
+            TurnCount++;
+            StartInputCommandPhase();
         }
 
         /// <summary>
