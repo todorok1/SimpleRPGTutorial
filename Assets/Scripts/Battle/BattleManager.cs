@@ -281,5 +281,33 @@ namespace SimpleRpg
         {
             SimpleLogger.Instance.Log("敵味方の行動が決まったので実際に行動させます。");
         }
+
+        /// <summary>
+        /// ステータスの値が更新された時のコールバックです。
+        /// </summary>
+        public void OnUpdateStatus()
+        {
+            _battleWindowManager.GetStatusWindowController().UpdateAllCharacterStatus();
+        }
+
+        /// <summary>
+        /// 敵を全て倒した時のコールバックです。
+        /// </summary>
+        public void OnEnemyDefeated()
+        {
+            SimpleLogger.Instance.Log("敵を全て倒しました。");
+            BattlePhase = BattlePhase.Result;
+            IsBattleFinished = true;
+        }
+
+        /// <summary>
+        /// ゲームオーバーになった時のコールバックです。
+        /// </summary>
+        public void OnGameover()
+        {
+            SimpleLogger.Instance.Log("ゲームオーバーになりました。");
+            BattlePhase = BattlePhase.Result;
+            IsBattleFinished = true;
+        }
     }
 }
