@@ -98,41 +98,40 @@ namespace SimpleRpg
                 yield return null;
             }
 
-            if (isTargetDefeated)
+            if (!isTargetDefeated)
             {
-                if (action.isTargetFriend)
-                {
-                    _actionProcessor.SetPauseMessage(true);
-                    _messageWindowController.GenerateDefeateFriendMessage(targetName);
-                    while (_actionProcessor.IsPausedMessage)
-                    {
-                        yield return null;
-                    }
+                _actionProcessor.SetPauseProcess(false);
+                yield break;
+            }
 
-                    if (CharacterStatusManager.IsAllCharacterDefeated())
-                    {
-                        _battleManager.OnGameover();
-                    }
+            if (action.isTargetFriend)
+            {
+                _actionProcessor.SetPauseMessage(true);
+                _messageWindowController.GenerateDefeateFriendMessage(targetName);
+                while (_actionProcessor.IsPausedMessage)
+                {
+                    yield return null;
                 }
-                else
-                {
-                    _actionProcessor.SetPauseMessage(true);
-                    _battleSpriteController.HideEnemy();
-                    _messageWindowController.GenerateDefeateEnemyMessage(targetName);
-                    while (_actionProcessor.IsPausedMessage)
-                    {
-                        yield return null;
-                    }
 
-                    if (_enemyStatusManager.IsAllEnemyDefeated())
-                    {
-                        _battleManager.OnEnemyDefeated();
-                    }
+                if (CharacterStatusManager.IsAllCharacterDefeated())
+                {
+                    _battleManager.OnGameover();
                 }
             }
             else
             {
-                _actionProcessor.SetPauseProcess(false);
+                _actionProcessor.SetPauseMessage(true);
+                _battleSpriteController.HideEnemy();
+                _messageWindowController.GenerateDefeateEnemyMessage(targetName);
+                while (_actionProcessor.IsPausedMessage)
+                {
+                    yield return null;
+                }
+
+                if (_enemyStatusManager.IsAllEnemyDefeated())
+                {
+                    _battleManager.OnEnemyDefeated();
+                }
             }
         }
     }
