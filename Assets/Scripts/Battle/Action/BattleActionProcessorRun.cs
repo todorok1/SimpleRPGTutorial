@@ -24,6 +24,16 @@ namespace SimpleRpg
         MessageWindowController _messageWindowController;
 
         /// <summary>
+        /// 戦闘中の敵キャラクターの管理を行うクラスへの参照です。
+        /// </summary>
+        EnemyStatusManager _enemyStatusManager;
+
+        /// <summary>
+        /// 戦闘関連のスプライトを制御するクラスへの参照です。
+        /// </summary>
+        BattleSpriteController _battleSpriteController;
+
+        /// <summary>
         /// 参照をセットします。
         /// </summary>
         public void SetReferences(BattleManager battleManager, BattleActionProcessor actionProcessor)
@@ -31,6 +41,8 @@ namespace SimpleRpg
             _battleManager = battleManager;
             _actionProcessor = actionProcessor;
             _messageWindowController = _battleManager.GetWindowManager().GetMessageWindowController();
+            _enemyStatusManager = _battleManager.GetEnemyStatusManager();
+            _battleSpriteController = _battleManager.GetBattleSpriteController();
         }
 
         /// <summary>
@@ -72,6 +84,8 @@ namespace SimpleRpg
                 }
                 else
                 {
+                    _battleSpriteController.HideEnemy();
+                    _enemyStatusManager.OnRunEnemy(action.actorId);
                     _battleManager.OnEnemyRunaway();
                 }
             }
