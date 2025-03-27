@@ -75,44 +75,42 @@ namespace SimpleRpg
             // 魔法の効果を処理します。
             foreach (var magicEffect in magicData.magicEffects)
             {
+                // メッセージ表示用の行動を生成します。
+                BattleAction messageAction = new()
+                {
+                    actorId = action.actorId,
+                    targetId = action.targetId,
+                    isActorFriend = action.isActorFriend,
+                    isTargetFriend = action.isTargetFriend
+                };
+
                 if (magicEffect.magicCategory == MagicCategory.Recovery)
                 {
                     int hpDelta = BattleCalculator.CalculateHealValue(magicEffect.value);
                     int mpDelta = 0;
                     bool isMagicTargetFriend = IsMagicTargetFriend(magicEffect);
-                    if (action.isActorFriend && isMagicTargetFriend)
+                    if (isMagicTargetFriend)
                     {
-                        if (action.isActorFriend && isMagicTargetFriend)
-                        {
-                            CharacterStatusManager.ChangeCharacterStatus(action.actorId, hpDelta, mpDelta);
-                            action.targetId = action.actorId;
-                            action.isTargetFriend = true;
-                        }
-                        else
-                        {
-                            _enemyStatusManager.ChangeEnemyStatus(action.actorId, hpDelta, mpDelta);
-                            action.targetId = action.actorId;
-                            action.isTargetFriend = false;
-                        }
+                        messageAction.targetId = action.actorId;
+                        messageAction.isTargetFriend = action.isActorFriend;
                     }
                     else
                     {
-                        if (action.isActorFriend && isMagicTargetFriend)
-                        {
-                            CharacterStatusManager.ChangeCharacterStatus(action.actorId, hpDelta, mpDelta);
-                            action.targetId = action.actorId;
-                            action.isTargetFriend = true;
-                        }
-                        else
-                        {
-                            _enemyStatusManager.ChangeEnemyStatus(action.actorId, hpDelta, mpDelta);
-                            action.targetId = action.actorId;
-                            action.isTargetFriend = false;
-                        }
+                        messageAction.targetId = action.targetId;
+                        messageAction.isTargetFriend = !action.isActorFriend;
+                    }
+
+                    if (messageAction.isTargetFriend)
+                    {
+                        CharacterStatusManager.ChangeCharacterStatus(messageAction.targetId, hpDelta, mpDelta);
+                    }
+                    else
+                    {
+                        _enemyStatusManager.ChangeEnemyStatus(messageAction.targetId, hpDelta, mpDelta);
                     }
 
                     _pauseMagicEffect = true;
-                    StartCoroutine(ShowMagicHealMessage(action, magicData.magicName, hpDelta));
+                    StartCoroutine(ShowMagicHealMessage(messageAction, magicData.magicName, hpDelta));
                 }
                 else
                 {
@@ -155,8 +153,9 @@ namespace SimpleRpg
         }
 
         /// <summary>
-        /// 魔法の対象が味方かどうかを判定します。
+        /// 魔法の対象が行動者の味方かどうかを判定します。
         /// </summary>
+        /// <param name="magicEffect">魔法効果</param>
         bool IsMagicTargetFriend(MagicEffect magicEffect)
         {
             bool isFriend = false;
