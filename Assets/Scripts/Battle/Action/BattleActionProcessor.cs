@@ -11,6 +11,30 @@ namespace SimpleRpg
     public class BattleActionProcessor : MonoBehaviour
     {
         /// <summary>
+        /// 戦闘中の攻撃アクションを処理するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        BattleActionProcessorAttack _battleActionProcessorAttack;
+
+        /// <summary>
+        /// 戦闘中の魔法アクションを処理するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        BattleActionProcessorMagic _battleActionProcessorMagic;
+
+        /// <summary>
+        /// 戦闘中のアイテムアクションを処理するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        BattleActionProcessorItem _battleActionProcessorItem;
+
+        /// <summary>
+        /// 戦闘中の逃げるアクションを処理するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        BattleActionProcessorRun _battleActionProcessorRun;
+
+        /// <summary>
         /// 戦闘中のアクション間の実行間隔です。
         /// </summary>
         [SerializeField]
@@ -54,6 +78,11 @@ namespace SimpleRpg
         {
             _battleManager = battleManager;
             _enemyStatusManager = _battleManager.GetEnemyStatusManager();
+
+            _battleActionProcessorAttack.SetReferences(_battleManager, this);
+            _battleActionProcessorMagic.SetReferences(_battleManager, this);
+            _battleActionProcessorItem.SetReferences(_battleManager, this);
+            _battleActionProcessorRun.SetReferences(_battleManager, this);
         }
 
         /// <summary>
@@ -131,12 +160,16 @@ namespace SimpleRpg
                 switch (action.battleCommand)
                 {
                     case BattleCommand.Attack:
+                        _battleActionProcessorAttack.ProcessAction(action);
                         break;
                     case BattleCommand.Magic:
+                        _battleActionProcessorMagic.ProcessAction(action);
                         break;
                     case BattleCommand.Item:
+                        _battleActionProcessorItem.ProcessAction(action);
                         break;
                     case BattleCommand.Run:
+                        _battleActionProcessorRun.ProcessAction(action);
                         break;
                 }
 
