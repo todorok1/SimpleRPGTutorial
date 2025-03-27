@@ -309,5 +309,34 @@ namespace SimpleRpg
             BattlePhase = BattlePhase.Result;
             IsBattleFinished = true;
         }
+
+        /// <summary>
+        /// 味方が逃走に成功した時のコールバックです。
+        /// </summary>
+        public void OnRunaway()
+        {
+            SimpleLogger.Instance.Log("逃走に成功しました。");
+            IsBattleFinished = true;
+            OnFinishBattle();
+        }
+
+        /// <summary>
+        /// 敵が逃走に成功した時のコールバックです。
+        /// </summary>
+        public void OnEnemyRunaway()
+        {
+            SimpleLogger.Instance.Log("敵が逃走に成功しました。");
+            BattlePhase = BattlePhase.Result;
+            IsBattleFinished = true;
+        }
+
+        /// <summary>
+        /// 戦闘を終了する時のコールバックです。
+        /// </summary>
+        public void OnFinishBattle()
+        {
+            SimpleLogger.Instance.Log("戦闘に勝利して終了します。");
+            BattlePhase = BattlePhase.NotInBattle;
+        }
     }
 }
