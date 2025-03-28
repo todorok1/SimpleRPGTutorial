@@ -171,12 +171,13 @@ namespace SimpleRpg
         /// </summary>
         void HandleCommand()
         {
-            SimpleLogger.Instance.Log($"入力されたコマンドに応じた処理を行います。選択されたコマンド: {SelectedCommand}");
             switch (SelectedCommand)
             {
                 case BattleCommand.Attack:
+                    SetAttackCommandAction();
+                    break;
                 case BattleCommand.Run:
-                    BattlePhase = BattlePhase.Action;
+                    SetRunCommandAction();
                     break;
                 case BattleCommand.Magic:
                 case BattleCommand.Item:
@@ -216,10 +217,10 @@ namespace SimpleRpg
             switch (SelectedCommand)
             {
                 case BattleCommand.Magic:
-                    SimpleLogger.Instance.Log($"選択された魔法のID: {itemId}");
+                    SetMagicCommandAction(itemId);
                     break;
                 case BattleCommand.Item:
-                    SimpleLogger.Instance.Log($"選択されたアイテムのID: {itemId}");
+                    SetItemCommandAction(itemId);
                     break;
             }
         }
@@ -230,6 +231,68 @@ namespace SimpleRpg
         public void OnItemCanceled()
         {
             BattlePhase = BattlePhase.InputCommand;
+            var selectionWindowController = _battleWindowManager.GetSelectionWindowController();
+            selectionWindowController.HideWindow();
+        }
+
+        /// <summary>
+        /// 攻撃コマンドを選択した際の処理です。
+        /// </summary>
+        void SetAttackCommandAction()
+        {
+            // 1対1の戦闘のため、最初のキャラクターのIDを取得します。
+            int actorId = CharacterStatusManager.partyCharacter[0];
+            int targetId = _enemyStatusManager.GetEnemyStatusList()[0].enemyBattleId;
+            _battleActionRegister.SetFriendAttackAction(actorId, targetId);
+
+            SimpleLogger.Instance.Log($"攻撃するキャラクターのID: {actorId} || 攻撃対象のキャラクターのID: {targetId}");
+
+            PostCommandSelect();
+        }
+
+        /// <summary>
+        /// 魔法コマンドを選択した際の処理です。
+        /// </summary>
+        /// <param name="itemId">魔法のID</param>
+        void SetMagicCommandAction(int itemId)
+        {
+            int actorId = CharacterStatusManager.partyCharacter[0];
+            int targetId = _enemyStatusManager.GetEnemyStatusList()[0].enemyBattleId;
+            _battleActionRegister.SetFriendMagicAction(actorId, targetId, itemId);
+
+            PostCommandSelect();
+        }
+
+        /// <summary>
+        /// アイテムコマンドを選択した際の処理です。
+        /// </summary>
+        /// <param name="itemId">アイテムのID</param>
+        void SetItemCommandAction(int itemId)
+        {
+            SimpleLogger.Instance.Log($"SetItemCommandAction()が呼ばれました。選択されたアイテムのID : {itemId}");
+            int actorId = CharacterStatusManager.partyCharacter[0];
+            var itemData = ItemDataManager.GetItemDataById(itemId);
+            if (itemData == null)
+            {
+                SimpleLogger.Instance.LogError($"選択されたIDのアイテムは見つかりませんでした。ID : {itemId}");
+                return;
+            }
+
+            int targetId = _enemyStatusManager.GetEnemyStatusList()[0].enemyBattleId;
+            _battleActionRegister.SetFriendItemAction(actorId, targetId, itemId);
+
+            PostCommandSelect();
+        }
+
+        /// <summary>
+        /// 逃げるコマンドを選択した際の処理です。
+        /// </summary>
+        void SetRunCommandAction()
+        {
+            int actorId = CharacterStatusManager.partyCharacter[0];
+            _battleActionRegister.SetFriendRunAction(actorId);
+
+            PostCommandSelect();
         }
 
         /// <summary>
@@ -279,7 +342,20 @@ namespace SimpleRpg
         /// </summary>
         public void OnEnemyCommandSelected()
         {
-            SimpleLogger.Instance.Log("敵味方の行動が決まったので実際に行動させます。");
+            StartAction();
+        }
+
+        /// <summary>
+        /// 各キャラクターの行動を開始します。
+        /// </summary>
+        void StartAction()
+        {
+            SimpleLogger.Instance.Log("選択したアクションを実行します。");
+            BattlePhase = BattlePhase.Action;
+            var messageWindowController = _battleWindowManager.GetMessageWindowController();
+            messageWindowController.ShowWindow();
+            _battleActionProcessor.SetPriorities();
+            _battleActionProcessor.StartActions();
         }
 
         /// <summary>
