@@ -192,14 +192,6 @@ namespace SimpleRpg
         }
 
         /// <summary>
-        /// 戦闘から逃げた時の処理です。
-        /// </summary>
-        public void OnRun()
-        {
-            Debug.Log("Win");
-        }
-
-        /// <summary>
         /// 次のメッセージを表示します。
         /// </summary>
         public void ShowNextMessage()
