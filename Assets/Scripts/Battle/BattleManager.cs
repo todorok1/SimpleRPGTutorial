@@ -57,6 +57,12 @@ namespace SimpleRpg
         BattleActionProcessor _battleActionProcessor;
 
         /// <summary>
+        /// 戦闘の結果処理を管理するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        BattleResultManager _battleResultManager;
+
+        /// <summary>
         /// 戦闘のフェーズです。
         /// </summary>
         public BattlePhase BattlePhase { get; private set; }
@@ -109,6 +115,9 @@ namespace SimpleRpg
             GameStateManager.ChangeToBattle();
             SetBattlePhase(BattlePhase.ShowEnemy);
 
+            TurnCount = 1;
+            IsBattleFinished = false;
+
             _battleWindowManager.SetUpWindowControllers(this);
             var messageWindowController = _battleWindowManager.GetMessageWindowController();
             messageWindowController.HidePager();
@@ -116,6 +125,7 @@ namespace SimpleRpg
             _battleActionProcessor.InitializeProcessor(this);
             _battleActionRegister.InitializeRegister(_battleActionProcessor);
             _enemyCommandSelector.SetReferences(this, _battleActionRegister);
+            _battleResultManager.SetReferences(this);
             _characterMoverManager.StopCharacterMover();
             _battleStarter.StartBattle(this);
         }
@@ -309,6 +319,9 @@ namespace SimpleRpg
                 case BattlePhase.Action:
                     _battleActionProcessor.ShowNextMessage();
                     break;
+                case BattlePhase.Result:
+                    _battleResultManager.ShowNextMessage();
+                    break;
             }
         }
 
@@ -374,6 +387,7 @@ namespace SimpleRpg
             SimpleLogger.Instance.Log("敵を全て倒しました。");
             BattlePhase = BattlePhase.Result;
             IsBattleFinished = true;
+            _battleResultManager.OnWin();
         }
 
         /// <summary>
@@ -384,6 +398,7 @@ namespace SimpleRpg
             SimpleLogger.Instance.Log("ゲームオーバーになりました。");
             BattlePhase = BattlePhase.Result;
             IsBattleFinished = true;
+            _battleResultManager.OnLose();
         }
 
         /// <summary>
@@ -404,6 +419,7 @@ namespace SimpleRpg
             SimpleLogger.Instance.Log("敵が逃走に成功しました。");
             BattlePhase = BattlePhase.Result;
             IsBattleFinished = true;
+            _battleResultManager.OnWin();
         }
 
         /// <summary>
@@ -412,6 +428,32 @@ namespace SimpleRpg
         public void OnFinishBattle()
         {
             SimpleLogger.Instance.Log("戦闘に勝利して終了します。");
+
+            _battleWindowManager.HideAllWindow();
+            _battleSpriteController.HideBackground();
+            _battleSpriteController.HideEnemy();
+            _enemyStatusManager.InitializeEnemyStatusList();
+            _battleActionProcessor.InitializeActions();
+            _battleActionProcessor.StopActions();
+
+            _characterMoverManager.ResumeCharacterMover();
+            BattlePhase = BattlePhase.NotInBattle;
+        }
+
+        /// <summary>
+        /// 戦闘を終了する時のコールバックです。
+        /// </summary>
+        public void OnFinishBattleWithGameover()
+        {
+            SimpleLogger.Instance.Log("ゲームオーバーとして戦闘を終了します。");
+            _battleWindowManager.HideAllWindow();
+            _battleSpriteController.HideBackground();
+            _battleSpriteController.HideEnemy();
+            _enemyStatusManager.InitializeEnemyStatusList();
+            _battleActionProcessor.InitializeActions();
+            _battleActionProcessor.StopActions();
+
+            _characterMoverManager.ResumeCharacterMover();
             BattlePhase = BattlePhase.NotInBattle;
         }
     }
