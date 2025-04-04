@@ -57,7 +57,7 @@ namespace SimpleRpg
             _backgroundRenderer.transform.position = newPosition + backgroundPosOffset;
 
             var enemyPosOffset = new Vector3(0, -0.5f, 0);
-            _backgroundRenderer.transform.position = newPosition + enemyPosOffset;
+            _enenyRenderer.transform.position = newPosition + enemyPosOffset;
         }
 
         /// <summary>
