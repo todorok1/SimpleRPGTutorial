@@ -17,3 +17,7 @@ MonoBehaviour:
   enemyRates:
   - enemyId: 1
     rate: 1
+  - enemyId: 2
+    rate: 2
+  - enemyId: 3
+    rate: 3
