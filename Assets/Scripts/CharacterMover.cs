@@ -185,6 +185,15 @@ namespace SimpleRpg
             // 最終的な位置を設定して移動中フラグをfalseにします。
             gameObject.transform.position = targetPos;
             _isMoving = false;
+            PostMove();
+        }
+
+        /// <summary>
+        /// キャラクター移動後の処理です。
+        /// </summary>
+        protected virtual void PostMove()
+        {
+
         }
 
         /// <summary>

@@ -1730,7 +1730,7 @@ MonoBehaviour:
   - itemId: 1
     itemNum: 3
     usedNum: 0
-  _executeBattle: 1
+  _executeBattle: 0
 --- !u!1 &383180345
 GameObject:
   m_ObjectHideFlags: 0
@@ -2034,7 +2034,6 @@ MonoBehaviour:
   _battleStarter: {fileID: 1528759966}
   _battleWindowManager: {fileID: 566721991}
   _battleSpriteController: {fileID: 1407348079}
-  _characterMoverManager: {fileID: 496981833}
   _enemyStatusManager: {fileID: 969476242}
   _enemyCommandSelector: {fileID: 178172280}
   _battleActionRegister: {fileID: 497574161}
@@ -3254,6 +3253,7 @@ Transform:
   - {fileID: 693821326}
   - {fileID: 355466890}
   - {fileID: 496981834}
+  - {fileID: 1700094513}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1372441161 stripped
@@ -3487,6 +3487,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiController: {fileID: 659651358}
   _messageInterval: 1
+--- !u!1 &1700094512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1700094513}
+  - component: {fileID: 1700094514}
+  m_Layer: 0
+  m_Name: EncounterManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1700094513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700094512}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1340454902}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1700094514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700094512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3101172e33f5f440f884d7f226d8092a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _battleManager: {fileID: 412059259}
+  _characterMoverManager: {fileID: 496981833}
 --- !u!1 &1712984542
 GameObject:
   m_ObjectHideFlags: 0

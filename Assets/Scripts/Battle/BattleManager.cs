@@ -27,12 +27,6 @@ namespace SimpleRpg
         BattleSpriteController _battleSpriteController;
 
         /// <summary>
-        /// キャラクターの移動を行うクラスを管理するクラスへの参照です。
-        /// </summary>
-        [SerializeField]
-        CharacterMoverManager _characterMoverManager;
-
-        /// <summary>
         /// 戦闘中の敵キャラクターの管理を行うクラスへの参照です。
         /// </summary>
         [SerializeField]
@@ -61,6 +55,11 @@ namespace SimpleRpg
         /// </summary>
         [SerializeField]
         BattleResultManager _battleResultManager;
+
+        /// <summary>
+        /// 戦闘完了の通知を行うインタフェースです。
+        /// </summary>
+        IPostBattle _postBattle;
 
         /// <summary>
         /// 戦闘のフェーズです。
@@ -107,6 +106,14 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 戦闘完了時のコールバックを登録します。
+        /// </summary>
+        public void RegisterCallback(IPostBattle postBattle)
+        {
+            _postBattle = postBattle;
+        }
+
+        /// <summary>
         /// 戦闘の開始処理を行います。
         /// </summary>
         public void StartBattle()
@@ -126,7 +133,6 @@ namespace SimpleRpg
             _battleActionRegister.InitializeRegister(_battleActionProcessor);
             _enemyCommandSelector.SetReferences(this, _battleActionRegister);
             _battleResultManager.SetReferences(this);
-            _characterMoverManager.StopCharacterMover();
             _battleStarter.StartBattle(this);
         }
 
@@ -436,8 +442,8 @@ namespace SimpleRpg
             _battleActionProcessor.InitializeActions();
             _battleActionProcessor.StopActions();
 
-            _characterMoverManager.ResumeCharacterMover();
             BattlePhase = BattlePhase.NotInBattle;
+            _postBattle.OnFinishedBattle();
         }
 
         /// <summary>
@@ -453,8 +459,8 @@ namespace SimpleRpg
             _battleActionProcessor.InitializeActions();
             _battleActionProcessor.StopActions();
 
-            _characterMoverManager.ResumeCharacterMover();
             BattlePhase = BattlePhase.NotInBattle;
+            _postBattle.OnLostBattle();
         }
     }
 }

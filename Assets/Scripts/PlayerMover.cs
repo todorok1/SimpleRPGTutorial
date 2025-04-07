@@ -8,9 +8,25 @@ namespace SimpleRpg
     /// </summary>
     public class PlayerMover : CharacterMover
     {
+        /// <summary>
+        /// 敵キャラクターとのエンカウントを管理するクラスへの参照です。
+        /// </summary>
+        EncounterManager _encounterManager;
+
         void Update()
         {
             CheckMoveInput();
+        }
+
+        /// <summary>
+        /// 参照を取得します。
+        /// </summary>
+        void GetReference()
+        {
+            if (_encounterManager == null)
+            {
+                _encounterManager = FindAnyObjectByType<EncounterManager>();
+            }
         }
 
         /// <summary>
@@ -56,6 +72,23 @@ namespace SimpleRpg
             }
 
             MoveCharacter(moveDirection, animDirection);
+        }
+
+        /// <summary>
+        /// キャラクター移動後の処理です。
+        /// </summary>
+        protected override void PostMove()
+        {
+            GetReference();
+            if (_encounterManager != null)
+            {
+                // エンカウントの確認を行います。
+                _encounterManager.CheckEncounter();
+            }
+            else
+            {
+                SimpleLogger.Instance.LogError("EncounterManagerが見つかりませんでした。");
+            }
         }
     }
 }
