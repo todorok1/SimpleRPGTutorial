@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 2d4b61087d1bc4c4bb8a00a6d31e9506
   m_currentHash:
     serializedVersion: 2
-    Hash: 78423c61b9768698ed03fdef5cab225d
+    Hash: 085533090d47ccd746f36d656b9d4f13
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -63,6 +63,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 83a789e11e79844b8abfd32cdda7249f, type: 2}
   - {fileID: 11400000, guid: 9e944ae4a499c41d29346cbcffb68397, type: 2}
   - {fileID: 11400000, guid: 331f88226276e4d9aaf7dde45826ae17, type: 2}
+  - {fileID: 11400000, guid: c88e568debb544a9fb44d1ee7a75930d, type: 2}
   - {fileID: 11400000, guid: 2df3794f879c04e40a95204f2a1259a4, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
@@ -109,6 +110,7 @@ MonoBehaviour:
     - Enemy
     - Item
     - Magic
+    - Map
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 6361d2e5fa5664457b214586aa61f9bb, type: 2}

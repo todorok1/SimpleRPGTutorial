@@ -34,5 +34,10 @@ namespace SimpleRpg
         /// 魔法のデータのラベルです。
         /// </summary>
         public static readonly string Magic = "Magic";
+
+        /// <summary>
+        /// マップのデータのラベルです。
+        /// </summary>
+        public static readonly string Map = "Map";
     }
 }
