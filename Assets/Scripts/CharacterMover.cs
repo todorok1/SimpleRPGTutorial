@@ -283,5 +283,13 @@ namespace SimpleRpg
         {
             _isMovingPaused = false;
         }
+
+        /// <summary>
+        /// タイル上の位置を再取得します。
+        /// </summary>
+        public virtual void ResetPosition()
+        {
+            GetCurrentPositionOnTilemap();
+        }
     }
 }

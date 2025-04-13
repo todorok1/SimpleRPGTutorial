@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace SimpleRpg
 {
@@ -42,11 +43,37 @@ namespace SimpleRpg
         EncounterData _encounterData;
 
         /// <summary>
+        /// 地面用Tilemapへの参照です。
+        /// </summary>
+        [SerializeField]
+        Tilemap _tilemapBase;
+
+        /// <summary>
+        /// 装飾品用Tilemapへの参照です。
+        /// </summary>
+        [SerializeField]
+        Tilemap _tilemapProps;
+
+        /// <summary>
+        /// オーバーレイ用Tilemapへの参照です。
+        /// </summary>
+        [SerializeField]
+        Tilemap _tilemapOverray;
+
+        /// <summary>
         /// エンカウント管理のクラスに定義データをセットします。
         /// </summary>
         public void SetEncounterData(EncounterManager encounterManager)
         {
             encounterManager.SetCurrentEncounterData(_encounterData);
+        }
+
+        /// <summary>
+        /// マップのTilemapをセットします。
+        /// </summary>
+        public void SetTilemaps(TilemapManager tilemapManager)
+        {
+            tilemapManager.SetTilemaps(_tilemapBase, _tilemapProps, _tilemapOverray);
         }
     }
 }

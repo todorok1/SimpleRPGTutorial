@@ -53,5 +53,20 @@ namespace SimpleRpg
                 characterMover.ResumeMoving();
             }
         }
+
+        /// <summary>
+        /// キャラクターのタイル上の位置をリセットします。
+        /// </summary>
+        public void ResetPositions()
+        {
+            foreach (var characterMover in _characterMovers)
+            {
+                if (characterMover == null)
+                {
+                    continue;
+                }
+                characterMover.ResetPosition();
+            }
+        }
     }
 }

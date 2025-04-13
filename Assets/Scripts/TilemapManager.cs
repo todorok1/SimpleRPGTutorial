@@ -160,5 +160,26 @@ namespace SimpleRpg
                 _characterPositions.Add(instanceId, targetPos);
             }
         }
+
+        /// <summary>
+        /// タイルマップの各レイヤーをセットします。
+        /// </summary>
+        /// <param name="tilemapBase">地面用Tilemap</param>
+        /// <param name="tilemapProps">装飾品用Tilemap</param>
+        /// <param name="tilemapOverray">オーバーレイ用Tilemap</param>
+        public void SetTilemaps(Tilemap tilemapBase, Tilemap tilemapProps, Tilemap tilemapOverray)
+        {
+            _tilemapBase = tilemapBase;
+            _tilemapProps = tilemapProps;
+            _tilemapOverray = tilemapOverray;
+        }
+
+        /// <summary>
+        /// キャラクターの予約位置をクリアします。
+        /// </summary>
+        public void ResetPositions()
+        {
+            _characterPositions.Clear();
+        }
     }
 }

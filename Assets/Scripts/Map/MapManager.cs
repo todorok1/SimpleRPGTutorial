@@ -28,6 +28,18 @@ namespace SimpleRpg
         [SerializeField]
         EncounterManager _encounterManager;
 
+        /// <summary>
+        /// Tilemapに関する機能を提供する管理クラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        TilemapManager _tilemapManager;
+
+        /// <summary>
+        /// キャラクターの移動を管理するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        CharacterMoverManager _characterMoverManager;
+
         [Header("テスト用設定")]
         /// <summary>
         /// テスト用に表示するマップのIDです。
@@ -135,6 +147,9 @@ namespace SimpleRpg
                 HideAllMap();
                 _currentMapController.gameObject.SetActive(true);
                 _currentMapController.SetEncounterData(_encounterManager);
+                _currentMapController.SetTilemaps(_tilemapManager);
+                _tilemapManager.ResetPositions();
+                _characterMoverManager.ResetPositions();
 
                 SimpleLogger.Instance.Log($"マップを表示します。 ID: {mapId} Name: {_currentMapController.MapName}");
             }
