@@ -8,6 +8,7 @@ namespace SimpleRpg
         Closed,
         Top,
         Item,
+        Magic,
         Equipment,
         Status,
         Save,

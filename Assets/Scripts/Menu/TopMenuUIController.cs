@@ -14,6 +14,12 @@ namespace SimpleRpg
         GameObject _cursorObjItem;
 
         /// <summary>
+        /// 魔法メニューのカーソルオブジェクトです。
+        /// </summary>
+        [SerializeField]
+        GameObject _cursorObjMagic;
+
+        /// <summary>
         /// 装備メニューのカーソルオブジェクトです。
         /// </summary>
         [SerializeField]
@@ -49,6 +55,7 @@ namespace SimpleRpg
         void HideAllCursor()
         {
             _cursorObjItem.SetActive(false);
+            _cursorObjMagic.SetActive(false);
             _cursorObjEquipment.SetActive(false);
             _cursorObjStatus.SetActive(false);
             _cursorObjSave.SetActive(false);
@@ -67,6 +74,9 @@ namespace SimpleRpg
             {
                 case MenuCommand.Item:
                     _cursorObjItem.SetActive(true);
+                    break;
+                case MenuCommand.Magic:
+                    _cursorObjMagic.SetActive(true);
                     break;
                 case MenuCommand.Equipment:
                     _cursorObjEquipment.SetActive(true);

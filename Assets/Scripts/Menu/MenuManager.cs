@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace SimpleRpg
@@ -68,6 +69,16 @@ namespace SimpleRpg
         /// </summary>
         void OpenMenu()
         {
+            StartCoroutine(OpenMenuProcess());
+        }
+
+        /// <summary>
+        /// メニュー画面を表示します。
+        /// </summary>
+        IEnumerator OpenMenuProcess()
+        {
+            yield return null;
+
             MenuPhase = MenuPhase.Top;
             _topMenuWindowController.SetUpController(this);
             _topMenuWindowController.InitializeCommand();
@@ -95,6 +106,9 @@ namespace SimpleRpg
             {
                 case MenuCommand.Item:
                     // アイテムメニューを開く処理
+                    break;
+                case MenuCommand.Magic:
+                    // 魔法メニューを開く処理
                     break;
                 case MenuCommand.Equipment:
                     // 装備メニューを開く処理

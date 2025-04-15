@@ -6,6 +6,7 @@ namespace SimpleRpg
     public enum MenuCommand
     {
         Item,
+        Magic,
         Equipment,
         Status,
         Save,

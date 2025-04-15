@@ -81,7 +81,7 @@ namespace SimpleRpg
             int nextCommand = currentCommand - 1;
             if (nextCommand < 0)
             {
-                nextCommand = 5;
+                nextCommand = 6;
             }
             _selectedCommand = (MenuCommand)nextCommand;
         }
@@ -93,7 +93,7 @@ namespace SimpleRpg
         {
             int currentCommand = (int)_selectedCommand;
             int nextCommand = currentCommand + 1;
-            if (nextCommand > 5)
+            if (nextCommand > 6)
             {
                 nextCommand = 0;
             }
