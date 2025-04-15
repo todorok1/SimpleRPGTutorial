@@ -140,6 +140,7 @@ namespace SimpleRpg
         {
             // キャラクターが移動できるようにします。
             _characterMoverManager.ResumeCharacterMover();
+            GameStateManager.ChangeToMoving();
         }
 
         /// <summary>

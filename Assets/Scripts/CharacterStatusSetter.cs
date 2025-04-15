@@ -19,6 +19,7 @@ namespace SimpleRpg
             if (Time.frameCount == 5)
             {
                 SetPlayerStatus();
+                GameStateManager.ChangeToMoving();
             }
         }
 
