@@ -6,7 +6,7 @@ namespace SimpleRpg
     /// <summary>
     /// 戦闘に関する機能を管理するクラスです。
     /// </summary>
-    public class BattleManager : MonoBehaviour
+    public class BattleManager : MonoBehaviour, IMessageCallback
     {
         /// <summary>
         /// 戦闘開始の処理を行うクラスへの参照です。

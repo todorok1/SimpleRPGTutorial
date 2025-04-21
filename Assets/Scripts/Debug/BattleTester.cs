@@ -6,13 +6,19 @@ namespace SimpleRpg
     /// <summary>
     /// 戦闘機能のテストを行うためのクラスです。
     /// </summary>
-    public class BattleTester : MonoBehaviour
+    public class BattleTester : MonoBehaviour, IPostBattle
     {
         /// <summary>
         /// 戦闘機能を管理するクラスへの参照です。
         /// </summary>
         [SerializeField]
         BattleManager _battleManager;
+
+        /// <summary>
+        /// キャラクターの移動を行うクラスを管理するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        CharacterMoverManager _characterMoverManager;
 
         [Header("テスト用の設定")]
         /// <summary>
@@ -171,7 +177,29 @@ namespace SimpleRpg
         /// </summary>
         void StartBattle()
         {
+            _characterMoverManager.StopCharacterMover();
+            _battleManager.RegisterCallback(this);
             _battleManager.StartBattle();
+        }
+
+        /// <summary>
+        /// 戦闘終了時のコールバックです。
+        /// </summary>
+        public void OnFinishedBattle()
+        {
+            // キャラクターが移動できるようにします。
+            _characterMoverManager.ResumeCharacterMover();
+            GameStateManager.ChangeToMoving();
+        }
+
+        /// <summary>
+        /// 戦闘で負けた時のコールバックです。
+        /// </summary>
+        public void OnLostBattle()
+        {
+            // キャラクターが移動できるようにします。
+            _characterMoverManager.ResumeCharacterMover();
+            GameStateManager.ChangeToMoving();
         }
     }
 }

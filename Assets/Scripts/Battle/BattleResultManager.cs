@@ -24,11 +24,6 @@ namespace SimpleRpg
         MessageWindowController _messageWindowController;
 
         /// <summary>
-        /// メッセージのキー入力を待つかどうかのフラグです。
-        /// </summary>
-        bool _waitKeyInput;
-
-        /// <summary>
         /// メッセージをポーズするかどうかのフラグです。
         /// </summary>
         bool _pauseMessage;
@@ -42,11 +37,6 @@ namespace SimpleRpg
             _battleManager = battleManager;
             _enemyStatusManager = _battleManager.GetEnemyStatusManager();
             _messageWindowController = _battleManager.GetWindowManager().GetMessageWindowController();
-        }
-
-        void Update()
-        {
-            KeyWait();
         }
 
         /// <summary>
@@ -109,7 +99,11 @@ namespace SimpleRpg
             }
 
             // キー入力を待ちます。
-            yield return StartCoroutine(KeyWaitProcess());
+            _messageWindowController.StartKeyWait();
+            while (_messageWindowController.IsWaitingKeyInput)
+            {
+                yield return null;
+            }
 
             foreach (var id in CharacterStatusManager.partyCharacter)
             {
@@ -127,43 +121,16 @@ namespace SimpleRpg
                     }
 
                     // キー入力を待ちます。
-                    yield return StartCoroutine(KeyWaitProcess());
+                    _messageWindowController.StartKeyWait();
+                    while (_messageWindowController.IsWaitingKeyInput)
+                    {
+                        yield return null;
+                    }
                 }
             }
 
             // 処理の終了を通知します。
             _battleManager.OnFinishBattle();
-        }
-
-        /// <summary>
-        /// キー入力の間処理を待機するコルーチンです。
-        /// </summary>
-        IEnumerator KeyWaitProcess()
-        {
-            _waitKeyInput = true;
-            _messageWindowController.ShowPager();
-            while (_waitKeyInput)
-            {
-                yield return null;
-            }
-
-            _messageWindowController.HidePager();
-        }
-
-        /// <summary>
-        /// キー入力を待つ処理です。
-        /// </summary>
-        public void KeyWait()
-        {
-            if (!_waitKeyInput)
-            {
-                return;
-            }
-
-            if (InputGameKey.ConfirmButton() || InputGameKey.CancelButton())
-            {
-                _waitKeyInput = false;
-            }
         }
 
         /// <summary>
@@ -191,7 +158,11 @@ namespace SimpleRpg
             }
 
             // キー入力を待ちます。
-            yield return StartCoroutine(KeyWaitProcess());
+            _messageWindowController.StartKeyWait();
+            while (_messageWindowController.IsWaitingKeyInput)
+            {
+                yield return null;
+            }
 
             // 処理の終了を通知します。
             _battleManager.OnFinishBattleWithGameover();

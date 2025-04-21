@@ -1,55 +1,17 @@
-using System.Collections;
-using UnityEngine;
-
 namespace SimpleRpg
 {
     /// <summary>
     /// メッセージウィンドウの動作を制御するクラスです。
     /// </summary>
-    public class MessageWindowController : MonoBehaviour, IBattleWindowController
+    public class MessageWindowController : MessageWindowControllerBase, IBattleWindowController
     {
-        /// <summary>
-        /// 戦闘に関する機能を管理するクラスへの参照です。
-        /// </summary>
-        BattleManager _battleManager;
-
-        /// <summary>
-        /// メッセージウィンドウのUIを制御するクラスへの参照です。
-        /// </summary>
-        [SerializeField]
-        MessageUIController uiController;
-
-        /// <summary>
-        /// メッセージの表示間隔です。
-        /// </summary>
-        [SerializeField]
-        float _messageInterval = 1.0f;
-
         /// <summary>
         /// コントローラの状態をセットアップします。
         /// </summary>
         /// <param name="battleManager">戦闘に関する機能を管理するクラス</param>
         public void SetUpController(BattleManager battleManager)
         {
-            _battleManager = battleManager;
-        }
-
-        /// <summary>
-        /// ウィンドウを表示します。
-        /// </summary>
-        public void ShowWindow()
-        {
-            uiController.ClearMessage();
-            uiController.Show();
-        }
-
-        /// <summary>
-        /// ウィンドウを非表示にします。
-        /// </summary>
-        public void HideWindow()
-        {
-            uiController.ClearMessage();
-            uiController.Hide();
+            _messageCallback = battleManager;
         }
 
         /// <summary>
@@ -193,44 +155,6 @@ namespace SimpleRpg
             uiController.ClearMessage();
             string message = $"{characterName}{BattleMessage.LevelUpNameSuffix} {level} {BattleMessage.LevelUpNumberSuffix}";
             StartCoroutine(ShowMessageAutoProcess(message));
-        }
-
-        /// <summary>
-        /// ページ送りのカーソルを表示します。
-        /// </summary>
-        public void ShowPager()
-        {
-            uiController.ShowCursor();
-        }
-
-        /// <summary>
-        /// ページ送りのカーソルを非表示にします。
-        /// </summary>
-        public void HidePager()
-        {
-            uiController.HideCursor();
-        }
-
-        /// <summary>
-        /// メッセージを順番に表示するコルーチンです。
-        /// </summary>
-        IEnumerator ShowMessageAutoProcess(string message)
-        {
-            uiController.AppendMessage(message);
-            yield return new WaitForSeconds(_messageInterval);
-            _battleManager.OnFinishedShowMessage();
-        }
-
-        /// <summary>
-        /// メッセージを順番に表示するコルーチンです。
-        /// </summary>
-        /// <param name="message">表示するメッセージ</param>
-        /// <param name="interval">表示間隔</param>
-        IEnumerator ShowMessageAutoProcess(string message, float interval)
-        {
-            uiController.AppendMessage(message);
-            yield return new WaitForSeconds(interval);
-            _battleManager.OnFinishedShowMessage();
         }
     }
 }
