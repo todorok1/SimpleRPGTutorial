@@ -14,11 +14,18 @@ namespace SimpleRpg
         [SerializeField]
         List<int> _partyCharacters = new() {1};
 
+        /// <summary>
+        /// アイテム所持数の設定です。
+        /// </summary>
+        [SerializeField]
+        List<PartyItemInfo> _partyItemInfoList = new();
+
         void Update()
         {
             if (Time.frameCount == 5)
             {
                 SetPlayerStatus();
+                SetPartyItems();
                 GameStateManager.ChangeToMoving();
             }
         }
@@ -83,6 +90,14 @@ namespace SimpleRpg
                 magicList.Add(record.magicId);
             }
             return magicList;
+        }
+
+        /// <summary>
+        /// パーティの所持アイテムをセットします。
+        /// </summary>
+        void SetPartyItems()
+        {
+            CharacterStatusManager.partyItemInfoList = _partyItemInfoList;
         }
     }
 }

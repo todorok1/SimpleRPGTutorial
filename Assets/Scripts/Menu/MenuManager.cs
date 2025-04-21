@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 namespace SimpleRpg
@@ -21,6 +22,18 @@ namespace SimpleRpg
         TopMenuWindowController _topMenuWindowController;
 
         /// <summary>
+        /// メニュー画面のアイテムウィンドウを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        MenuItemWindowController _menuItemWindowController;
+
+        /// <summary>
+        /// マップ上で表示するメッセージウィンドウを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        MapMessageWindowController _mapMessageWindowController;
+
+        /// <summary>
         /// メニューのフェーズです。
         /// </summary>
         public MenuPhase MenuPhase { get; private set; }
@@ -33,6 +46,14 @@ namespace SimpleRpg
         void Start()
         {
             
+        }
+
+        /// <summary>
+        /// メッセージウィンドウへの参照を返します。
+        /// </summary>
+        public MapMessageWindowController GetMessageWindowController()
+        {
+            return _mapMessageWindowController;
         }
 
         void Update()
@@ -105,7 +126,7 @@ namespace SimpleRpg
             switch (SelectedMenu)
             {
                 case MenuCommand.Item:
-                    // アイテムメニューを開く処理
+                    ShowItemMenu();
                     break;
                 case MenuCommand.Magic:
                     // 魔法メニューを開く処理
@@ -129,12 +150,33 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// アイテムメニューを表示します。
+        /// </summary>
+        void ShowItemMenu()
+        {
+            MenuPhase = MenuPhase.Item;
+            _menuItemWindowController.SetUpController(this);
+            _menuItemWindowController.SetUpWindow();
+            _menuItemWindowController.SetPageElement();
+            _menuItemWindowController.ShowWindow();
+            _menuItemWindowController.SetCanSelectState(true);
+        }
+
+        /// <summary>
         /// メニュー画面が閉じる時のコールバックです。
         /// </summary>
         public void OnCloseMenu()
         {
             MenuPhase = MenuPhase.Closed;
             _characterMoverManager.ResumeCharacterMover();
+        }
+
+        /// <summary>
+        /// 項目選択画面でキャンセルボタンが押された時のコールバックです。
+        /// </summary>
+        public void OnItemCanceled()
+        {
+            MenuPhase = MenuPhase.Top;
         }
     }
 }
