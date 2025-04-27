@@ -15,6 +15,16 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 魔法を唱えた時のメッセージを生成します。
+        /// </summary>
+        public void GenerateMagicCastMessage(string magicUserName, string magicName)
+        {
+            uiController.ClearMessage();
+            string message = $"{magicUserName}{BattleMessage.MagicUserSuffix} {magicName} {BattleMessage.MagicNameSuffix}";
+            StartCoroutine(ShowMessageAutoProcess(message));
+        }
+
+        /// <summary>
         /// HPが回復する時のメッセージを生成します。
         /// </summary>
         public void GenerateHpHealMessage(string targetName, int healNum)

@@ -86,6 +86,7 @@ namespace SimpleRpg
 
             _windowController.SetPauseMessageState(true);
             _mapMessageWindowController.GenerateHpHealMessage(targetName, healValue);
+            _windowController.UpdateStatus();
             while (_windowController.IsPausedMessage)
             {
                 yield return null;

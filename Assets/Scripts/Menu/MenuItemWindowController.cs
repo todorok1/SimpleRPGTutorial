@@ -32,6 +32,24 @@ namespace SimpleRpg
         MenuProcessorItem _menuProcessorItem;
 
         /// <summary>
+        /// メニューウィンドウにて魔法に関する処理を制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        MenuItemWindowMagicController _magicController;
+
+        /// <summary>
+        /// メニューウィンドウで魔法の使用処理を制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        MenuProcessorMagic _menuProcessorMagic;
+
+        /// <summary>
+        /// ステータス表示のウィンドウを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        StatusWindowController _statusWindowController;
+
+        /// <summary>
         /// 現在選択中の項目のインデックスです。
         /// </summary>
         int _selectedIndex;
@@ -81,6 +99,14 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// メニューウィンドウにて魔法に関する処理を制御するクラスへの参照を取得します。
+        /// </summary>
+        public MenuItemWindowMagicController GetMagicController()
+        {
+            return _magicController;
+        }
+
+        /// <summary>
         /// コントローラの状態をセットアップします。
         /// </summary>
         void InitializeControllers()
@@ -89,6 +115,11 @@ namespace SimpleRpg
             _itemController.SetReferences(this);
             _itemController.InitializeItemInfo();
             _menuProcessorItem.SetReferences(this);
+
+            _magicController.SetItemsInPage(ItemsInPage);
+            _magicController.SetReferences(this);
+            _magicController.SetCharacterMagic();
+            _menuProcessorMagic.SetReferences(this);
         }
 
         void Update()
@@ -154,6 +185,10 @@ namespace SimpleRpg
             {
                 isValid = _itemController.IsValidIndex(index);
             }
+            else if (_menuManager.SelectedMenu == MenuCommand.Magic)
+            {
+                isValid = _magicController.IsValidIndex(index);
+            }
             return isValid;
         }
 
@@ -167,6 +202,10 @@ namespace SimpleRpg
             if (_menuManager.SelectedMenu == MenuCommand.Item)
             {
                 isValid = _itemController.IsValidSelection(_selectedIndex);
+            }
+            else if (_menuManager.SelectedMenu == MenuCommand.Magic)
+            {
+                isValid = _magicController.IsValidSelection(_selectedIndex);
             }
             return isValid;
         }
@@ -232,7 +271,7 @@ namespace SimpleRpg
             int pageStartIndex = _page * ItemsInPage;
             if (newIndex < pageStartIndex)
             {
-                int itemCount = _itemController.GetPageItemCount();
+                int itemCount = GetPageItemCount();
                 newIndex = _page * ItemsInPage + itemCount - 1;
             }
 
@@ -250,7 +289,7 @@ namespace SimpleRpg
         void SelectLowerItem()
         {
             int newIndex = _selectedIndex + 1;
-            int itemCount = _itemController.GetPageItemCount();
+            int itemCount = GetPageItemCount();
             int pageEndIndex = _page * ItemsInPage + itemCount - 1;
             if (newIndex > pageEndIndex)
             {
@@ -266,6 +305,23 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// ページ内の要素数を取得します。
+        /// </summary>
+        int GetPageItemCount()
+        {
+            int itemCount = 0;
+            if (_menuManager.SelectedMenu == MenuCommand.Item)
+            {
+                itemCount = _itemController.GetPageItemCount();
+            }
+            else if (_menuManager.SelectedMenu == MenuCommand.Magic)
+            {
+                itemCount = _magicController.GetPageItemCount();
+            }
+            return itemCount;
+        }
+
+        /// <summary>
         /// 最大ページ数を取得します。
         /// </summary>
         int GetMaxPageNum()
@@ -274,6 +330,10 @@ namespace SimpleRpg
             if (_menuManager.SelectedMenu == MenuCommand.Item)
             {
                 maxPage = _itemController.GetMaxPageNum();
+            }
+            else if (_menuManager.SelectedMenu == MenuCommand.Magic)
+            {
+                maxPage = _magicController.GetMaxPageNum();
             }
             return maxPage;
         }
@@ -297,6 +357,11 @@ namespace SimpleRpg
                 _selectedIndex = _itemController.VerifyIndex(_selectedIndex);
                 _page = _itemController.VerifyPage(_page);
             }
+            else if (_menuManager.SelectedMenu == MenuCommand.Magic)
+            {
+                _selectedIndex = _magicController.VerifyIndex(_selectedIndex);
+                _page = _magicController.VerifyPage(_page);
+            }
         }
 
         /// <summary>
@@ -316,6 +381,10 @@ namespace SimpleRpg
             if (_menuManager.SelectedMenu == MenuCommand.Item)
             {
                 _itemController.SetItemDescription(_selectedIndex, _uiController);
+            }
+            else if (_menuManager.SelectedMenu == MenuCommand.Magic)
+            {
+                _magicController.SetMagicDescription(_selectedIndex, _uiController);
             }
         }
 
@@ -341,6 +410,7 @@ namespace SimpleRpg
         {
             _uiController.ClearAllItemText();
             _uiController.ClearDescriptionText();
+            SetCharacterStatus();
             InitializeControllers();
             InitializeSelect();
         }
@@ -364,6 +434,10 @@ namespace SimpleRpg
             if (_menuManager.SelectedMenu == MenuCommand.Item)
             {
                 _itemController.SetPageItem(_page, _uiController);
+            }
+            else if (_menuManager.SelectedMenu == MenuCommand.Magic)
+            {
+                _magicController.SetPageItem(_page, _uiController);
             }
 
             // ページ送りのカーソルの表示状態を確認します。左右にループして表示するため、最大ページ数が1より大きい場合は表示するようにします。
@@ -392,6 +466,15 @@ namespace SimpleRpg
                     return;
                 }
                 _menuProcessorItem.UseSelectedItem(itemInfo.itemId);
+            }
+            else if (_menuManager.SelectedMenu == MenuCommand.Magic)
+            {
+                var magicData = _magicController.GetMagicData(_selectedIndex);
+                if (magicData == null)
+                {
+                    return;
+                }
+                _menuProcessorMagic.UseSelectedMagic(magicData.magicId);
             }
         }
 
@@ -475,6 +558,29 @@ namespace SimpleRpg
             SetPageElement();
             SetCanSelectState(true);
             PostSelection();
+        }
+
+        /// <summary>
+        /// キャラクターのステータスをセットします。
+        /// </summary>
+        void SetCharacterStatus()
+        {
+            int characterId = 1;
+            var characterStatus = CharacterStatusManager.GetCharacterStatusById(characterId);
+            if (characterStatus == null)
+            {
+                SimpleLogger.Instance.LogWarning($"キャラクターステータスが取得できませんでした。 ID : {characterId}");
+                return;
+            }
+            _statusWindowController.SetCharacterStatus(characterStatus);
+        }
+
+        /// <summary>
+        /// キャラクターのステータスを更新します。
+        /// </summary>
+        public void UpdateStatus()
+        {
+            _statusWindowController.UpdateAllCharacterStatus();
         }
     }
 }

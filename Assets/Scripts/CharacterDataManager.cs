@@ -122,6 +122,11 @@ namespace SimpleRpg
             foreach (var record in records)
             {
                 var magicData = MagicDataManager.GetMagicDataById(record.magicId);
+                if (magicData == null)
+                {
+                    SimpleLogger.Instance.LogWarning($"魔法データが見つかりませんでした。 ID: {record.magicId}");
+                    continue;
+                }
                 magicDataList.Add(magicData);
             }
             return magicDataList;

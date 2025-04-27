@@ -125,10 +125,8 @@ namespace SimpleRpg
             switch (SelectedMenu)
             {
                 case MenuCommand.Item:
-                    ShowItemMenu();
-                    break;
                 case MenuCommand.Magic:
-                    // 魔法メニューを開く処理
+                    ShowItemMenu();
                     break;
                 case MenuCommand.Equipment:
                     // 装備メニューを開く処理

@@ -15,6 +15,12 @@ namespace SimpleRpg
         List<int> _partyCharacters = new() {1};
 
         /// <summary>
+        /// 味方キャラクターのレベルです。
+        /// </summary>
+        [SerializeField]
+        int _playerLevel = 1;
+
+        /// <summary>
         /// アイテム所持数の設定です。
         /// </summary>
         [SerializeField]
@@ -36,7 +42,7 @@ namespace SimpleRpg
         void SetPlayerStatus()
         {
             var exp = 0;
-            var level = 1;
+            var level = _playerLevel;
             List<CharacterStatus> characterStatuses = new();
 
             foreach (int characterId in _partyCharacters)
