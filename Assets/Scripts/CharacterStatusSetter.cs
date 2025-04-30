@@ -21,6 +21,18 @@ namespace SimpleRpg
         int _playerLevel = 1;
 
         /// <summary>
+        /// 装備中の武器のIDです。
+        /// </summary>
+        [SerializeField]
+        int _weaponId;
+
+        /// <summary>
+        /// 装備中の防具のIDです。
+        /// </summary>
+        [SerializeField]
+        int _armorId;
+
+        /// <summary>
         /// アイテム所持数の設定です。
         /// </summary>
         [SerializeField]
@@ -62,8 +74,8 @@ namespace SimpleRpg
                     exp = exp,
                     currentHp = parameterRecord.hp,
                     currentMp = parameterRecord.mp,
-                    equipWeaponId = 0,
-                    equipArmorId = 0,
+                    equipWeaponId = _weaponId,
+                    equipArmorId = _armorId,
                     magicList = magicList,
                 };
 

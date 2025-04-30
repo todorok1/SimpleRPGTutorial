@@ -208,6 +208,51 @@ MonoBehaviour:
   _controllerRightBottom: {fileID: 1917164}
   _cursorObjPrev: {fileID: 1917169}
   _cursorObjNext: {fileID: 1917168}
+--- !u!1 &10732807
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 10732808}
+  - component: {fileID: 10732809}
+  m_Layer: 0
+  m_Name: MenuEquipmentInformationWindowController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &10732808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10732807}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1755503729}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &10732809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10732807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e23ea44baa2c4af2bb617de71aa8343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiController: {fileID: 198384501}
 --- !u!114 &31980591 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4627768681561867742, guid: 403e63c6b4c4249f6a73c9484a23de73, type: 3}
@@ -843,7 +888,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &115762789
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1268,6 +1313,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 198384500}
+  - component: {fileID: 198384501}
   m_Layer: 5
   m_Name: EquipmentInformationParent
   m_TagString: Untagged
@@ -1296,6 +1342,29 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &198384501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198384499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b743db0627674a92a83e35ce72f1bb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _descriptionText: {fileID: 808222542}
+  _characterNameText: {fileID: 940859860}
+  _atkValueText: {fileID: 1249048154}
+  _atkDeltaValueText: {fileID: 692241315}
+  _defValueText: {fileID: 810185524}
+  _defDeltaValueText: {fileID: 91135573}
+  _speedValueText: {fileID: 846261282}
+  _speedDeltaValueText: {fileID: 1958706829}
+  _keepValueColor: {r: 1, g: 1, b: 1, a: 1}
+  _upValueColor: {r: 0, g: 1, b: 1, a: 1}
+  _downValueColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!1 &222991961
 GameObject:
   m_ObjectHideFlags: 0
@@ -1852,6 +1921,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315880095}
   m_CullTransparentMesh: 1
+--- !u!1 &318814711
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 318814712}
+  - component: {fileID: 318814713}
+  m_Layer: 0
+  m_Name: MenuEquipmentPartsWindowController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &318814712
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318814711}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1755503729}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &318814713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318814711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a63a524ecb4794c8988eedee519b16f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiController: {fileID: 1643425934}
 --- !u!1001 &331627340
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2035,7 +2149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &376056739
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5866,6 +5980,7 @@ Transform:
   m_Children:
   - {fileID: 951239919}
   - {fileID: 566149883}
+  - {fileID: 1755503729}
   m_Father: {fileID: 1340454902}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &855977080
@@ -5883,6 +5998,7 @@ MonoBehaviour:
   _characterMoverManager: {fileID: 496981833}
   _topMenuWindowController: {fileID: 951239920}
   _menuItemWindowController: {fileID: 566149884}
+  _menuEquipmentWindowController: {fileID: 1755503730}
   _mapMessageWindowController: {fileID: 772418238}
 --- !u!1 &860260815
 GameObject:
@@ -6928,6 +7044,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _partyCharacters: 01000000
   _playerLevel: 3
+  _weaponId: 2
+  _armorId: 4
   _partyItemInfoList:
   - itemId: 1
     itemNum: 1
@@ -8326,7 +8444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1438519615
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9326,13 +9444,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1643425933}
+  - component: {fileID: 1643425934}
   m_Layer: 5
   m_Name: EquipmentParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1643425933
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9353,6 +9472,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1643425934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643425932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed32c8bc334a84d26a7579ea479d255c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cursorObjWeapon: {fileID: 1769646906219921005}
+  _cursorObjArmor: {fileID: 664407662}
+  _weaponNameText: {fileID: 5481935621276844066}
+  _armorNameText: {fileID: 824454635}
 --- !u!1 &1644074318
 GameObject:
   m_ObjectHideFlags: 0
@@ -10092,6 +10227,55 @@ MonoBehaviour:
   _battleActionProcessorItem: {fileID: 478762474}
   _battleActionProcessorRun: {fileID: 97642164}
   _actionInterval: 0.5
+--- !u!1 &1755503728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1755503729}
+  - component: {fileID: 1755503730}
+  m_Layer: 0
+  m_Name: MenuEquipmentWindowController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1755503729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755503728}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 318814712}
+  - {fileID: 10732808}
+  m_Father: {fileID: 855977079}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1755503730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755503728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 114d8c01f33874d2a95b82ea130bdcc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _partsWindowController: {fileID: 318814713}
+  _informationWindowController: {fileID: 10732809}
+  _equipmentParent: {fileID: 376056738}
 --- !u!1001 &1763001584
 PrefabInstance:
   m_ObjectHideFlags: 0
