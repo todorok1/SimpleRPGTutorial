@@ -50,6 +50,17 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 選択項目のテキストをセットします。アイテム数を文字列で指定します。
+        /// </summary>
+        /// <param name="itemName">項目名</param>
+        /// <param name="itemNum">項目数</param>
+        public void SetItemText(string itemName, string itemNum)
+        {
+            _itemNameText.text = itemName;
+            _numberText.text = itemNum;
+        }
+
+        /// <summary>
         /// 選択項目のテキストを初期化します。
         /// </summary>
         public void ClearItemText()

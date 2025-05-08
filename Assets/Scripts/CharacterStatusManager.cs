@@ -29,6 +29,11 @@ namespace SimpleRpg
         public static List<PartyItemInfo> partyItemInfoList;
 
         /// <summary>
+        /// アイテムを装備していない時のIDです。
+        /// </summary>
+        public static readonly int NoEquipmentId = 0;
+
+        /// <summary>
         /// パーティ内のキャラクターのステータスをIDで取得します。
         /// </summary>
         /// <param name="characterId">キャラクターのID</param>
@@ -160,6 +165,109 @@ namespace SimpleRpg
             {
                 partyItemInfoList.Remove(partyItemInfo);
             }
+        }
+
+        /// <summary>
+        /// 引数のアイテムを指定した値だけ増加させます。
+        /// </summary>
+        /// <param name="itemId">アイテムのID</param>
+        /// <param name="itemNum">増加させる数</param>
+        public static void IncreaseItem(int itemId, int itemNum)
+        {
+            // アイテムのIDが有効かどうか確認します。
+            // ただし装備がない場合のIDに該当する場合はメッセージを出力しないようにします。
+            if (!IsValidItem(itemId))
+            {
+                if (itemId != NoEquipmentId)
+                {
+                    SimpleLogger.Instance.LogWarning($"アイテムIDが無効です。 ID : {itemId}");
+                }
+                return;
+            }
+
+            // 増加用のメソッドで負の個数が指定された場合は、減少時のメソッドを呼び出します。
+            if (itemNum <= 0)
+            {
+                int itemNumAbs = Mathf.Abs(itemNum);
+                DecreaseItem(itemId, itemNumAbs);
+                return;
+            }
+
+            var partyItemInfo = partyItemInfoList.Find(info => info.itemId == itemId);
+            if (partyItemInfo == null)
+            {
+                // アイテムが存在しない場合、新たに追加します。
+                partyItemInfo = new()
+                {
+                    itemId = itemId,
+                    itemNum = itemNum
+                };
+                partyItemInfoList.Add(partyItemInfo);
+            }
+            else
+            {
+                partyItemInfo.itemNum += itemNum;
+            }
+        }
+
+        /// <summary>
+        /// 引数のアイテムを指定した値だけ減少させます。
+        /// </summary>
+        /// <param name="itemId">アイテムのID</param>
+        /// <param name="itemNum">減少させる数</param>
+        public static void DecreaseItem(int itemId, int itemNum)
+        {
+            // アイテムのIDが有効かどうか確認します。
+            // ただし装備がない場合のIDに該当する場合はメッセージを出力しないようにします。
+            if (!IsValidItem(itemId))
+            {
+                if (itemId != NoEquipmentId)
+                {
+                    SimpleLogger.Instance.LogWarning($"アイテムIDが無効です。 ID : {itemId}");
+                }
+                return;
+            }
+
+            // 減少用のメソッドで負の個数が指定された場合は、増加時のメソッドを呼び出します。
+            if (itemNum < 0)
+            {
+                int itemNumAbs = Mathf.Abs(itemNum);
+                IncreaseItem(itemId, itemNumAbs);
+                return;
+            }
+
+            var partyItemInfo = partyItemInfoList.Find(info => info.itemId == itemId);
+            if (partyItemInfo != null)
+            {
+                partyItemInfo.itemNum -= itemNum;
+            }
+
+            if (partyItemInfo.itemNum <= 0)
+            {
+                partyItemInfoList.Remove(partyItemInfo);
+            }
+        }
+
+        /// <summary>
+        /// 引数のアイテムIDが有効かどうかを確認します。
+        /// </summary>
+        /// <param name="itemId">アイテムのID</param>
+        static bool IsValidItem(int itemId)
+        {
+            // 装備がない場合のIDに該当する場合は無効とします。
+            if (itemId == NoEquipmentId)
+            {
+                return false;
+            }
+
+            // アイテムのIDが定義されているか確認します。
+            var itemData = ItemDataManager.GetItemDataById(itemId);
+            if (itemData == null)
+            {
+                SimpleLogger.Instance.LogWarning($"アイテムデータが見つかりませんでした。 ID : {itemId}");
+                return false;
+            }
+            return true;
         }
 
         /// <summary>

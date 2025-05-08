@@ -20,6 +20,12 @@ namespace SimpleRpg
         MenuEquipmentPartsWindowController _partsWindowController;
 
         /// <summary>
+        /// メニューの装備画面で装備するアイテムの選択画面を制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        MenuEquipmentSelectionWindowController _selectionWindowController;
+
+        /// <summary>
         /// メニューの装備画面で情報表示のウィンドウを制御するクラスへの参照です。
         /// </summary>
         [SerializeField]
@@ -85,7 +91,50 @@ namespace SimpleRpg
         {
             SelectedParts = equipmentParts;
             _partsWindowController.SetCanSelectState(false);
-            SimpleLogger.Instance.Log($"選択された装備箇所: {SelectedParts}");
+            ShowSelectionWindow();
+        }
+
+        /// <summary>
+        /// 装備するアイテムの選択画面を表示します。
+        /// </summary>
+        void ShowSelectionWindow()
+        {
+            StartCoroutine(ShowSelectionWindowProcess());
+        }
+
+        /// <summary>
+        /// 装備するアイテムの選択画面を表示します。
+        /// </summary>
+        IEnumerator ShowSelectionWindowProcess()
+        {
+            yield return null;
+            _selectionWindowController.SetUpController(_menuManager);
+            _selectionWindowController.SetUpWindow(this);
+            _selectionWindowController.SetPageElement();
+            _selectionWindowController.SetCanSelectState(true);
+            _selectionWindowController.ShowWindow();
+        }
+
+        /// <summary>
+        /// 装備するアイテムが選択された時のコールバックです。
+        /// </summary>
+        public void OnSelectedEquipmentItem()
+        {
+            _selectionWindowController.SetCanSelectState(false);
+            _selectionWindowController.HideWindow();
+
+            ShowWindow();
+        }
+
+        /// <summary>
+        /// 装備するアイテム画面でキャンセルボタンが押された時のコールバックです。
+        /// </summary>
+        public void OnCanceledSelect()
+        {
+            _selectionWindowController.SetCanSelectState(false);
+            _selectionWindowController.HideWindow();
+
+            ShowWindow();
         }
 
         /// <summary>
@@ -113,6 +162,9 @@ namespace SimpleRpg
 
             _partsWindowController.SetCanSelectState(false);
             _partsWindowController.HideWindow();
+
+            _selectionWindowController.SetCanSelectState(false);
+            _selectionWindowController.HideWindow();
         }
     }
 }
