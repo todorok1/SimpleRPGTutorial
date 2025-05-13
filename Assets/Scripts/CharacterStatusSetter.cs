@@ -53,8 +53,9 @@ namespace SimpleRpg
         /// </summary>
         void SetPlayerStatus()
         {
-            var exp = 0;
             var level = _playerLevel;
+            var exp = GetExp(level);
+            
             List<CharacterStatus> characterStatuses = new();
 
             foreach (int characterId in _partyCharacters)
@@ -116,6 +117,27 @@ namespace SimpleRpg
         void SetPartyItems()
         {
             CharacterStatusManager.partyItemInfoList = _partyItemInfoList;
+        }
+
+        /// <summary>
+        /// レベルに応じた経験値の値を取得します。
+        /// </summary>
+        int GetExp(int level)
+        {
+            int exp = 0;
+            var expTable = CharacterDataManager.GetExpTable();
+            if (expTable == null)
+            {
+                return exp;
+            }
+
+            var expRecord = expTable.expRecords.Find(record => record.level == level);
+            if (expRecord != null)
+            {
+                exp = expRecord.exp;
+            }
+
+            return exp;
         }
     }
 }

@@ -33,6 +33,12 @@ namespace SimpleRpg
         MenuEquipmentWindowController _menuEquipmentWindowController;
 
         /// <summary>
+        /// メニュー画面のステータスウィンドウを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        MenuStatusWindowController _menuStatusWindowController;
+
+        /// <summary>
         /// マップ上で表示するメッセージウィンドウを制御するクラスへの参照です。
         /// </summary>
         [SerializeField]
@@ -138,7 +144,7 @@ namespace SimpleRpg
                     ShowEquipmentMenu();
                     break;
                 case MenuCommand.Status:
-                    // ステータスメニューを開く処理
+                    ShowStatusMenu();
                     break;
                 case MenuCommand.Save:
                     // セーブメニューを開く処理
@@ -176,6 +182,16 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// ステータスメニューを表示します。
+        /// </summary>
+        void ShowStatusMenu()
+        {
+            MenuPhase = MenuPhase.Status;
+            _menuStatusWindowController.SetUpController(this);
+            _menuStatusWindowController.ShowWindow();
+        }
+
+        /// <summary>
         /// メニュー画面が閉じる時のコールバックです。
         /// </summary>
         public void OnCloseMenu()
@@ -196,6 +212,14 @@ namespace SimpleRpg
         /// 装備選択画面でキャンセルボタンが押された時のコールバックです。
         /// </summary>
         public void OnEquipmentCanceled()
+        {
+            MenuPhase = MenuPhase.Top;
+        }
+
+        /// <summary>
+        /// ステータス画面でキャンセルボタンが押された時のコールバックです。
+        /// </summary>
+        public void OnStatusCanceled()
         {
             MenuPhase = MenuPhase.Top;
         }
