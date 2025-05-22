@@ -36,6 +36,14 @@ namespace SimpleRpg
         protected Vector3Int _posOnTile = Vector3Int.zero;
 
         /// <summary>
+        /// Tilemap上における現在の論理的な座標です。
+        /// </summary>
+        public Vector3Int PosOnTile
+        {
+            get {return _posOnTile;}
+        }
+
+        /// <summary>
         /// 移動中かどうかのフラグです。
         /// </summary>
         protected bool _isMoving;
@@ -290,6 +298,17 @@ namespace SimpleRpg
         public virtual void ResetPosition()
         {
             GetCurrentPositionOnTilemap();
+        }
+
+        /// <summary>
+        /// タイル上の位置からワールド座標を設定します。
+        /// </summary>
+        /// <param name="pos">タイル上の座標</param>
+        public virtual void SetPosition(Vector3Int pos)
+        {
+            _posOnTile = pos;
+            var targetWorldPos = _tilemapManager.GetWorldPosition(_posOnTile);
+            gameObject.transform.position = targetWorldPos;
         }
     }
 }

@@ -133,7 +133,7 @@ namespace SimpleRpg
         /// <summary>
         /// マップIDに対応するマップを表示します。
         /// </summary>
-        void ShowMap(int mapId)
+        public void ShowMap(int mapId)
         {
             _currentMapController = GetTargetMap(mapId);
             if (_currentMapController == null)
@@ -194,6 +194,14 @@ namespace SimpleRpg
                 SimpleLogger.Instance.LogError($"指定したIDのPrefabデータが見つかりませんでした。 ID: {mapId}");
                 return null;
             }
+        }
+
+        /// <summary>
+        /// 現在表示中のマップの制御クラスを取得します。
+        /// </summary>
+        public MapController GetCurrentMapController()
+        {
+            return _currentMapController;
         }
     }
 }
