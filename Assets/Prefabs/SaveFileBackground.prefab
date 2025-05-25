@@ -494,6 +494,7 @@ GameObject:
   - component: {fileID: 4857741795494166995}
   - component: {fileID: 7891152298373316337}
   - component: {fileID: 6892500253117314888}
+  - component: {fileID: 2348589781489318728}
   m_Layer: 5
   m_Name: SaveFileBackground
   m_TagString: Untagged
@@ -564,6 +565,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2348589781489318728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5893476080538488248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54fe61ce9e29433c992d5fbe7db0e95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cursorObj: {fileID: 2605287261682716533}
+  _fileNameText: {fileID: 292900296897029594}
+  _characterNameText: {fileID: 6412415841233267298}
+  _levelTitleText: {fileID: 6729936570468974037}
+  _levelValueText: {fileID: 3663263873791006507}
+  _placeText: {fileID: 5002317089254039557}
 --- !u!1 &6265268712497723934
 GameObject:
   m_ObjectHideFlags: 0

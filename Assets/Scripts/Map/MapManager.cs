@@ -203,5 +203,28 @@ namespace SimpleRpg
         {
             return _currentMapController;
         }
+
+        /// <summary>
+        /// IDに対応するマップの名前を取得します。
+        /// </summary>
+        public string GetMapNameFromId(int mapId)
+        {
+            string mapName = string.Empty;
+            var mapPrefab = GetMapPrefabById(mapId);
+            if (mapPrefab == null)
+            {
+                SimpleLogger.Instance.LogWarning($"指定したIDのマップPrefabが見つかりませんでした。 ID: {mapId}");
+                return mapName;
+            }
+            
+            var controller = mapPrefab.GetComponent<MapController>();
+            if (controller == null)
+            {
+                SimpleLogger.Instance.LogWarning($"指定したIDのPrefabでMapControllerが見つかりませんでした。 ID: {mapId}");
+                return mapName;
+            }
+
+            return controller.MapName;
+        }
     }
 }

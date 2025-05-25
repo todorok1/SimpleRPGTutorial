@@ -189,5 +189,27 @@ namespace SimpleRpg
             };
             return saveSlot;
         }
+
+        /// <summary>
+        /// 指定した枠のデータを取得します。
+        /// </summary>
+        /// <param name="slotId">セーブする枠のID</param>
+        public SaveSlot GetSaveSlot(int slotId)
+        {
+            SaveSlot saveSlot = null;
+            if (_saveFile == null)
+            {
+                SimpleLogger.Instance.LogWarning($"セーブデータが存在しません。");
+                return saveSlot;
+            }
+
+            if (_saveFile.saveSlots == null)
+            {
+                SimpleLogger.Instance.LogWarning($"セーブデータのセーブ枠が存在しません。");
+                return saveSlot;
+            }
+            saveSlot = _saveFile.saveSlots.Find(slot => slot.slotId == slotId);
+            return saveSlot;
+        }
     }
 }
