@@ -42,5 +42,16 @@ namespace SimpleRpg
             string message = $"{itemUserName}{BattleMessage.ItemUserSuffix} {itemName} {BattleMessage.ItemNameSuffix}";
             StartCoroutine(ShowMessageAutoProcess(message));
         }
+
+        /// <summary>
+        /// 引数で指定されたメッセージを生成します。
+        /// </summary>
+        /// <param name="message">表示するメッセージ</param>
+        /// <param name="interval">メッセージ表示からコールバックまでの時間</param>
+        public void ShowGeneralMessage(string message, float interval)
+        {
+            uiController.ClearMessage();
+            StartCoroutine(ShowMessageAutoProcess(message, interval));
+        }
     }
 }
