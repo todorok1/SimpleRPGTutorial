@@ -45,6 +45,12 @@ namespace SimpleRpg
         MenuSaveWindowController _menuSaveWindowController;
 
         /// <summary>
+        /// メニューのゲーム終了画面のウィンドウを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        MenuQuitGameWindowController _menuQuitGameWindowController;
+
+        /// <summary>
         /// マップ上で表示するメッセージウィンドウを制御するクラスへの参照です。
         /// </summary>
         [SerializeField]
@@ -156,7 +162,7 @@ namespace SimpleRpg
                     ShowSaveMenu();
                     break;
                 case MenuCommand.QuitGame:
-                    // ゲーム終了処理
+                    ShowQuitMenu();
                     break;
                 case MenuCommand.Close:
                     _topMenuWindowController.CloseMenu();
@@ -208,6 +214,16 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// ゲーム終了メニューを表示します。
+        /// </summary>
+        void ShowQuitMenu()
+        {
+            MenuPhase = MenuPhase.QuitGame;
+            _menuQuitGameWindowController.SetUpController(this);
+            _menuQuitGameWindowController.ShowWindow();
+        }
+
+        /// <summary>
         /// メニュー画面が閉じる時のコールバックです。
         /// </summary>
         public void OnCloseMenu()
@@ -244,6 +260,14 @@ namespace SimpleRpg
         /// セーブ画面でキャンセルボタンが押された時のコールバックです。
         /// </summary>
         public void OnSaveCanceled()
+        {
+            MenuPhase = MenuPhase.Top;
+        }
+
+        /// <summary>
+        /// ゲーム終了画面でキャンセルボタンが押された時のコールバックです。
+        /// </summary>
+        public void OnQuitCanceled()
         {
             MenuPhase = MenuPhase.Top;
         }
