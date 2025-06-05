@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SimpleRpg
 {
@@ -8,6 +9,9 @@ namespace SimpleRpg
     [Serializable]
     public class SaveInfoFlag
     {
-        // フラグ情報を作成した際に実装予定です。
+        /// <summary>
+        /// フラグの状態を保持するリストです。
+        /// </summary>
+        public List<FlagState> flagStates;
     }
 }
