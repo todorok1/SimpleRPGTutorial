@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,7 +8,6 @@ namespace SimpleRpg
     /// <summary>
     /// フラグを管理するクラスです。
     /// </summary>
-    [Serializable]
     public class FlagManager : MonoBehaviour
     {
         /// <summary>
@@ -29,7 +27,7 @@ namespace SimpleRpg
 
         void Update()
         {
-            if (_flagStates.Count == 5)
+            if (Time.frameCount == 5)
             {
                 InitializeFlagList();
             }
