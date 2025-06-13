@@ -75,24 +75,9 @@ namespace SimpleRpg
                 return;
             }
 
-            MoveAnimationDirection animDirection = GetDirection();
-            Vector2Int moveDirection = Vector2Int.zero;
-            switch (animDirection)
-            {
-                case MoveAnimationDirection.Front:
-                    moveDirection = Vector2Int.down;
-                    break;
-                case MoveAnimationDirection.Right:
-                    moveDirection = Vector2Int.right;
-                    break;
-                case MoveAnimationDirection.Back:
-                    moveDirection = Vector2Int.up;
-                    break;
-                case MoveAnimationDirection.Left:
-                    moveDirection = Vector2Int.left;
-                    break;
-            }
-            MoveCharacter(moveDirection, animDirection);
+            _animationDirection = GetDirection();
+            Vector2Int moveDirection = GetMoveDirection(_animationDirection);
+            MoveCharacter(moveDirection, _animationDirection);
         }
 
         /// <summary>
