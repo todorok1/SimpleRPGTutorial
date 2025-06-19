@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -239,12 +241,21 @@ namespace SimpleRpg
         /// </summary>
         public void CheckAutoEvent()
         {
+            StartCoroutine(CheckAutoEventProcess());
+        }
+
+        /// <summary>
+        /// マップ内の自動イベントを確認します。
+        /// </summary>
+        IEnumerator CheckAutoEventProcess()
+        {
+            yield return null;
             SimpleLogger.Instance.Log("CheckAutoEvent()が呼ばれました。");
 
             if (_currentMapController == null)
             {
                 SimpleLogger.Instance.Log("現在のマップコントローラーが設定されていません。");
-                return;
+                yield break;
             }
 
             var eventDataList = _currentMapController.GetComponentsInChildren<EventFileData>();

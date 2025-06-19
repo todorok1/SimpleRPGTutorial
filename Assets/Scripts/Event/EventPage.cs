@@ -16,6 +16,12 @@ namespace SimpleRpg
         List<EventPageConditionBase> _conditions;
 
         /// <summary>
+        /// 最初に実行するイベントです。
+        /// </summary>
+        [SerializeField]
+        EventProcessBase _startProcess;
+
+        /// <summary>
         /// イベントのページのトリガーです。
         /// </summary>
         [SerializeField]
@@ -32,9 +38,9 @@ namespace SimpleRpg
         List<EventProcessBase> _eventProcessList;
 
         /// <summary>
-        /// 現在のイベント処理のインデックスです。
+        /// 実行対象のイベントです。
         /// </summary>
-        int _currentEventIndex;
+        EventProcessBase _targetEventProcess;
 
         /// <summary>
         /// イベントの条件を全て満たしているか確認します。
@@ -76,7 +82,7 @@ namespace SimpleRpg
         public void StartEvent(EventProcessor eventProcessor)
         {
             _eventProcessor = eventProcessor;
-            _currentEventIndex = 0;
+            _targetEventProcess = _startProcess;
             SetUpProcesses();
             if (_eventProcessList == null || _eventProcessList.Count == 0)
             {
@@ -89,35 +95,34 @@ namespace SimpleRpg
         }
 
         /// <summary>
-        /// インデックスに応じてイベントの処理を実行します。
+        /// 対象のイベントの処理を実行します。
         /// </summary>
         public void ExecuteEventProcess()
         {
-            var targetProcess = _eventProcessList[_currentEventIndex];
-            if (targetProcess == null)
+            if (_targetEventProcess == null)
             {
-                SimpleLogger.Instance.LogWarning($"対象のインデックスのイベント処理が見つかりませんでした。_currentEventIndex : {_currentEventIndex}");
+                SimpleLogger.Instance.LogWarning($"実行対象のイベントプロセスがnullです。");
                 OnFinishedEventPage();
                 return;
             }
 
-            targetProcess.SetEventPageReference(this);
-            targetProcess.Execute();
+            _targetEventProcess.SetEventPageReference(this);
+            _targetEventProcess.Execute();
         }
 
         /// <summary>
         /// イベントの個別の処理が完了した時の処理です。
         /// </summary>
-        public void OnFinishedEventProcess()
+        public void OnFinishedEventProcess(EventProcessBase nextProcess)
         {
-            _currentEventIndex++;
-            if (_currentEventIndex >= _eventProcessList.Count)
+            if (nextProcess == null)
             {
                 // 全てのイベント処理が完了した場合は、イベントページを終了します。
                 OnFinishedEventPage();
                 return;
             }
 
+            _targetEventProcess = nextProcess;
             ExecuteEventProcess();
         }
 

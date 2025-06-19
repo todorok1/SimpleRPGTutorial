@@ -8,6 +8,12 @@ namespace SimpleRpg
     public class EventProcessBase : MonoBehaviour
     {
         /// <summary>
+        /// 次に実行するイベントです。
+        /// </summary>
+        [SerializeField]
+        protected EventProcessBase _nextProcess;
+
+        /// <summary>
         /// イベントページへの参照です。
         /// </summary>
         protected EventPage _eventPage;
@@ -31,7 +37,7 @@ namespace SimpleRpg
         /// <summary>
         /// 次のイベント処理を呼び出します。
         /// </summary>
-        public virtual void CallNextProcess()
+        public virtual void CallNextProcess(EventProcessBase process = null)
         {
             if (_eventPage == null)
             {
@@ -39,7 +45,8 @@ namespace SimpleRpg
                 return;
             }
 
-            _eventPage.OnFinishedEventProcess();
+            var targetProcess = process == null ? process : _nextProcess;
+            _eventPage.OnFinishedEventProcess(targetProcess);
         }
     }
 }
