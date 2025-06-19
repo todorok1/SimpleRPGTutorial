@@ -40,6 +40,12 @@ namespace SimpleRpg
         [SerializeField]
         CharacterMoverManager _characterMoverManager;
 
+        /// <summary>
+        /// イベントの処理を行うクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        EventProcessor _eventProcessor;
+
         [Header("テスト用設定")]
         /// <summary>
         /// テスト用に表示するマップのIDです。
@@ -152,6 +158,7 @@ namespace SimpleRpg
                 _characterMoverManager.ResetPositions();
 
                 SimpleLogger.Instance.Log($"マップを表示します。 ID: {mapId} Name: {_currentMapController.MapName}");
+                CheckAutoEvent();
             }
         }
 
@@ -225,6 +232,35 @@ namespace SimpleRpg
             }
 
             return controller.MapName;
+        }
+
+        /// <summary>
+        /// マップ内の自動イベントを確認します。
+        /// </summary>
+        public void CheckAutoEvent()
+        {
+            SimpleLogger.Instance.Log("CheckAutoEvent()が呼ばれました。");
+
+            if (_currentMapController == null)
+            {
+                SimpleLogger.Instance.Log("現在のマップコントローラーが設定されていません。");
+                return;
+            }
+
+            var eventDataList = _currentMapController.GetComponentsInChildren<EventFileData>();
+            SimpleLogger.Instance.Log($"eventDataListの数: {eventDataList.Length}");
+            foreach (var eventData in eventDataList)
+            {
+                // 自動イベントを実行します。
+                var eventQueue = new EventQueue
+                {
+                    targetObj = eventData.gameObject,
+                    rpgEventTrigger = RpgEventTrigger.Auto,
+                    callback = null
+                };
+                _eventProcessor.AddQueue(eventQueue);
+            }
+            _eventProcessor.StartEvent();
         }
     }
 }

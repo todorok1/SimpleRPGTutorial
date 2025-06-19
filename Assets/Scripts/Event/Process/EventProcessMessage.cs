@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SimpleRpg
 {
     /// <summary>
-    /// イベントの個別処理を行うクラスのベースクラスです。
+    /// メッセージに関するイベントを処理するクラスです。
     /// </summary>
     public class EventProcessMessage : EventProcessBase, IMessageCallback
     {
@@ -13,7 +13,7 @@ namespace SimpleRpg
         /// 表示するメッセージです。
         /// 1つの要素につき1画面のメッセージを表示します。
         /// </summary>
-        [SerializeField]
+        [SerializeField][TextArea]
         List<string> _messages;
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace SimpleRpg
         /// </summary>
         public override void Execute()
         {
-            SetMapMessageWindowControllerReference();
+            SetUpReference();
             if (_messageWindowController == null)
             {
                 SimpleLogger.Instance.LogError("MapMessageWindowControllerが見つかりません。");
@@ -40,7 +40,7 @@ namespace SimpleRpg
         /// <summary>
         /// メッセージのコントローラへの参照をセットします。
         /// </summary>
-        void SetMapMessageWindowControllerReference()
+        void SetUpReference()
         {
             _messageWindowController = FindAnyObjectByType<MapMessageWindowController>();
         }

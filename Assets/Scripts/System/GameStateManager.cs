@@ -23,6 +23,7 @@ namespace SimpleRpg
         /// </summary>
         public static void ChangeToMoving()
         {
+            SimpleLogger.Instance.Log("ChangeToMoving()が呼ばれました。");
             CurrentState = GameState.Moving;
         }
 
@@ -39,6 +40,7 @@ namespace SimpleRpg
         /// </summary>
         public static void ChangeToEvent()
         {
+            SimpleLogger.Instance.Log("ChangeToEvent()が呼ばれました。");
             CurrentState = GameState.Event;
         }
     }

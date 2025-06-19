@@ -34,6 +34,16 @@ namespace SimpleRpg
         public static readonly int NoEquipmentId = 0;
 
         /// <summary>
+        /// システム上のHPの最大値です。
+        /// </summary>
+        public static readonly int MaxHp = 999;
+
+        /// <summary>
+        /// システム上のMPの最大値です。
+        /// </summary>
+        public static readonly int MaxMp = 999;
+
+        /// <summary>
         /// パーティ内のキャラクターのステータスをIDで取得します。
         /// </summary>
         /// <param name="characterId">キャラクターのID</param>
@@ -109,6 +119,17 @@ namespace SimpleRpg
             else if (characterStatus.currentMp < 0)
             {
                 characterStatus.currentMp = 0;
+            }
+        }
+
+        /// <summary>
+        /// パーティ内のキャラクターを全回復させます。
+        /// </summary>
+        public static void RefreshPartyCharacter()
+        {
+            foreach (int characterId in partyCharacter)
+            {
+                ChangeCharacterStatus(characterId, MaxHp, MaxMp);
             }
         }
 

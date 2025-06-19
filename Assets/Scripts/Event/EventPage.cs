@@ -16,6 +16,12 @@ namespace SimpleRpg
         List<EventPageConditionBase> _conditions;
 
         /// <summary>
+        /// イベントのページのトリガーです。
+        /// </summary>
+        [SerializeField]
+        RpgEventTrigger _eventTrigger;
+
+        /// <summary>
         /// イベントの処理を行うクラスへの参照です。
         /// </summary>
         EventProcessor _eventProcessor;
@@ -44,6 +50,14 @@ namespace SimpleRpg
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// イベントのトリガーが一致しているか確認します。
+        /// </summary>
+        public bool IsMatchedTrigger(RpgEventTrigger rpgEventTrigger)
+        {
+            return _eventTrigger == rpgEventTrigger;
         }
 
         /// <summary>

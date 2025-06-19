@@ -38,13 +38,17 @@ namespace SimpleRpg
         [SerializeField]
         List<PartyItemInfo> _partyItemInfoList = new();
 
+        void Start()
+        {
+            GameStateManager.ChangeToMoving();
+        }
+
         void Update()
         {
             if (Time.frameCount == 5)
             {
                 SetPlayerStatus();
                 SetPartyItems();
-                GameStateManager.ChangeToMoving();
             }
         }
 

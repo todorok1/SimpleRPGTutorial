@@ -18,16 +18,6 @@ namespace SimpleRpg
         /// </summary>
         EventProcessor _eventProcessor;
 
-        void Start()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
-
         /// <summary>
         /// イベントを処理するクラスへの参照をセットします。
         /// </summary>
@@ -39,14 +29,14 @@ namespace SimpleRpg
         /// <summary>
         /// 対象のイベントページの処理を開始します。
         /// </summary>
-        public void ExecuteEvent()
+        public void ExecuteEvent(RpgEventTrigger rpgEventTrigger)
         {
             SimpleLogger.Instance.Log("ExecuteEvent()が呼ばれました。");
             SetUpEventPages();
-            var targetPage = GetEventPage();
+            var targetPage = GetEventPage(rpgEventTrigger);
             if (targetPage == null)
             {
-                SimpleLogger.Instance.Log("実行可能なイベントページが見つかりませんでした。");
+                SimpleLogger.Instance.Log($"実行可能なイベントページが見つかりませんでした。イベントのトリガー : {rpgEventTrigger}");
                 _eventProcessor.OnEventFinished();
                 return;
             }
@@ -70,7 +60,7 @@ namespace SimpleRpg
         /// <summary>
         /// 実行対象のイベントページを取得します。
         /// </summary>
-        EventPage GetEventPage()
+        EventPage GetEventPage(RpgEventTrigger rpgEventTrigger)
         {
             EventPage targetPage = null;
 
@@ -84,7 +74,7 @@ namespace SimpleRpg
                     continue;
                 }
 
-                if (page.IsMatchedConditions())
+                if (page.IsMatchedConditions() && page.IsMatchedTrigger(rpgEventTrigger))
                 {
                     targetPage = page;
                     break;

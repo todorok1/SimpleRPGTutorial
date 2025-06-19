@@ -20,11 +20,6 @@ namespace SimpleRpg
         EventProcessor _eventProcessor;
 
         /// <summary>
-        /// キャラクターの移動を行うクラスを管理するクラスへの参照です。
-        /// </summary>
-        CharacterMoverManager _characterMoverManager;
-
-        /// <summary>
         /// イベントを実行しているキャラクターの移動用クラスへの参照です。
         /// </summary>
         CharacterMover _eventTargetMover;
@@ -48,11 +43,6 @@ namespace SimpleRpg
             if (_eventProcessor == null)
             {
                 _eventProcessor = FindAnyObjectByType<EventProcessor>();
-            }
-
-            if (_characterMoverManager == null)
-            {
-                _characterMoverManager = FindAnyObjectByType<CharacterMoverManager>();
             }
         }
 
@@ -105,6 +95,21 @@ namespace SimpleRpg
         /// </summary>
         protected override void PostMove()
         {
+            // 移動後のマスにイベントがあるかどうかを確認します。
+            if (CheckOnTileEvent())
+            {
+                return;
+            }
+
+            // イベントがない場合は、エンカウントの確認を行います。
+            CheckEncounter();
+        }
+
+        /// <summary>
+        /// エンカウントが発生するかどうかを確認します。
+        /// </summary>
+        void CheckEncounter()
+        {
             GetReference();
             if (_encounterManager != null)
             {
@@ -125,7 +130,7 @@ namespace SimpleRpg
             // 移動フェーズ以外は処理を抜けます。
             if (GameStateManager.CurrentState != GameState.Moving)
             {
-                SimpleLogger.Instance.Log("GameStateがMovingではないので処理を抜けます。");
+                // SimpleLogger.Instance.Log("GameStateがMovingではないので処理を抜けます。");
                 return;
             }
 
@@ -167,23 +172,7 @@ namespace SimpleRpg
             _eventTargetMover = hitObj.GetComponent<CharacterMover>();
 
             // イベントファイルをイベント処理のクラスに渡します。
-            GetReference();
-            if (_eventProcessor != null)
-            {
-                // 他のキャラクターの動作を止めます。
-                StopCharacterMove();
-
-                // イベントの対象となるキャラクターの向きを設定します。
-                SetEventMoverDirectionToPlayer();
-
-                // イベントの開始を通知します。
-                SimpleLogger.Instance.Log("イベントの開始を通知します。");
-                _eventProcessor.StartEvent(hitObj, this);
-            }
-            else
-            {
-                SimpleLogger.Instance.LogError("EventProcessorが見つかりませんでした。");
-            }
+            StartEvent(hitObj, RpgEventTrigger.ConfirmButton);
         }
 
         /// <summary>
@@ -202,47 +191,28 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 引数のColliderのリストからゲームオブジェクトを取得します。
+        /// </summary>
+        /// <param name="colliders">Collider2Dのリスト</param>
+        GameObject GetGameObjectFromColliders(List<Collider2D> colliders)
+        {
+            if (colliders == null || colliders.Count == 0)
+            {
+                return null;
+            }
+
+            // 最初のColliderのゲームオブジェクトを返します。
+            GameObject targetObj = colliders[0].gameObject;
+            return targetObj;
+        }
+
+        /// <summary>
         /// イベントが終了した時に呼ばれるコールバックです。
         /// </summary>
         public void OnFinishedEvent()
         {
-            ResumeCharacterMove();
             SetEventMoverDirectionPrevious();
             _eventTargetMover = null;
-        }
-
-        /// <summary>
-        /// キャラクターの動作を停止します。
-        /// </summary>
-        void StopCharacterMove()
-        {
-            GetReference();
-            if (_characterMoverManager != null)
-            {
-                // 他のキャラクターの動作を止めます。
-                _characterMoverManager.StopCharacterMover();
-            }
-            else
-            {
-                SimpleLogger.Instance.LogError("CharacterMoverManagerが見つかりませんでした。");
-            }
-        }
-
-        /// <summary>
-        /// キャラクターの動作を再開します。
-        /// </summary>
-        void ResumeCharacterMove()
-        {
-            GetReference();
-            if (_characterMoverManager != null)
-            {
-                // 他のキャラクターの動作を再開します。
-                _characterMoverManager.ResumeCharacterMover();
-            }
-            else
-            {
-                SimpleLogger.Instance.LogError("CharacterMoverManagerが見つかりませんでした。");
-            }
         }
 
         /// <summary>
@@ -277,6 +247,67 @@ namespace SimpleRpg
 
             // 元の向きに設定します。
             _eventTargetMover.UpdateCharacterDirection(_eventTargetMover.AnimationDirection);
+        }
+
+        /// <summary>
+        /// タイル上で重なったイベントを確認します。
+        /// </summary>
+        bool CheckOnTileEvent()
+        {
+            SimpleLogger.Instance.Log("CheckTouchEvent()が呼ばれました。");
+
+            // 重なったゲームオブジェクトを確認します。
+            List<Collider2D> colliders = new List<Collider2D>();
+            var otherColliders = _boxCollider2d.Overlap(colliders);
+            SimpleLogger.Instance.Log($"取得したColliderの数 : {otherColliders}");
+
+            // 対象のゲームオブジェクトを取得します。
+            var eventObj = GetGameObjectFromColliders(colliders);
+            if (eventObj == null)
+            {
+                SimpleLogger.Instance.Log("eventObjがnullなので処理を抜ける。");
+                return false;
+            }
+
+            // 対象のゲームオブジェクトのマップ上の位置を確認します。
+            var eventPos = _tilemapManager.GetPositionOnTilemap(eventObj.transform.position);
+            if (eventPos != _posOnTile)
+            {
+                SimpleLogger.Instance.Log("タイル上の位置が異なるので処理を抜ける。");
+                return false;
+            }
+
+            // イベントファイルをイベント処理のクラスに渡します。
+            StartEvent(eventObj, RpgEventTrigger.OnTile);
+            return true;
+        }
+
+        /// <summary>
+        /// イベントの処理を開始します。
+        /// </summary>
+        void StartEvent(GameObject eventObj, RpgEventTrigger rpgEventTrigger)
+        {
+            // イベントファイルをイベント処理のクラスに渡します。
+            GetReference();
+            if (_eventProcessor == null)
+            {
+                SimpleLogger.Instance.LogError("EventProcessorが見つかりませんでした。");
+                return;
+            }
+
+            // イベントの対象となるキャラクターの向きを設定します。
+            SetEventMoverDirectionToPlayer();
+
+            // イベントの開始を通知します。
+            SimpleLogger.Instance.Log("イベントの開始を通知します。");
+            var eventQueue = new EventQueue
+            {
+                targetObj = eventObj,
+                rpgEventTrigger = rpgEventTrigger,
+                callback = this
+            };
+            _eventProcessor.AddQueue(eventQueue);
+            _eventProcessor.StartEvent();
         }
     }
 }
