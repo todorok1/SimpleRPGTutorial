@@ -12902,6 +12902,10 @@ PrefabInstance:
       propertyPath: _startProcess
       value: 
       objectReference: {fileID: 3036996131075085583}
+    - target: {fileID: 3048901441928635760, guid: ec8bc464b40454c7e84e5e66f7167543, type: 3}
+      propertyPath: _moveFrequency
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3826464394332931522, guid: ec8bc464b40454c7e84e5e66f7167543, type: 3}
       propertyPath: m_Name
       value: NPC_Chourou

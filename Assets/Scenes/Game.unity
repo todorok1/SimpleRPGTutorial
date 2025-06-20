@@ -7058,6 +7058,7 @@ MonoBehaviour:
   _tilemapProps: {fileID: 0}
   _tilemapOverray: {fileID: 0}
   _noEntryTileData: {fileID: 11400000, guid: f9d764acf9d6a49e2b02cc3b923c5a0b, type: 2}
+  _throughTileData: {fileID: 11400000, guid: 2177a4f60b4fe4162be830c5271fddbf, type: 2}
 --- !u!1 &821826654
 GameObject:
   m_ObjectHideFlags: 0
