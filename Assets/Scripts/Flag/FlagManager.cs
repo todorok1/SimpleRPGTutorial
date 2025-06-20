@@ -87,6 +87,7 @@ namespace SimpleRpg
         /// <param name="state">フラグの状態</param>
         public void SetFlagState(string flagName, bool state)
         {
+            SimpleLogger.Instance.LogWarning($"SetFlagStateが呼ばれました。 flagName: {flagName}, state: {state}");
             var flagState = _flagStates.Find(fs => fs.flagName == flagName);
             if (flagState != null)
             {

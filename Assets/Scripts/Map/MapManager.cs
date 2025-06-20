@@ -160,7 +160,7 @@ namespace SimpleRpg
                 _characterMoverManager.ResetPositions();
 
                 SimpleLogger.Instance.Log($"マップを表示します。 ID: {mapId} Name: {_currentMapController.MapName}");
-                CheckAutoEvent();
+                CheckEvent();
             }
         }
 
@@ -237,17 +237,52 @@ namespace SimpleRpg
         }
 
         /// <summary>
-        /// マップ内の自動イベントを確認します。
+        /// マップ内のイベントを取得します。
         /// </summary>
-        public void CheckAutoEvent()
+        public EventFileData[] GetEventsInMap()
         {
-            StartCoroutine(CheckAutoEventProcess());
+            var eventFiles = _currentMapController.GetComponentsInChildren<EventFileData>();
+            return eventFiles;
+        }
+
+        /// <summary>
+        /// マップ内のイベントを確認します。
+        /// </summary>
+        public void CheckEvent()
+        {
+            StartCoroutine(CheckEventProcess());
+        }
+
+        /// <summary>
+        /// マップ内のイベントを確認します。
+        /// </summary>
+        IEnumerator CheckEventProcess()
+        {
+            _characterMoverManager.StopCharacterMover();
+            yield return null;
+
+            var eventFiles = GetEventsInMap();
+            SimpleLogger.Instance.Log($"eventDataListの数: {eventFiles.Length}");
+            yield return StartCoroutine(CheckEventGraphic(eventFiles));
+            yield return StartCoroutine(CheckAutoEventProcess(eventFiles));
+        }
+
+        /// <summary>
+        /// マップ内のイベントのグラフィックを確認します。
+        /// </summary>
+        public IEnumerator CheckEventGraphic(EventFileData[] eventFiles)
+        {
+            yield return null;
+            foreach (var eventData in eventFiles)
+            {
+                eventData.SetEventGraphic();
+            }
         }
 
         /// <summary>
         /// マップ内の自動イベントを確認します。
         /// </summary>
-        IEnumerator CheckAutoEventProcess()
+        public IEnumerator CheckAutoEventProcess(EventFileData[] eventFiles)
         {
             yield return null;
             SimpleLogger.Instance.Log("CheckAutoEvent()が呼ばれました。");
@@ -258,9 +293,7 @@ namespace SimpleRpg
                 yield break;
             }
 
-            var eventDataList = _currentMapController.GetComponentsInChildren<EventFileData>();
-            SimpleLogger.Instance.Log($"eventDataListの数: {eventDataList.Length}");
-            foreach (var eventData in eventDataList)
+            foreach (var eventData in eventFiles)
             {
                 // 自動イベントを実行します。
                 var eventQueue = new EventQueue

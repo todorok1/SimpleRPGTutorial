@@ -79,5 +79,13 @@ namespace SimpleRpg
         {
             
         }
+
+        /// <summary>
+        /// 別のプロセスからメッセージを設定します。
+        /// </summary>
+        public void SetMessageFromProcess(List<string> messages)
+        {
+            _messages = messages;
+        }
     }
 }

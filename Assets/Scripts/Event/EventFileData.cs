@@ -9,6 +9,12 @@ namespace SimpleRpg
     public class EventFileData : MonoBehaviour
     {
         /// <summary>
+        /// 条件に応じたイベントの画像を制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        EventGraphicController _eventGraphicController;
+
+        /// <summary>
         /// イベントページのリストです。
         /// </summary>
         List<EventPage> _eventPages;
@@ -41,7 +47,7 @@ namespace SimpleRpg
                 return;
             }
 
-            targetPage.StartEvent(_eventProcessor);
+            targetPage.StartEvent(_eventProcessor, this);
         }
 
         /// <summary>
@@ -81,6 +87,53 @@ namespace SimpleRpg
                 }
             }
             return targetPage;
+        }
+
+        /// <summary>
+        /// 条件が合致するイベントページを取得します。
+        /// </summary>
+        EventPage GetEventPage()
+        {
+            EventPage targetPage = null;
+
+            // Hierarchyウィンドウで下から順にイベントページを確認し、条件に合致する最初のページを返します。
+            for (int i = _eventPages.Count - 1; i >= 0; i--)
+            {
+                var page = _eventPages[i];
+                if (page == null)
+                {
+                    SimpleLogger.Instance.LogWarning("イベントページがnullです。");
+                    continue;
+                }
+
+                if (page.IsMatchedConditions())
+                {
+                    targetPage = page;
+                    break;
+                }
+            }
+            return targetPage;
+        }
+
+        /// <summary>
+        /// イベントオブジェクトのグラフィックを設定します。
+        /// </summary>
+        public void SetEventGraphic()
+        {
+            SimpleLogger.Instance.Log("SetEventGraphic()が呼ばれました。");
+            SetUpEventPages();
+            var targetPage = GetEventPage();
+            if (targetPage == null)
+            {
+                SimpleLogger.Instance.Log("targetPageがnullなので処理を抜けます。");
+                return;
+            }
+            SimpleLogger.Instance.Log($"targetPage.name : {targetPage.name}");
+
+            if (_eventGraphicController != null)
+            {
+                _eventGraphicController.SetEventGraphic(targetPage);
+            }
         }
     }
 }

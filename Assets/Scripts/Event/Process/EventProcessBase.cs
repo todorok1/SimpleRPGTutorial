@@ -19,11 +19,20 @@ namespace SimpleRpg
         protected EventPage _eventPage;
 
         /// <summary>
+        /// イベントデータへの参照です。
+        /// </summary>
+        protected EventFileData _eventFileData;
+
+        /// <summary>
         /// イベントページへの参照をセットします。
         /// </summary>
         public virtual void SetEventPageReference(EventPage eventPage)
         {
             _eventPage = eventPage;
+            if (_eventPage != null)
+            {
+                _eventFileData = eventPage.EventFileData;
+            }
         }
 
         /// <summary>
@@ -39,13 +48,15 @@ namespace SimpleRpg
         /// </summary>
         public virtual void CallNextProcess(EventProcessBase process = null)
         {
+            SimpleLogger.Instance.Log("CallNextProcess()が呼ばれました。");
             if (_eventPage == null)
             {
                 SimpleLogger.Instance.LogWarning("イベントページへの参照が設定されていません。");
                 return;
             }
 
-            var targetProcess = process == null ? process : _nextProcess;
+            var targetProcess = process == null ? _nextProcess : process;
+            SimpleLogger.Instance.Log($"{targetProcess?.name}を次のイベント処理として呼び出します。");
             _eventPage.OnFinishedEventProcess(targetProcess);
         }
     }

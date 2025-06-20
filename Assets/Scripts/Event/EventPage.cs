@@ -43,12 +43,26 @@ namespace SimpleRpg
         EventProcessBase _targetEventProcess;
 
         /// <summary>
+        /// 実行中のイベントデータです。
+        /// </summary>
+        EventFileData _eventFileData;
+
+        /// <summary>
+        /// 実行中のイベントデータです。
+        /// </summary>
+        public EventFileData EventFileData
+        {
+            get {return _eventFileData;}
+        }
+
+        /// <summary>
         /// イベントの条件を全て満たしているか確認します。
         /// </summary>
         public bool IsMatchedConditions()
         {
             foreach (var condition in _conditions)
             {
+                SimpleLogger.Instance.Log($"condition.name : {condition.name} || condition.CheckCondition() : {condition.CheckCondition()}");
                 // ひとつでも条件が満たされていない場合はfalseを返します。
                 if (!condition.CheckCondition())
                 {
@@ -79,9 +93,10 @@ namespace SimpleRpg
         /// イベントの処理を開始します。
         /// </summary>
         /// <param name="eventProcessor">イベントの処理を行うクラスへの参照です。</param>
-        public void StartEvent(EventProcessor eventProcessor)
+        public void StartEvent(EventProcessor eventProcessor, EventFileData eventFileData)
         {
             _eventProcessor = eventProcessor;
+            _eventFileData = eventFileData;
             _targetEventProcess = _startProcess;
             SetUpProcesses();
             if (_eventProcessList == null || _eventProcessList.Count == 0)

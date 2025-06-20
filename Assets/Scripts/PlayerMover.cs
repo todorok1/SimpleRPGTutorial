@@ -167,6 +167,7 @@ namespace SimpleRpg
                 SimpleLogger.Instance.Log("hitObjがnullなので処理を抜ける。");
                 return;
             }
+            SimpleLogger.Instance.Log($"hitObj.name : {hitObj.name}");
 
             // 移動用の制御クラスがアタッチされている場合はキャッシュします。
             _eventTargetMover = hitObj.GetComponent<CharacterMover>();
