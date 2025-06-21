@@ -10,6 +10,12 @@ namespace SimpleRpg
     public class EventProcessMessage : EventProcessBase, IMessageCallback
     {
         /// <summary>
+        /// このプロセスの終了後にメッセージウィンドウを開いたままにするかどうかのフラグです。
+        /// </summary>
+        [SerializeField]
+        bool _keepWindowOpen = false;
+
+        /// <summary>
         /// 表示するメッセージです。
         /// 1つの要素につき1画面のメッセージを表示します。
         /// </summary>
@@ -66,8 +72,11 @@ namespace SimpleRpg
                 }
             }
 
-            _messageWindowController.HideWindow();
-            _messageWindowController.HidePager();
+            if (!_keepWindowOpen)
+            {
+                _messageWindowController.HideWindow();
+                _messageWindowController.HidePager();
+            }
 
             CallNextProcess();
         }
