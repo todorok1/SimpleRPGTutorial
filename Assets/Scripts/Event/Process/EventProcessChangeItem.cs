@@ -43,12 +43,12 @@ namespace SimpleRpg
             if (_itemNum >= 0)
             {
                 CharacterStatusManager.IncreaseItem(_itemId, _itemNum);
-                message = $"「{item.itemName}」を {_itemNum} 個手に入れた！";
+                message = $"{item.itemName} を {_itemNum} 個手に入れた！";
             }
             else
             {
                 CharacterStatusManager.DecreaseItem(_itemId, -_itemNum);
-                message = $"「{item.itemName}」を {-_itemNum} 個失った……。";
+                message = $"{item.itemName} を {-_itemNum} 個失った……。";
             }
 
             SendMessageToNextProcess(message);
