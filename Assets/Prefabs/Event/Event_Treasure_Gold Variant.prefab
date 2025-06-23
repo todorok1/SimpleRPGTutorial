@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3465317428688496240
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 445252740000441863, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: _nextProcess
+      value: 
+      objectReference: {fileID: 8076391198984885799}
+    - target: {fileID: 1309967009333059914, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: _flagName
+      value: DungeonTreasureGold
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916582768171976835, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_Name
+      value: Event_Treasure_Gold Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7349605982866497706, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: _flagName
+      value: DungeonTreasureGold
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204227777701043432, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_Name
+      value: GoldGet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387712009859245775, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387712009859245775, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387712009859245775, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387712009859245775, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387712009859245775, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387712009859245775, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387712009859245775, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387712009859245775, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387712009859245775, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387712009859245775, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6473046148434424083, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8204227777701043432, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8076391198984885799}
+  m_SourcePrefab: {fileID: 100100000, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+--- !u!1 &4741167141748865688 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8204227777701043432, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+  m_PrefabInstance: {fileID: 3465317428688496240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8076391198984885799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4741167141748865688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6016d99ee0efd49b98d9fe5ecaca16b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nextProcess: {fileID: 6024011026135800961}
+  _goldAmount: 200
+  _isGenerateMessage: 1
+--- !u!114 &6024011026135800961 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7173901930369841905, guid: 01be5f250b07b44818052de16ba9b782, type: 3}
+  m_PrefabInstance: {fileID: 3465317428688496240}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7af4530157a04de7bb346d933f71280, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
