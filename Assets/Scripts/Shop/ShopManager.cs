@@ -100,6 +100,8 @@ namespace SimpleRpg
         /// <summary>
         /// お店の選択肢ウィンドウの動作を制御するクラスへの参照です。
         /// </summary>
+        /// <param name="callback">お店の処理が完了した際に呼び出されるコールバック</param>
+        /// <param name="shopItemIds">お店に表示するアイテムのIDリスト</param>
         public void StartShopProcess(IShopCallback callback, List<int> shopItemIds)
         {
             _callback = callback;
@@ -118,7 +120,6 @@ namespace SimpleRpg
         /// </summary>
         public void ShowWelcomeMessage()
         {
-            SimpleLogger.Instance.Log("ShowWelcomeMessage()が呼ばれました。");
             if (_mapMessageWindowController == null)
             {
                 SimpleLogger.Instance.LogError("MapMessageWindowControllerがアサインされていません。");
@@ -145,11 +146,10 @@ namespace SimpleRpg
         }
 
         /// <summary>
-        /// お店の選択肢ウィンドウの動作を制御するクラスへの参照です。
+        /// お店の選択肢ウィンドウを表示します。
         /// </summary>
         public void ShowShopOption()
         {
-            SimpleLogger.Instance.Log("ShowShopOption()が呼ばれました。");
             if (_shopOptionWindowController == null)
             {
                 SimpleLogger.Instance.LogError("ShopOptionWindowControllerがアサインされていません。");
@@ -162,11 +162,10 @@ namespace SimpleRpg
         }
 
         /// <summary>
-        /// 通常の選択肢ウィンドウの動作を制御するクラスへの参照です。
+        /// 通常の選択肢ウィンドウを表示します。
         /// </summary>
         public void ShowOption()
         {
-            SimpleLogger.Instance.Log("ShowOption()が呼ばれました。");
             if (_optionWindowController == null)
             {
                 SimpleLogger.Instance.LogError("OptionWindowControllerがアサインされていません。");
@@ -183,18 +182,17 @@ namespace SimpleRpg
         /// <param name="selectedIndex">選択された選択肢のインデックス</param>
         public void OnSelectedOption(int selectedIndex)
         {
-            SimpleLogger.Instance.Log($"OnSelectedOption()が呼ばれました。選択されたインデックス: {selectedIndex}");
             _mapMessageWindowController.HideWindow();
             if (selectedIndex == 0)
             {
                 // はいを選択した場合の処理です。
                 if (_selectedCommand == ShopCommand.Buy)
                 {
-                    BuyProcess();
+                    _shopProcessorBuy.BuySelectedItem(_selectedItemData);
                 }
                 else if (_selectedCommand == ShopCommand.Sell)
                 {
-                    SellProcess();
+                    _shopProcessorSell.SellSelectedItem(_selectedItemData);
                 }
             }
             else
@@ -210,7 +208,6 @@ namespace SimpleRpg
         /// <param name="selectedIndex">選択された選択肢のインデックス</param>
         public void OnSelectedShopOption(int selectedIndex)
         {
-            SimpleLogger.Instance.Log($"OnSelectedShopOption()が呼ばれました。選択されたインデックス: {selectedIndex}");
             _mapMessageWindowController.HideWindow();
             if (selectedIndex == 0)
             {
@@ -265,40 +262,6 @@ namespace SimpleRpg
         }
 
         /// <summary>
-        /// 購入時のメッセージを表示します。
-        /// </summary>
-        /// <param name="selectedItemData">選択されたアイテムデータ</param>
-        void ShowBuyMessage(ItemData selectedItemData)
-        {
-            if (selectedItemData == null)
-            {
-                SimpleLogger.Instance.LogError("購入対象のアイテムがnullです。");
-                return;
-            }
-
-            _selectedItemData = selectedItemData;
-            string itemName = selectedItemData.itemName;
-            string message = $"{itemName} なら {selectedItemData.price} ゴールドだよ。\n買っていくかい？";
-            _mapMessageWindowController.ShowWindow();
-            _mapMessageWindowController.ShowGeneralMessage(message, 0.5f);
-            ShowOption();
-        }
-
-        /// <summary>
-        /// 購入処理を行います。
-        /// </summary>
-        void BuyProcess()
-        {
-            if (_shopProcessorBuy == null)
-            {
-                SimpleLogger.Instance.LogError("ShopProcessorBuyがアサインされていません。");
-                return;
-            }
-
-            _shopProcessorBuy.BuySelectedItem(_selectedItemData.itemId);
-        }
-
-        /// <summary>
         /// 売却時のメッセージを表示します。
         /// </summary>
         /// <param name="selectedItemData">選択されたアイテムデータ</param>
@@ -320,17 +283,23 @@ namespace SimpleRpg
         }
 
         /// <summary>
-        /// 売却処理を行います。
+        /// 購入時のメッセージを表示します。
         /// </summary>
-        void SellProcess()
+        /// <param name="selectedItemData">選択されたアイテムデータ</param>
+        public void ShowBuyMessage(ItemData selectedItemData)
         {
-            if (_shopProcessorSell == null)
+            if (selectedItemData == null)
             {
-                SimpleLogger.Instance.LogError("ShopProcessorSellがアサインされていません。");
+                SimpleLogger.Instance.LogError("購入対象のアイテムがnullです。");
                 return;
             }
 
-            _shopProcessorSell.SellSelectedItem(_selectedItemData.itemId);
+            _selectedItemData = selectedItemData;
+            string itemName = selectedItemData.itemName;
+            string message = $"{itemName} なら {selectedItemData.price} ゴールドだよ。\n買っていくかい？";
+            _mapMessageWindowController.ShowWindow();
+            _mapMessageWindowController.ShowGeneralMessage(message, 0.5f);
+            ShowOption();
         }
 
         /// <summary>

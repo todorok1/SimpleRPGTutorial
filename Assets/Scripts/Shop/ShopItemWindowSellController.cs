@@ -92,7 +92,6 @@ namespace SimpleRpg
 
         /// <summary>
         /// 選択中の項目が実行できるか確認します。
-        /// 魔法の場合は消費MPを確認、アイテムの場合は所持数を確認します。
         /// </summary>
         /// <param name="selectedIndex">選択中のインデックス</param>
         public bool IsValidSelection(int selectedIndex)
@@ -129,7 +128,7 @@ namespace SimpleRpg
             {
                 return currentPage;
             }
-            else if (currentPage < 0)
+            else if (currentPage <= 0)
             {
                 return 0;
             }
@@ -167,6 +166,7 @@ namespace SimpleRpg
                 int positionIndex = i - startIndex;
                 if (i < _validPartyItemInfoList.Count)
                 {
+                    SimpleLogger.Instance.Log($"SetPageItemの処理中: i={i}, positionIndex={positionIndex}, itemCount={_validPartyItemInfoList.Count}");
                     var partyItemInfo = _validPartyItemInfoList[i];
                     var itemData = ItemDataManager.GetItemDataById(partyItemInfo.itemId);
                     if (itemData == null)

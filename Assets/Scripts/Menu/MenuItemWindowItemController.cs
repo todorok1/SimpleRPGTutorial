@@ -129,7 +129,7 @@ namespace SimpleRpg
             {
                 return currentPage;
             }
-            else if (currentPage < 0)
+            else if (currentPage <= 0)
             {
                 return 0;
             }

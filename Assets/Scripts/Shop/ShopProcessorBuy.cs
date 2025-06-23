@@ -9,11 +9,6 @@ namespace SimpleRpg
     public class ShopProcessorBuy : MonoBehaviour
     {
         /// <summary>
-        /// お店画面のアイテムウィンドウを制御するクラスへの参照です。
-        /// </summary>
-        ShopItemWindowController _windowController;
-
-        /// <summary>
         /// メニューウィンドウにて購入に関する処理を制御するクラスへの参照です。
         /// </summary>
         ShopItemWindowBuyController _buyController;
@@ -24,20 +19,18 @@ namespace SimpleRpg
         /// <param name="windowController">メニューウィンドウを制御するクラス</param>
         public void SetReferences(ShopItemWindowController windowController)
         {
-            _windowController = windowController;
             _buyController = windowController.GetBuyController();
         }
 
         /// <summary>
-        /// 引数のIDのアイテムを購入します。
+        /// 引数のアイテムを購入します。
         /// </summary>
-        /// <param name="itemId">アイテムのID</param>
-        public void BuySelectedItem(int itemId)
+        /// <param name="itemData">購入するアイテムのデータ</param>
+        public void BuySelectedItem(ItemData itemData)
         {
-            var itemData = ItemDataManager.GetItemDataById(itemId);
             if (itemData == null)
             {
-                SimpleLogger.Instance.LogWarning($"アイテムデータが見つかりませんでした。 ID: {itemId}");
+                SimpleLogger.Instance.LogWarning($"アイテムデータが見つかりませんでした。");
                 return;
             }
 

@@ -399,7 +399,7 @@ namespace SimpleRpg
                 var itemData = ItemDataManager.GetItemDataById(itemId);
                 if (itemData == null)
                 {
-                    SimpleLogger.Instance.LogError($"アイテムデータが見つかりませんでした。 ID: {itemId}");
+                    SimpleLogger.Instance.LogWarning($"アイテムデータが見つかりませんでした。itemId: {itemId}");
                 }
                 else
                 {
