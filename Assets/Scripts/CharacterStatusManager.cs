@@ -314,6 +314,15 @@ namespace SimpleRpg
         public static void IncreaseGold(int gold)
         {
             partyGold += gold;
+            if (partyGold < 0)
+            {
+                partyGold = 0;
+            }
+
+            if (partyGold > ValueSettings.MaxGold)
+            {
+                partyGold = ValueSettings.MaxGold;
+            }
         }
 
         /// <summary>

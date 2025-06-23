@@ -50,6 +50,7 @@ namespace SimpleRpg
         /// <param name="interval">メッセージ表示からコールバックまでの時間</param>
         public void ShowGeneralMessage(string message, float interval)
         {
+            SimpleLogger.Instance.Log($"ShowGeneralMessage()が呼ばれました。 message: {message}, interval: {interval}");
             uiController.ClearMessage();
             StartCoroutine(ShowMessageAutoProcess(message, interval));
         }
