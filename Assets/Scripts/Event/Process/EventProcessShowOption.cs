@@ -71,7 +71,18 @@ namespace SimpleRpg
 
             if (_optionWindowController == null)
             {
-                _optionWindowController = FindAnyObjectByType<OptionWindowController>();
+                var optionWindows = FindObjectsByType<OptionWindowController>(FindObjectsSortMode.None);
+                foreach (var optionWindow in optionWindows)
+                {
+                    // OptionWindowControllerは派生元クラスのため、派生先のクラスにキャストしてnullになるものを使用します。
+                    var controller = optionWindow as ShopOptionWindowController;
+                    if (controller == null)
+                    {
+                        // ShopOptionWindowControllerではない場合は、OptionWindowControllerを使用します。
+                        _optionWindowController = optionWindow;
+                        break;
+                    }
+                }
             }
         }
 

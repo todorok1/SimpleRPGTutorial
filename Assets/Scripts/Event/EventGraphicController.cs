@@ -49,14 +49,22 @@ namespace SimpleRpg
                 SimpleLogger.Instance.Log($"record.name : {record.name}, record.eventPages.Contains(eventPage) : {record.eventPages.Contains(eventPage)}");
                 if (record.eventPages.Contains(eventPage))
                 {
+                    // スプライトを変更します。
                     if (record.sprite != null && _spriteRenderer != null)
                     {
                         _spriteRenderer.sprite = record.sprite;
                     }
 
+                    // アニメーターを変更します。
                     if (record.animatorController != null && _animator != null)
                     {
                         _animator.runtimeAnimatorController = record.animatorController;
+                    }
+
+                    // ゲームオブジェクトの表示状態を変更します。
+                    if (record.topGameObject != null)
+                    {
+                        record.topGameObject.SetActive(record.isVisible);
                     }
                     return;
                 }

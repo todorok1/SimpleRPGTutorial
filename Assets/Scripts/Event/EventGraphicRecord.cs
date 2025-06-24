@@ -22,5 +22,15 @@ namespace SimpleRpg
         /// 条件に対応するアニメーターです。
         /// </summary>
         public RuntimeAnimatorController animatorController;
+
+        /// <summary>
+        /// 対応するゲームオブジェクトです。
+        /// </summary>
+        public GameObject topGameObject;
+
+        /// <summary>
+        /// セットする表示状態です。
+        /// </summary>
+        public bool isVisible;
     }
 }
