@@ -113,6 +113,7 @@ namespace SimpleRpg
                     _pauseMessage = true;
                     var characterStatus = CharacterStatusManager.GetCharacterStatusById(id);
                     var level = characterStatus.level;
+                    CharacterStatusManager.LearnMagic(id);
                     characterName = CharacterDataManager.GetCharacterName(id);
                     _messageWindowController.GenerateLevelUpMessage(characterName, level);
                     while (_pauseMessage)

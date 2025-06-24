@@ -355,5 +355,27 @@ namespace SimpleRpg
 
             return false;
         }
+
+        /// <summary>
+        /// 現在のレベルで習得可能な魔法の内、まだ習得していないものを習得します。
+        /// </summary>
+        public static void LearnMagic(int characterId)
+        {
+            var characterStatus = GetCharacterStatusById(characterId);
+            if (characterStatus == null)
+            {
+                Debug.LogWarning($"キャラクターのステータスが見つかりませんでした。 ID : {characterId}");
+                return;
+            }
+
+            var learnableMagicList = CharacterDataManager.GetLearnableMagic(characterId, characterStatus.level);
+            foreach (var magicData in learnableMagicList)
+            {
+                if (!characterStatus.magicList.Contains(magicData.magicId))
+                {
+                    characterStatus.magicList.Add(magicData.magicId);
+                }
+            }
+        }
     }
 }
