@@ -9,5 +9,6 @@ namespace SimpleRpg
         ConfirmButton,
         OnTile,
         Auto,
+        System,
     }
 }

@@ -73,6 +73,13 @@ namespace SimpleRpg
             RegisterComponent();
         }
 
+        protected void OnEnable()
+        {
+            CheckComponents();
+            GetCurrentPositionOnTilemap();
+            RegisterComponent();
+        }
+
         void Update()
         {
             
@@ -168,7 +175,7 @@ namespace SimpleRpg
             }
 
             // 移動方向に応じたアニメーションに切り替えます。
-            UpdateCharacterDirection(animDirection);
+            SetCharacterDirection(animDirection);
 
             // 移動できるかの確認を行います。
             var targetPos = _posOnTile + (Vector3Int)moveDirection;
@@ -317,7 +324,7 @@ namespace SimpleRpg
         /// キャラクターのアニメーションの方向を更新します。
         /// </summary>
         /// <param name="animDirection">アニメーションの方向</param>
-        public virtual void UpdateCharacterDirection(MoveAnimationDirection animDirection)
+        public virtual void SetCharacterDirection(MoveAnimationDirection animDirection)
         {
             if (_animator != null)
             {

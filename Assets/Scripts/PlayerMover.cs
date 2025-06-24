@@ -232,7 +232,7 @@ namespace SimpleRpg
             int oppsiteDirection = (playerDirection + 2) % 4;
 
             // イベントの対象となるキャラクターの向きを設定します。
-            _eventTargetMover.UpdateCharacterDirection((MoveAnimationDirection)oppsiteDirection);
+            _eventTargetMover.SetCharacterDirection((MoveAnimationDirection)oppsiteDirection);
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace SimpleRpg
             }
 
             // 元の向きに設定します。
-            _eventTargetMover.UpdateCharacterDirection(_eventTargetMover.AnimationDirection);
+            _eventTargetMover.SetCharacterDirection(_eventTargetMover.AnimationDirection);
         }
 
         /// <summary>
