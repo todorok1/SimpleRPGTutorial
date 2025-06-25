@@ -9,6 +9,12 @@ namespace SimpleRpg
     public class EventProcessShop : EventProcessBase, IShopCallback
     {
         /// <summary>
+        /// お店の店主の名前です。
+        /// </summary>
+        [SerializeField]
+        string _shopMasterName;
+
+        /// <summary>
         /// お店で買えるアイテムのIDリストです。
         /// </summary>
         [SerializeField]
@@ -27,7 +33,7 @@ namespace SimpleRpg
                 return;
             }
 
-            shopManager.StartShopProcess(this, _shopItemIds);
+            shopManager.StartShopProcess(this, _shopItemIds, _shopMasterName);
         }
 
         /// <summary>

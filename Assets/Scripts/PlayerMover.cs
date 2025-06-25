@@ -95,6 +95,12 @@ namespace SimpleRpg
         /// </summary>
         protected override void PostMove()
         {
+            // イベント中など、移動後の処理を行わない場合は処理を抜けます。
+            if (!_isCheckPostMove)
+            {
+                return;
+            }
+
             // 移動後のマスにイベントがあるかどうかを確認します。
             if (CheckOnTileEvent())
             {
@@ -255,18 +261,14 @@ namespace SimpleRpg
         /// </summary>
         bool CheckOnTileEvent()
         {
-            SimpleLogger.Instance.Log("CheckTouchEvent()が呼ばれました。");
-
             // 重なったゲームオブジェクトを確認します。
             List<Collider2D> colliders = new List<Collider2D>();
             var otherColliders = _boxCollider2d.Overlap(colliders);
-            SimpleLogger.Instance.Log($"取得したColliderの数 : {otherColliders}");
 
             // 対象のゲームオブジェクトを取得します。
             var eventObj = GetGameObjectFromColliders(colliders);
             if (eventObj == null)
             {
-                SimpleLogger.Instance.Log("eventObjがnullなので処理を抜ける。");
                 return false;
             }
 

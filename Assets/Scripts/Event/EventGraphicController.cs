@@ -56,16 +56,21 @@ namespace SimpleRpg
                     }
 
                     // アニメーターを変更します。
-                    if (record.animatorController != null && _animator != null)
+                    if (_animator != null)
                     {
-                        _animator.runtimeAnimatorController = record.animatorController;
+                        if (record.animatorController != null)
+                        {
+                            _animator.runtimeAnimatorController = record.animatorController;
+                        }
+
+                        _animator.enabled = !record.isStopAnimator;
                     }
 
-                    // ゲームオブジェクトの表示状態を変更します。
-                    if (record.topGameObject != null)
-                    {
-                        record.topGameObject.SetActive(record.isVisible);
-                    }
+                    // // ゲームオブジェクトの表示状態を変更します。
+                    // if (record.topGameObject != null)
+                    // {
+                    //     record.topGameObject.SetActive(record.isVisible);
+                    // }
                     return;
                 }
             }

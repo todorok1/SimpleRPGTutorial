@@ -62,6 +62,11 @@ namespace SimpleRpg
         bool _isSecondVisit = false;
 
         /// <summary>
+        /// お店の店主の名前です。
+        /// </summary>
+        string _shopMasterName = string.Empty;
+
+        /// <summary>
         /// お店に表示するアイテムのIDリストです。
         /// </summary>
         List<int> _shopItems = new();
@@ -98,17 +103,24 @@ namespace SimpleRpg
         readonly string SecondMessage = "他に必要なものはあるかい？";
 
         /// <summary>
+        /// デフォルトの店主の名前です。
+        /// </summary>
+        readonly string DefaultShopMasterName = "店主";
+
+        /// <summary>
         /// お店の選択肢ウィンドウの動作を制御するクラスへの参照です。
         /// </summary>
         /// <param name="callback">お店の処理が完了した際に呼び出されるコールバック</param>
         /// <param name="shopItemIds">お店に表示するアイテムのIDリスト</param>
-        public void StartShopProcess(IShopCallback callback, List<int> shopItemIds)
+        /// <param name="shopMasterName">お店の店主の名前</param>
+        public void StartShopProcess(IShopCallback callback, List<int> shopItemIds, string shopMasterName)
         {
             _callback = callback;
             _windowController.SetUpController(this);
             _shopProcessorBuy.SetReferences(_windowController);
             _shopProcessorSell.SetReferences(_windowController);
             _shopItems = shopItemIds;
+            _shopMasterName = shopMasterName;
 
             _isSecondVisit = false;
             _selectedCommand = ShopCommand.None;
@@ -127,9 +139,35 @@ namespace SimpleRpg
             }
 
             string message = _isSecondVisit ? SecondMessage : WelcomeMessage;
+            string fullMessage = GetFullMessage(message);
             _mapMessageWindowController.SetUpController(this);
             _mapMessageWindowController.ShowWindow();
-            _mapMessageWindowController.ShowGeneralMessage(message, 0.5f);
+            _mapMessageWindowController.ShowGeneralMessage(fullMessage, 0.5f);
+        }
+
+        /// <summary>
+        /// タグを含めた店主の名前を取得します。
+        /// </summary>
+        string GetMasterName()
+        {
+            string masterName = _shopMasterName;
+            if (string.IsNullOrEmpty(_shopMasterName))
+            {
+                // 店主の名前が設定されていない場合はデフォルトの名前を使用します。
+                masterName = DefaultShopMasterName;
+            }
+            return $"<{masterName}>";
+        }
+
+        /// <summary>
+        /// 店主の名前を含めた表示用のメッセージを取得します。
+        /// </summary>
+        /// <param name="message">表示するメッセージ</param>
+        string GetFullMessage(string message)
+        {
+            string masterName = GetMasterName();
+            string fullMessage = $"{masterName}\n{message}";
+            return fullMessage;
         }
 
         /// <summary>
@@ -277,8 +315,9 @@ namespace SimpleRpg
             string itemName = selectedItemData.itemName;
             int price = (int)(selectedItemData.price * ValueSettings.SellPriceMultiplier);
             string message = $"{itemName} なら {price} ゴールドで引き取るよ。\n売ってくれるかい？";
+            string fullMessage = GetFullMessage(message);
             _mapMessageWindowController.ShowWindow();
-            _mapMessageWindowController.ShowGeneralMessage(message, 0.5f);
+            _mapMessageWindowController.ShowGeneralMessage(fullMessage, 0.5f);
             ShowOption();
         }
 
@@ -297,8 +336,9 @@ namespace SimpleRpg
             _selectedItemData = selectedItemData;
             string itemName = selectedItemData.itemName;
             string message = $"{itemName} なら {selectedItemData.price} ゴールドだよ。\n買っていくかい？";
+            string fullMessage = GetFullMessage(message);
             _mapMessageWindowController.ShowWindow();
-            _mapMessageWindowController.ShowGeneralMessage(message, 0.5f);
+            _mapMessageWindowController.ShowGeneralMessage(fullMessage, 0.5f);
             ShowOption();
         }
 
@@ -317,9 +357,10 @@ namespace SimpleRpg
         {
             yield return null;
             string message = $"まいどあり！";
+            string fullMessage = GetFullMessage(message);
             _mapMessageWindowController.ShowWindow();
             float waitTime = 1.0f;
-            _mapMessageWindowController.ShowGeneralMessage(message, waitTime);
+            _mapMessageWindowController.ShowGeneralMessage(fullMessage, waitTime);
             yield return new WaitForSeconds(waitTime);
 
             _mapMessageWindowController.HideWindow();
@@ -343,9 +384,10 @@ namespace SimpleRpg
         {
             yield return null;
             string message = $"またおいで！";
+            string fullMessage = GetFullMessage(message);
             _mapMessageWindowController.ShowWindow();
             _mapMessageWindowController.ShowPager();
-            _mapMessageWindowController.ShowGeneralMessage(message, 0.5f);
+            _mapMessageWindowController.ShowGeneralMessage(fullMessage, 0.5f);
             _mapMessageWindowController.StartKeyWait();
             while (_mapMessageWindowController.IsWaitingKeyInput)
             {

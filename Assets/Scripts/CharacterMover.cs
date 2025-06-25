@@ -66,6 +66,16 @@ namespace SimpleRpg
             get {return _animationDirection;}
         }
 
+        /// <summary>
+        /// 移動後に実行する処理を確認するフラグです。
+        /// </summary>
+        protected bool _isCheckPostMove = true;
+
+        /// <summary>
+        /// 移動後に実行する処理を確認するコールバックです。
+        /// </summary>
+        protected ICharacterMoveCallback _moveCallback;
+
         protected void Start()
         {
             CheckComponents();
@@ -157,12 +167,54 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// キャラクターを強制的に移動させます。
+        /// </summary>
+        /// <param name="moveDirection">移動方向</param>
+        /// <param name="animDirection">アニメーションの方向</param>
+        public virtual void ForceMoveCharacter(MoveAnimationDirection direction, int steps, bool checkPostMove, ICharacterMoveCallback moveCallback)
+        {
+            _moveCallback = moveCallback;
+            StartCoroutine(ForceMoveCharacterProcess(direction, steps, checkPostMove));
+        }
+
+        /// <summary>
+        /// キャラクターを強制的に移動させます。
+        /// </summary>
+        /// <param name="direction">移動方向</param>
+        /// <param name="steps">移動するステップ数</param>
+        IEnumerator ForceMoveCharacterProcess(MoveAnimationDirection direction, int steps, bool checkPostMove)
+        {
+            _isCheckPostMove = checkPostMove;
+            var moveDirection = GetMoveDirection(direction);
+            for (int i = 0; i < steps; i++)
+            {
+                while (_isMoving)
+                {
+                    // キャラクターが移動中の場合は待機します。
+                    yield return null;
+                }
+
+                // キャラクターを移動させます。
+                _isMovingPaused = false;
+                MoveCharacter(moveDirection, direction);
+            }
+            _isCheckPostMove = true;
+            _isMovingPaused = true;
+
+            if (_moveCallback != null)
+            {
+                _moveCallback.OnFinishedMove();
+            }
+        }
+
+        /// <summary>
         /// キャラクターを移動させます。
         /// </summary>
         /// <param name="moveDirection">移動方向</param>
         /// <param name="animDirection">アニメーションの方向</param>
         protected virtual void MoveCharacter(Vector2Int moveDirection, MoveAnimationDirection animDirection)
         {
+            SimpleLogger.Instance.Log($"キャラクターを移動: {moveDirection}, アニメーション方向: {animDirection}");
             if (moveDirection == Vector2Int.zero)
             {
                 return;

@@ -24,6 +24,11 @@ namespace SimpleRpg
         public RuntimeAnimatorController animatorController;
 
         /// <summary>
+        /// アニメーターを止めるかどうかのフラグです。
+        /// </summary>
+        public bool isStopAnimator;
+
+        /// <summary>
         /// 対応するゲームオブジェクトです。
         /// </summary>
         public GameObject topGameObject;

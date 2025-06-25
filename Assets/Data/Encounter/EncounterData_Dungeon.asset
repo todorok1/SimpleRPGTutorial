@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EncounterData_Dungeon
   m_EditorClassIdentifier: 
   hasEncounter: 1
-  rate: 15
+  rate: 12
   enemyRates:
   - enemyId: 1
     rate: 1
