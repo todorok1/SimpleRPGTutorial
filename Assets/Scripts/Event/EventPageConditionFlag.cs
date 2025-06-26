@@ -25,14 +25,7 @@ namespace SimpleRpg
         /// <returns>条件が満たされている場合はtrue、そうでない場合はfalseを返します。</returns>
         public override bool CheckCondition()
         {
-            var flagManager = FindAnyObjectByType<FlagManager>();
-            if (flagManager == null)
-            {
-                SimpleLogger.Instance.LogError("FlagManagerが見つかりません。");
-                return false;
-            }
-
-            var currentState = flagManager.GetFlagState(_flagName);
+            var currentState = FlagManager.Instance.GetFlagState(_flagName);
             return _state == currentState;
         }
     }

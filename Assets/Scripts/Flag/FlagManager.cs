@@ -20,17 +20,50 @@ namespace SimpleRpg
         /// </summary>
         List<FlagState> _flagStates = new();
 
+        /// <summary>
+        /// このクラスのインスタンスです。
+        /// </summary>
+        private static FlagManager _instance;
+
+        /// <summary>
+        /// このクラスのインスタンスです。
+        /// </summary>
+        public static FlagManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindAnyObjectByType<FlagManager>();
+
+                    if (_instance == null)
+                    {
+                        GameObject singletonObject = new();
+                        _instance = singletonObject.AddComponent<FlagManager>();
+                        singletonObject.name = typeof(FlagManager).ToString() + " (Singleton)";
+                        DontDestroyOnLoad(singletonObject);
+                    }
+                }
+                return _instance;
+            }
+        }
+
+        private void Awake()
+        {
+            if (_instance == null)
+            {
+                _instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         void Start()
         {
             LoadFlagNames();
-        }
-
-        void Update()
-        {
-            if (Time.frameCount == 5)
-            {
-                InitializeFlagList();
-            }
         }
 
         /// <summary>
@@ -87,7 +120,6 @@ namespace SimpleRpg
         /// <param name="state">フラグの状態</param>
         public void SetFlagState(string flagName, bool state)
         {
-            SimpleLogger.Instance.LogWarning($"SetFlagStateが呼ばれました。 flagName: {flagName}, state: {state}");
             var flagState = _flagStates.Find(fs => fs.flagName == flagName);
             if (flagState != null)
             {

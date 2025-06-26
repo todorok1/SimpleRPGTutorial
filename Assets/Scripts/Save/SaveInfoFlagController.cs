@@ -10,19 +10,13 @@ namespace SimpleRpg
     public class SaveInfoFlagController : MonoBehaviour
     {
         /// <summary>
-        /// フラグの状態を保持するクラスへの参照です。
-        /// </summary>
-        [SerializeField]
-        FlagManager _flagManager;
-
-        /// <summary>
         /// セーブデータ用のフラグ情報を返します。
         /// </summary>
         public SaveInfoFlag GetSaveInfoFlag()
         {
             SaveInfoFlag saveInfoFlag = new()
             {
-                flagStates = _flagManager.GetFlagStateList()
+                flagStates = FlagManager.Instance.GetFlagStateList()
             };
             return saveInfoFlag;
         }
@@ -33,7 +27,7 @@ namespace SimpleRpg
         /// <param name="saveInfoFlag">フラグ情報</param>
         public void SetSaveInfoFlag(SaveInfoFlag saveInfoFlag)
         {
-            _flagManager.InitializeFlagList();
+            FlagManager.Instance.InitializeFlagList();
             if (saveInfoFlag == null)
             {
                 SimpleLogger.Instance.LogWarning("セーブデータ内のフラグ情報がnullです。");
@@ -54,7 +48,7 @@ namespace SimpleRpg
                     continue;
                 }
 
-                _flagManager.SetFlagState(flagState.flagName, flagState.state);
+                FlagManager.Instance.SetFlagState(flagState.flagName, flagState.state);
             }
         }
     }

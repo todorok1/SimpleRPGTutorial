@@ -41,6 +41,11 @@ namespace SimpleRpg
         public static readonly string Map = "Map";
 
         /// <summary>
+        /// マップの定義データのラベルです。
+        /// </summary>
+        public static readonly string MapData = "MapData";
+
+        /// <summary>
         /// フラグ名のデータのラベルです。
         /// </summary>
         public static readonly string Flag = "Flag";

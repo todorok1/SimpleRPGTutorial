@@ -7,12 +7,6 @@ namespace SimpleRpg
     /// </summary>
     public class FlagTester : MonoBehaviour
     {
-        /// <summary>
-        /// フラグを管理するクラスへの参照です。
-        /// </summary>
-        [SerializeField]
-        FlagManager _flagManager;
-
         [Header("フラグの内容を出力")]
         /// <summary>
         /// フラグの状態を出力するフラグです。
@@ -79,7 +73,7 @@ namespace SimpleRpg
             _outputAllFlagStates = false;
             SimpleLogger.Instance.Log($"フラグの一覧を出力します。");
 
-            var flagStates = _flagManager.GetFlagStateList();
+            var flagStates = FlagManager.Instance.GetFlagStateList();
             foreach (var flagState in flagStates)
             {
                 SimpleLogger.Instance.Log($"フラグ名: <b>{flagState.flagName}</b>, 状態: <b>{flagState.state}</b>");
@@ -103,7 +97,7 @@ namespace SimpleRpg
             }
 
             _outputFlagState = false;
-            var flagState = _flagManager.GetFlagState(_outputFlagName);
+            var flagState = FlagManager.Instance.GetFlagState(_outputFlagName);
             SimpleLogger.Instance.Log($"フラグ名: <b>{_outputFlagName}</b>, 状態: <b>{flagState}</b>");
         }
 
@@ -124,7 +118,7 @@ namespace SimpleRpg
                 return;
             }
 
-            _flagManager.SetFlagState(_flagName, _flagState);
+            FlagManager.Instance.SetFlagState(_flagName, _flagState);
             SimpleLogger.Instance.Log($"フラグの状態を変更しました。フラグ名: <b>{_flagName}</b>, 状態: <b>{_flagState}</b>");
         }
     }

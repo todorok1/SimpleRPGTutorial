@@ -18,15 +18,7 @@ namespace SimpleRpg
         public override void Execute()
         {
             // 戦闘に負けたフラグをセットします。
-            var flagManager = FindAnyObjectByType<FlagManager>();
-            if (flagManager != null)
-            {
-                flagManager.SetFlagState(FlagNames.BattleLose, true);
-            }
-            else
-            {
-                SimpleLogger.Instance.LogError("シーン内にFlagManagerが見つかりませんでした。");
-            }
+            FlagManager.Instance.SetFlagState(FlagNames.BattleLose, true);
 
             // 画面をフェードアウトさせます。
             _isFadeOut = true;

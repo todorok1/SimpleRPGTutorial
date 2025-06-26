@@ -214,7 +214,6 @@ namespace SimpleRpg
         /// <param name="animDirection">アニメーションの方向</param>
         protected virtual void MoveCharacter(Vector2Int moveDirection, MoveAnimationDirection animDirection)
         {
-            SimpleLogger.Instance.Log($"キャラクターを移動: {moveDirection}, アニメーション方向: {animDirection}");
             if (moveDirection == Vector2Int.zero)
             {
                 return;

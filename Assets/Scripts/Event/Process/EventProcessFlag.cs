@@ -24,12 +24,7 @@ namespace SimpleRpg
         /// </summary>
         public override void Execute()
         {
-            SimpleLogger.Instance.Log("EventProcessFlagのExecute()が呼ばれました。");
-            var flagManager = FindAnyObjectByType<FlagManager>();
-            if (flagManager != null)
-            {
-                flagManager.SetFlagState(_flagName, _flagState);
-            }
+            FlagManager.Instance.SetFlagState(_flagName, _flagState);
             CallNextProcess();
         }
     }

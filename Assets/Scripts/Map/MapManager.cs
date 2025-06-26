@@ -10,7 +10,7 @@ namespace SimpleRpg
     /// <summary>
     /// マップ機能を管理するクラスです。
     /// </summary>
-    public class MapManager : MonoBehaviour
+    public class MapManager : MonoBehaviour, IMapLoadCallback
     {
         /// <summary>
         /// ゲーム開始時に読み込むマップです。
@@ -83,26 +83,37 @@ namespace SimpleRpg
 
         void Start()
         {
-            LoadMapPrefab();
+            
         }
 
         /// <summary>
         /// マップ用Prefabをロードします。
         /// </summary>
-        public async void LoadMapPrefab()
+        public async void LoadMapPrefab(IMapLoadCallback callback)
         {
             AsyncOperationHandle<IList<GameObject>> handle = Addressables.LoadAssetsAsync<GameObject>(AddressablesLabels.Map, null);
             await handle.Task;
             _mapPrefabs = new List<GameObject>(handle.Result);
             handle.Release();
 
+            if (callback != null)
+            {
+                callback.OnFinishedLoad();
+            }
+        }
+
+        /// <summary>
+        /// ロードが完了した時に呼ばれるコールバックです。
+        /// </summary>
+        public void OnFinishedLoad()
+        {
             ShowStartMap();
         }
 
         /// <summary>
         /// ゲーム開始時のマップを表示します。
         /// </summary>
-        void ShowStartMap()
+        public void ShowStartMap()
         {
             // ゲーム開始時のマップを表示します。
             ShowMap(_gameStartMapId);
@@ -211,29 +222,6 @@ namespace SimpleRpg
         public MapController GetCurrentMapController()
         {
             return _currentMapController;
-        }
-
-        /// <summary>
-        /// IDに対応するマップの名前を取得します。
-        /// </summary>
-        public string GetMapNameFromId(int mapId)
-        {
-            string mapName = string.Empty;
-            var mapPrefab = GetMapPrefabById(mapId);
-            if (mapPrefab == null)
-            {
-                SimpleLogger.Instance.LogWarning($"指定したIDのマップPrefabが見つかりませんでした。 ID: {mapId}");
-                return mapName;
-            }
-            
-            var controller = mapPrefab.GetComponent<MapController>();
-            if (controller == null)
-            {
-                SimpleLogger.Instance.LogWarning($"指定したIDのPrefabでMapControllerが見つかりませんでした。 ID: {mapId}");
-                return mapName;
-            }
-
-            return controller.MapName;
         }
 
         /// <summary>

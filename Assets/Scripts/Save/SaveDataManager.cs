@@ -30,49 +30,6 @@ namespace SimpleRpg
         SaveInfoFlagController _saveInfoFlagController;
 
         /// <summary>
-        /// 読み込んだセーブファイルのキャッシュです。
-        /// </summary>
-        SaveFile _saveFile;
-
-        /// <summary>
-        /// セーブファイルを初期化します。
-        /// </summary>
-        public void InitializeSaveFile()
-        {
-            _saveFile = new()
-            {
-                saveSlots = new List<SaveSlot>()
-            };
-        }
-
-        /// <summary>
-        /// ファイルをディスクからロードします。
-        /// </summary>
-        public void LoadFile()
-        {
-            // セーブファイルのパスを取得し、存在しない場合はフィールドを初期化します。
-            string path = SaveDataUtil.GetSaveFilePath();
-            if (!File.Exists(path))
-            {
-                SimpleLogger.Instance.Log($"指定したパスにデータが存在しないため、セーブファイルを初期化します。 path : {path}");
-                InitializeSaveFile();
-                return;
-            }
-
-            try
-            {
-                string loadedText = File.ReadAllText(path);
-                _saveFile = JsonUtility.FromJson<SaveFile>(loadedText);
-                SimpleLogger.Instance.Log($"loadedText : {loadedText}");
-            }
-            catch (Exception e)
-            {
-                SimpleLogger.Instance.LogError($"ロードに失敗しました。 エラー内容 : {e}");
-                InitializeSaveFile();
-            }
-        }
-
-        /// <summary>
         /// ロードした情報について、指定したセーブ枠の情報をメモリに読み込みます。
         /// </summary>
         /// <param name="slotId">セーブする枠のID</param>
@@ -84,19 +41,19 @@ namespace SimpleRpg
                 return;
             }
 
-            if (_saveFile == null)
+            if (SaveDataHolder.SaveFile == null)
             {
                 SimpleLogger.Instance.LogWarning($"ロードに失敗しました。読み込んだセーブファイルが存在しません。");
                 return;
             }
 
-            if (_saveFile.saveSlots == null)
+            if (SaveDataHolder.SaveFile.saveSlots == null)
             {
                 SimpleLogger.Instance.LogWarning($"ロードに失敗しました。セーブファイルのセーブ枠が存在しません。");
                 return;
             }
 
-            var saveSlot = _saveFile.saveSlots.Find(slot => slot.slotId == slotId);
+            var saveSlot = SaveDataHolder.SaveFile.saveSlots.Find(slot => slot.slotId == slotId);
             if (saveSlot == null)
             {
                 SimpleLogger.Instance.LogWarning($"ロードに失敗しました。IDに対応するデータが存在しませんでした。 ID : {slotId}");
@@ -122,18 +79,7 @@ namespace SimpleRpg
             }
 
             UpdateSlotData(slotId);
-            var json = JsonUtility.ToJson(_saveFile);
-            var path = SaveDataUtil.GetSaveFilePath();
-            try
-            {
-                File.WriteAllText(path, json);
-                SimpleLogger.Instance.Log($"セーブしたjson : {json}");
-            }
-            catch (Exception e)
-            {
-                SimpleLogger.Instance.LogError($"セーブに失敗しました。エラー内容 : {e}");
-                return;
-            }
+            SaveDataHolder.Save();
         }
 
         /// <summary>
@@ -146,21 +92,21 @@ namespace SimpleRpg
             var saveInfoMap = _saveInfoMapController.GetSaveInfoMap();
             var saveInfoFlag = _saveInfoFlagController.GetSaveInfoFlag();
 
-            if (_saveFile == null)
+            if (SaveDataHolder.SaveFile == null)
             {
-                InitializeSaveFile();
+                SaveDataHolder.InitializeSaveFile();
             }
 
-            if (_saveFile.saveSlots == null)
+            if (SaveDataHolder.SaveFile.saveSlots == null)
             {
-                InitializeSaveFile();
+                SaveDataHolder.InitializeSaveFile();
             }
 
-            var saveSlot = _saveFile.saveSlots.Find(slot => slot.slotId == slotId);
+            var saveSlot = SaveDataHolder.SaveFile.saveSlots.Find(slot => slot.slotId == slotId);
             if (saveSlot == null)
             {
                 saveSlot = GetSlotData(slotId);
-                _saveFile.saveSlots.Add(saveSlot);
+                SaveDataHolder.SaveFile.saveSlots.Add(saveSlot);
             }
             else
             {
@@ -197,18 +143,18 @@ namespace SimpleRpg
         public SaveSlot GetSaveSlot(int slotId)
         {
             SaveSlot saveSlot = null;
-            if (_saveFile == null)
+            if (SaveDataHolder.SaveFile == null)
             {
                 SimpleLogger.Instance.LogWarning($"セーブデータが存在しません。");
                 return saveSlot;
             }
 
-            if (_saveFile.saveSlots == null)
+            if (SaveDataHolder.SaveFile.saveSlots == null)
             {
                 SimpleLogger.Instance.LogWarning($"セーブデータのセーブ枠が存在しません。");
                 return saveSlot;
             }
-            saveSlot = _saveFile.saveSlots.Find(slot => slot.slotId == slotId);
+            saveSlot = SaveDataHolder.SaveFile.saveSlots.Find(slot => slot.slotId == slotId);
             return saveSlot;
         }
     }
