@@ -20,6 +20,47 @@ namespace SimpleRpg
         /// </summary>
         List<FlagState> _flagStates = new();
 
+        /// <summary>
+        /// このクラスのインスタンスです。
+        /// </summary>
+        private static FlagManager _instance;
+
+        /// <summary>
+        /// このクラスのインスタンスです。
+        /// </summary>
+        public static FlagManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindAnyObjectByType<FlagManager>();
+
+                    if (_instance == null)
+                    {
+                        GameObject singletonObject = new();
+                        _instance = singletonObject.AddComponent<FlagManager>();
+                        singletonObject.name = typeof(FlagManager).ToString() + " (Singleton)";
+                        DontDestroyOnLoad(singletonObject);
+                    }
+                }
+                return _instance;
+            }
+        }
+
+        private void Awake()
+        {
+            if (_instance == null)
+            {
+                _instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         void Start()
         {
             LoadFlagNames();
