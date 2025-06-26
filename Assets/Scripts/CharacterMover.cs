@@ -49,9 +49,25 @@ namespace SimpleRpg
         protected bool _isMoving;
 
         /// <summary>
+        /// 移動中かどうかのフラグです。
+        /// </summary>
+        public bool IsMoving
+        {
+            get {return _isMoving;}
+        }
+
+        /// <summary>
         /// 移動できる状況かどうかのフラグです。
         /// </summary>
         protected bool _isMovingPaused;
+
+        /// <summary>
+        /// 移動できる状況かどうかのフラグです。
+        /// </summary>
+        public bool IsMovingPaused
+        {
+            get {return _isMovingPaused;}
+        }
 
         /// <summary>
         /// 現在向いている方向です。
@@ -76,7 +92,7 @@ namespace SimpleRpg
         /// </summary>
         protected ICharacterMoveCallback _moveCallback;
 
-        protected void Start()
+        protected virtual void Start()
         {
             CheckComponents();
             GetCurrentPositionOnTilemap();
@@ -145,7 +161,7 @@ namespace SimpleRpg
         /// 引数のアニメーションの方向から移動方向を取得します。
         /// </summary>
         /// <param name="animDirection">アニメーションの方向</param>
-        protected virtual Vector2Int GetMoveDirection(MoveAnimationDirection animDirection)
+        public virtual Vector2Int GetMoveDirection(MoveAnimationDirection animDirection)
         {
             var moveDirection = Vector2Int.zero;
             switch (animDirection)
@@ -336,7 +352,7 @@ namespace SimpleRpg
         /// 移動先にいるキャラクターのコライダーを取得します。
         /// </summary>
         /// <param name="moveDirection">移動方向</param>
-        protected virtual List<RaycastHit2D> GetOtherCharacter(Vector2Int moveDirection)
+        public virtual List<RaycastHit2D> GetOtherCharacter(Vector2Int moveDirection)
         {
             // Rayを飛ばすにあたって、フィルター、結果を格納するリスト、距離を定義します。
             ContactFilter2D filter2D = new();
