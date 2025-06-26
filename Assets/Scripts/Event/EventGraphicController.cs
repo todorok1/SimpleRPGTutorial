@@ -31,7 +31,6 @@ namespace SimpleRpg
         /// </summary>
         public void SetEventGraphic(EventPage eventPage)
         {
-            SimpleLogger.Instance.Log("SetEventGraphic()が呼ばれました。");
             if (_eventGraphicRecords == null)
             {
                 return;
@@ -46,7 +45,6 @@ namespace SimpleRpg
                     continue;
                 }
 
-                SimpleLogger.Instance.Log($"record.name : {record.name}, record.eventPages.Contains(eventPage) : {record.eventPages.Contains(eventPage)}");
                 if (record.eventPages.Contains(eventPage))
                 {
                     // スプライトを変更します。
@@ -65,12 +63,6 @@ namespace SimpleRpg
 
                         _animator.enabled = !record.isStopAnimator;
                     }
-
-                    // // ゲームオブジェクトの表示状態を変更します。
-                    // if (record.topGameObject != null)
-                    // {
-                    //     record.topGameObject.SetActive(record.isVisible);
-                    // }
                     return;
                 }
             }

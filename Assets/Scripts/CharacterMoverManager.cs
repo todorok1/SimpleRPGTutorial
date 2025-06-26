@@ -27,7 +27,6 @@ namespace SimpleRpg
         /// </summary>
         public void StopCharacterMover()
         {
-            SimpleLogger.Instance.Log("StopCharacterMover()が呼ばれました。");
             foreach (var characterMover in _characterMovers)
             {
                 if (characterMover == null)
@@ -44,7 +43,6 @@ namespace SimpleRpg
         /// </summary>
         public void ResumeCharacterMover()
         {
-            SimpleLogger.Instance.Log("ResumeCharacterMover()が呼ばれました。");
             foreach (var characterMover in _characterMovers)
             {
                 if (characterMover == null)

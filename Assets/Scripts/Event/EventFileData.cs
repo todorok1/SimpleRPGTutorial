@@ -37,7 +37,6 @@ namespace SimpleRpg
         /// </summary>
         public void ExecuteEvent(RpgEventTrigger rpgEventTrigger)
         {
-            SimpleLogger.Instance.Log("ExecuteEvent()が呼ばれました。");
             SetUpEventPages();
             var targetPage = GetEventPage(rpgEventTrigger);
             if (targetPage == null)
@@ -59,7 +58,6 @@ namespace SimpleRpg
             {
                 var pages = GetComponentsInChildren<EventPage>();
                 _eventPages = new List<EventPage>(pages);
-                SimpleLogger.Instance.Log($"_eventPagesの数 : {_eventPages.Count}");
             }
         }
 
@@ -120,15 +118,12 @@ namespace SimpleRpg
         /// </summary>
         public void SetEventGraphic()
         {
-            SimpleLogger.Instance.Log("SetEventGraphic()が呼ばれました。");
             SetUpEventPages();
             var targetPage = GetEventPage();
             if (targetPage == null)
             {
-                SimpleLogger.Instance.Log("targetPageがnullなので処理を抜けます。");
                 return;
             }
-            SimpleLogger.Instance.Log($"targetPage.name : {targetPage.name}");
 
             if (_eventGraphicController != null)
             {

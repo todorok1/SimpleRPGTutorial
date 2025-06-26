@@ -48,7 +48,6 @@ namespace SimpleRpg
         /// </summary>
         public virtual void CallNextProcess(EventProcessBase process = null)
         {
-            SimpleLogger.Instance.Log("CallNextProcess()が呼ばれました。");
             if (_eventPage == null)
             {
                 SimpleLogger.Instance.LogWarning("イベントページへの参照が設定されていません。");

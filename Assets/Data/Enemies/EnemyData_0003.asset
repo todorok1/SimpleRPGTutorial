@@ -15,7 +15,7 @@ MonoBehaviour:
   enemyId: 3
   enemyName: "\u30DC\u30B9\u30B4\u30D6\u30EA\u30F3"
   sprite: {fileID: 21300000, guid: 93d45c3784b4842a18984812e1ad16d2, type: 3}
-  hp: 1
+  hp: 30
   mp: 3
   strength: 18
   guard: 12

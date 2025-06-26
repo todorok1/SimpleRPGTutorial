@@ -159,21 +159,16 @@ namespace SimpleRpg
         /// </summary>
         void CheckEvent()
         {
-            SimpleLogger.Instance.Log("CheckEvent()が呼ばれました。");
-
             // 目の前にいるゲームオブジェクトを確認します。
             var moveDirection = GetMoveDirection(_animationDirection);
-            SimpleLogger.Instance.Log("moveDirection : " + moveDirection);
             var raycastHits = GetOtherCharacter(moveDirection);
 
             // 対象のゲームオブジェクトを取得します。
             var hitObj = GetGameObjectFromRaycastHits(raycastHits);
             if (hitObj == null)
             {
-                SimpleLogger.Instance.Log("hitObjがnullなので処理を抜ける。");
                 return;
             }
-            SimpleLogger.Instance.Log($"hitObj.name : {hitObj.name}");
 
             // 移動用の制御クラスがアタッチされている場合はキャッシュします。
             _eventTargetMover = hitObj.GetComponent<CharacterMover>();
@@ -276,7 +271,6 @@ namespace SimpleRpg
             var eventPos = _tilemapManager.GetPositionOnTilemap(eventObj.transform.position);
             if (eventPos != _posOnTile)
             {
-                SimpleLogger.Instance.Log("タイル上の位置が異なるので処理を抜ける。");
                 return false;
             }
 
@@ -302,7 +296,6 @@ namespace SimpleRpg
             SetEventMoverDirectionToPlayer();
 
             // イベントの開始を通知します。
-            SimpleLogger.Instance.Log("イベントの開始を通知します。");
             var eventQueue = new EventQueue
             {
                 targetObj = eventObj,

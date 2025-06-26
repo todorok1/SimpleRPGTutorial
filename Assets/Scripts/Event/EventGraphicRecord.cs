@@ -27,15 +27,5 @@ namespace SimpleRpg
         /// アニメーターを止めるかどうかのフラグです。
         /// </summary>
         public bool isStopAnimator;
-
-        /// <summary>
-        /// 対応するゲームオブジェクトです。
-        /// </summary>
-        public GameObject topGameObject;
-
-        /// <summary>
-        /// セットする表示状態です。
-        /// </summary>
-        public bool isVisible;
     }
 }
