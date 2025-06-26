@@ -15,5 +15,6 @@ MonoBehaviour:
   flagNames:
   - Opening
   - DungeonTreasure
+  - DungeonTreasureGold
   - DungeonBossWin
   - BattleLose
