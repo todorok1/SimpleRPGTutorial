@@ -16,26 +16,21 @@ namespace SimpleRpg
         List<EventPageConditionBase> _conditions;
 
         /// <summary>
-        /// 最初に実行するイベントです。
-        /// </summary>
-        [SerializeField]
-        EventProcessBase _startProcess;
-
-        /// <summary>
         /// イベントのページのトリガーです。
         /// </summary>
         [SerializeField]
         RpgEventTrigger _eventTrigger;
 
         /// <summary>
+        /// 最初に実行するイベントです。
+        /// </summary>
+        [SerializeField]
+        EventProcessBase _startProcess;
+
+        /// <summary>
         /// イベントの処理を行うクラスへの参照です。
         /// </summary>
         EventProcessor _eventProcessor;
-
-        /// <summary>
-        /// このページ内のイベント処理のリストです。
-        /// </summary>
-        List<EventProcessBase> _eventProcessList;
 
         /// <summary>
         /// 実行対象のイベントです。
@@ -81,15 +76,6 @@ namespace SimpleRpg
         }
 
         /// <summary>
-        /// このページのイベント処理を取得します。
-        /// </summary>
-        public void SetUpProcesses()
-        {
-            var processes = GetComponentsInChildren<EventProcessBase>();
-            _eventProcessList = new List<EventProcessBase>(processes);
-        }
-
-        /// <summary>
         /// イベントの処理を開始します。
         /// </summary>
         /// <param name="eventProcessor">イベントの処理を行うクラスへの参照です。</param>
@@ -98,13 +84,6 @@ namespace SimpleRpg
             _eventProcessor = eventProcessor;
             _eventFileData = eventFileData;
             _targetEventProcess = _startProcess;
-            SetUpProcesses();
-            if (_eventProcessList == null || _eventProcessList.Count == 0)
-            {
-                SimpleLogger.Instance.Log("このページに対応するEventProcessがありませんでした。");
-                OnFinishedEventPage();
-                return;
-            }
 
             ExecuteEventProcess();
         }
