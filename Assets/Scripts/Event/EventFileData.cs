@@ -20,6 +20,19 @@ namespace SimpleRpg
         List<EventPage> _eventPages;
 
         /// <summary>
+        /// イベントの処理を行うクラスへの参照です。
+        /// </summary>
+        EventProcessor _eventProcessor;
+
+        /// <summary>
+        /// イベントを処理するクラスへの参照をセットします。
+        /// </summary>
+        public void SetReference(EventProcessor eventProcessor)
+        {
+            _eventProcessor = eventProcessor;
+        }
+
+        /// <summary>
         /// 対象のイベントページの処理を開始します。
         /// </summary>
         public void ExecuteEvent(RpgEventTrigger rpgEventTrigger)
@@ -29,10 +42,11 @@ namespace SimpleRpg
             if (targetPage == null)
             {
                 SimpleLogger.Instance.Log($"実行可能なイベントページが見つかりませんでした。イベントのトリガー : {rpgEventTrigger}");
+                _eventProcessor.OnEventFinished();
                 return;
             }
 
-            targetPage.StartEvent(this);
+            targetPage.StartEvent(_eventProcessor, this);
         }
 
         /// <summary>

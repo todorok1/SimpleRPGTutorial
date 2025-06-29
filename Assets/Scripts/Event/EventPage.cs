@@ -28,6 +28,11 @@ namespace SimpleRpg
         EventProcessBase _startProcess;
 
         /// <summary>
+        /// イベントの処理を行うクラスへの参照です。
+        /// </summary>
+        EventProcessor _eventProcessor;
+
+        /// <summary>
         /// 実行対象のイベントです。
         /// </summary>
         EventProcessBase _targetEventProcess;
@@ -64,7 +69,6 @@ namespace SimpleRpg
         /// <summary>
         /// イベントのトリガーが一致しているか確認します。
         /// </summary>
-        /// <param name="rpgEventTrigger">イベントの開始方法</param>
         public bool IsMatchedTrigger(RpgEventTrigger rpgEventTrigger)
         {
             return _eventTrigger == rpgEventTrigger;
@@ -73,9 +77,11 @@ namespace SimpleRpg
         /// <summary>
         /// イベントの処理を開始します。
         /// </summary>
+        /// <param name="eventProcessor">イベントの処理を行うクラスへの参照です。</param>
         /// <param name="eventFileData">実行するイベントのデータ</param>
-        public void StartEvent(EventFileData eventFileData)
+        public void StartEvent(EventProcessor eventProcessor, EventFileData eventFileData)
         {
+            _eventProcessor = eventProcessor;
             _eventFileData = eventFileData;
             _targetEventProcess = _startProcess;
 
@@ -120,7 +126,7 @@ namespace SimpleRpg
         /// </summary>
         public void OnFinishedEventPage()
         {
-            
+            _eventProcessor.OnEventFinished();
         }
     }
 }
