@@ -311,9 +311,23 @@ namespace SimpleRpg
             // Rayを飛ばすにあたって、フィルター、結果を格納するリスト、距離を定義します。
             ContactFilter2D filter2D = new();
             List<RaycastHit2D> raycastHits = new();
-            float distance = 1.0f;
+            float distance = GetRayDistance(moveDirection);
             _boxCollider2d.Raycast(moveDirection, filter2D.NoFilter(), raycastHits, distance);
             return raycastHits;
+        }
+
+        /// <summary>
+        /// レイを飛ばす距離を取得します。
+        /// </summary>
+        /// <param name="moveDirection">移動方向</param>
+        protected virtual float GetRayDistance(Vector2Int moveDirection)
+        {
+            // 向いている方向のタイルがイベントの実行時にひとつ先まで確認する対象のタイルかどうかを確認します。
+            Vector3Int targetPos = _posOnTile + (Vector3Int)moveDirection;
+            bool isThroughTile = _tilemapManager.IsThroughTile(targetPos);
+
+            // イベントの実行時にひとつ先まで確認する対象のタイルならもう1マス先までレイを飛ばします。
+            return isThroughTile ? 2.0f : 1.0f;
         }
 
         /// <summary>

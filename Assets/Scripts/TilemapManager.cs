@@ -34,6 +34,12 @@ namespace SimpleRpg
         NoEntryTileData _noEntryTileData;
 
         /// <summary>
+        /// イベント実行時にひとつ先まで確認するタイル一覧の定義ファイルです。
+        /// </summary>
+        [SerializeField]
+        ThroughTileData _throughTileData;
+
+        /// <summary>
         /// キャラクターがいるTilemap上の座標の辞書です。
         /// Key: キャラクターのインスタンスID
         /// Value: 座標
@@ -92,15 +98,7 @@ namespace SimpleRpg
             }
 
             // 各レイヤーのタイルを確認します。
-            List<TileBase> targetTiles = new();
-            var baseTile = GetTileOnPos(_tilemapBase, targetPos);
-            targetTiles.Add(baseTile);
-
-            var propsTile = GetTileOnPos(_tilemapProps, targetPos);
-            targetTiles.Add(propsTile);
-
-            var overrayTile = GetTileOnPos(_tilemapOverray, targetPos);
-            targetTiles.Add(overrayTile);
+            List<TileBase> targetTiles = GetTilesOnPosition(targetPos);
 
             // 定義ファイルのタイルと照合します。
             foreach (var tile in targetTiles)
@@ -118,6 +116,60 @@ namespace SimpleRpg
             }
 
             return canEntry;
+        }
+
+        /// <summary>
+        /// 対象の座標が、イベントの実行時にひとつ先まで確認する対象のタイルか確認します。
+        /// </summary>
+        /// <param name="targetPos">移動先のTilemap上の座標</param>
+        public bool IsThroughTile(Vector3Int targetPos)
+        {
+            bool isThroughTile = false;
+
+            if (_throughTileData == null)
+            {
+                Debug.LogWarning("ひとつ先まで確認するタイル一覧の定義ファイルがnullです。[ThroughTileData]のフィールドに定義ファイルをアサインしてください。");
+                return isThroughTile;
+            }
+
+            // 各レイヤーのタイルを確認します。
+            List<TileBase> targetTiles = GetTilesOnPosition(targetPos);
+
+            // 定義ファイルのタイルと照合します。
+            foreach (var tile in targetTiles)
+            {
+                if (_throughTileData.throughTiles == null)
+                {
+                    break;
+                }
+
+                if (_throughTileData.throughTiles.Contains(tile))
+                {
+                    isThroughTile = true;
+                    break;
+                }
+            }
+
+            return isThroughTile;
+        }
+
+        /// <summary>
+        /// 各タイルマップにて指定した座標のタイルをリストとして取得します。
+        /// </summary>
+        /// <param name="targetPos">Tilemap上の座標</param>
+        List<TileBase> GetTilesOnPosition(Vector3Int targetPos)
+        {
+            // 各レイヤーのタイルを確認します。
+            List<TileBase> targetTiles = new();
+            var baseTile = GetTileOnPos(_tilemapBase, targetPos);
+            targetTiles.Add(baseTile);
+
+            var propsTile = GetTileOnPos(_tilemapProps, targetPos);
+            targetTiles.Add(propsTile);
+
+            var overrayTile = GetTileOnPos(_tilemapOverray, targetPos);
+            targetTiles.Add(overrayTile);
+            return targetTiles;
         }
 
         /// <summary>
