@@ -9,13 +9,26 @@ namespace SimpleRpg
     public class PlayerMover : CharacterMover
     {
         /// <summary>
+        /// 操作キャラの移動に伴うイベントの確認を行うクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        PlayerEventChecker _playerEventChecker;
+
+        /// <summary>
         /// 敵キャラクターとのエンカウントを管理するクラスへの参照です。
         /// </summary>
         EncounterManager _encounterManager;
 
+        protected override void Start()
+        {
+            base.Start();
+            _playerEventChecker.SetUpReference(this);
+        }
+
         void Update()
         {
             CheckMoveInput();
+            _playerEventChecker.CheckEventInput();
         }
 
         /// <summary>
@@ -46,38 +59,46 @@ namespace SimpleRpg
                 return;
             }
 
-            var moveDirection = Vector2Int.zero;
-            MoveAnimationDirection animDirection = MoveAnimationDirection.Front;
-
             // 斜め移動は行わないため、上下左右のいずれかを移動対象とします。
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                moveDirection = Vector2Int.down;
-                animDirection = MoveAnimationDirection.Front;
+                _animationDirection = MoveAnimationDirection.Front;
             }
             else if (Input.GetKey(KeyCode.RightArrow))
             {
-                moveDirection = Vector2Int.right;
-                animDirection = MoveAnimationDirection.Right;
+                _animationDirection = MoveAnimationDirection.Right;
             }
             else if (Input.GetKey(KeyCode.UpArrow))
             {
-                moveDirection = Vector2Int.up;
-                animDirection = MoveAnimationDirection.Back;
+                _animationDirection = MoveAnimationDirection.Back;
             }
             else if (Input.GetKey(KeyCode.LeftArrow))
             {
-                moveDirection = Vector2Int.left;
-                animDirection = MoveAnimationDirection.Left;
+                _animationDirection = MoveAnimationDirection.Left;
+            }
+            else
+            {
+                // 移動キーが押されていない場合は処理を抜けます。
+                return;
             }
 
-            MoveCharacter(moveDirection, animDirection);
+            var moveDirection = GetMoveDirection(_animationDirection);
+            MoveCharacter(moveDirection, _animationDirection);
         }
 
         /// <summary>
         /// キャラクター移動後の処理です。
         /// </summary>
         protected override void PostMove()
+        {
+            // イベントがない場合は、エンカウントの確認を行います。
+            CheckEncounter();
+        }
+
+        /// <summary>
+        /// エンカウントが発生するかどうかを確認します。
+        /// </summary>
+        void CheckEncounter()
         {
             GetReference();
             if (_encounterManager != null)

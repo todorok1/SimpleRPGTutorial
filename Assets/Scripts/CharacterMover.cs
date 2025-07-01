@@ -49,11 +49,52 @@ namespace SimpleRpg
         protected bool _isMoving;
 
         /// <summary>
+        /// 移動中かどうかのフラグです。
+        /// </summary>
+        public bool IsMoving
+        {
+            get {return _isMoving;}
+        }
+
+        /// <summary>
         /// 移動できる状況かどうかのフラグです。
         /// </summary>
         protected bool _isMovingPaused;
 
-        protected void Start()
+        /// <summary>
+        /// 移動できる状況かどうかのフラグです。
+        /// </summary>
+        public bool IsMovingPaused
+        {
+            get {return _isMovingPaused;}
+        }
+
+        /// <summary>
+        /// 現在向いている方向です。
+        /// </summary>
+        protected MoveAnimationDirection _animationDirection;
+
+        /// <summary>
+        /// 現在向いている方向です。
+        /// </summary>
+        public MoveAnimationDirection AnimationDirection
+        {
+            get {return _animationDirection;}
+        }
+
+        /// <summary>
+        /// 移動後に実行する処理を確認するフラグです。
+        /// </summary>
+        protected bool _isCheckPostMove = true;
+
+        protected virtual void Start()
+        {
+            CheckComponents();
+            GetCurrentPositionOnTilemap();
+            RegisterComponent();
+        }
+
+        protected void OnEnable()
         {
             CheckComponents();
             GetCurrentPositionOnTilemap();
@@ -112,6 +153,31 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 引数のアニメーションの方向から移動方向を取得します。
+        /// </summary>
+        /// <param name="animDirection">アニメーションの方向</param>
+        public virtual Vector2Int GetMoveDirection(MoveAnimationDirection animDirection)
+        {
+            var moveDirection = Vector2Int.zero;
+            switch (animDirection)
+            {
+                case MoveAnimationDirection.Front:
+                    moveDirection = Vector2Int.down;
+                    break;
+                case MoveAnimationDirection.Right:
+                    moveDirection = Vector2Int.right;
+                    break;
+                case MoveAnimationDirection.Back:
+                    moveDirection = Vector2Int.up;
+                    break;
+                case MoveAnimationDirection.Left:
+                    moveDirection = Vector2Int.left;
+                    break;
+            }
+            return moveDirection;
+        }
+
+        /// <summary>
         /// キャラクターを移動させます。
         /// </summary>
         /// <param name="moveDirection">移動方向</param>
@@ -130,10 +196,7 @@ namespace SimpleRpg
             }
 
             // 移動方向に応じたアニメーションに切り替えます。
-            if (_animator != null)
-            {
-                _animator.SetInteger(AnimationSettings.DirectionParameterName, (int)animDirection);
-            }
+            SetCharacterDirection(animDirection);
 
             // 移動できるかの確認を行います。
             var targetPos = _posOnTile + (Vector3Int)moveDirection;
@@ -217,11 +280,7 @@ namespace SimpleRpg
                 return false;
             }
 
-            // Rayを飛ばすにあたって、フィルター、結果を格納するリスト、距離を定義します。
-            ContactFilter2D filter2D = new();
-            List<RaycastHit2D> raycastHits = new();
-            float distance = 1.0f;
-            _boxCollider2d.Raycast(moveDirection, filter2D.NoFilter(), raycastHits, distance);
+            List<RaycastHit2D> raycastHits = GetOtherCharacter(moveDirection);
 
             // 返ってきた結果からColliderを取得してタグを確認します。
             bool exist = false;
@@ -244,6 +303,20 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 移動先にいるキャラクターのコライダーを取得します。
+        /// </summary>
+        /// <param name="moveDirection">移動方向</param>
+        public virtual List<RaycastHit2D> GetOtherCharacter(Vector2Int moveDirection)
+        {
+            // Rayを飛ばすにあたって、フィルター、結果を格納するリスト、距離を定義します。
+            ContactFilter2D filter2D = new();
+            List<RaycastHit2D> raycastHits = new();
+            float distance = 1.0f;
+            _boxCollider2d.Raycast(moveDirection, filter2D.NoFilter(), raycastHits, distance);
+            return raycastHits;
+        }
+
+        /// <summary>
         /// Colliderのタグが、移動しない対象のものか確認します。
         /// </summary>
         /// <param name="collider">RayがHitしたCollider</param>
@@ -252,6 +325,18 @@ namespace SimpleRpg
             bool isTargetTag = collider.CompareTag(ObjectTagSettings.Npc)
                             || collider.CompareTag(ObjectTagSettings.Player);
             return isTargetTag;
+        }
+
+        /// <summary>
+        /// キャラクターのアニメーションの方向を更新します。
+        /// </summary>
+        /// <param name="animDirection">アニメーションの方向</param>
+        public virtual void SetCharacterDirection(MoveAnimationDirection animDirection)
+        {
+            if (_animator != null)
+            {
+                _animator.SetInteger(AnimationSettings.DirectionParameterName, (int)animDirection);
+            }
         }
 
         /// <summary>
