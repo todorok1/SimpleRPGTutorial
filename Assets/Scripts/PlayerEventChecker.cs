@@ -126,6 +126,22 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 引数のColliderのリストからゲームオブジェクトを取得します。
+        /// </summary>
+        /// <param name="colliders">Collider2Dのリスト</param>
+        GameObject GetGameObjectFromColliders(List<Collider2D> colliders)
+        {
+            if (colliders == null || colliders.Count == 0)
+            {
+                return null;
+            }
+
+            // 最初のColliderのゲームオブジェクトを返します。
+            GameObject targetObj = colliders[0].gameObject;
+            return targetObj;
+        }
+
+        /// <summary>
         /// イベントの実行対象となるキャラクターの向きを変更します。
         /// </summary>
         void SetEventMoverDirectionToPlayer()
@@ -157,6 +173,34 @@ namespace SimpleRpg
 
             // 元の向きに設定します。
             _eventTargetMover.SetCharacterDirection(_eventTargetMover.AnimationDirection);
+        }
+
+        /// <summary>
+        /// タイル上で重なったイベントを確認します。
+        /// </summary>
+        public bool CheckOnTileEvent()
+        {
+            // 重なったゲームオブジェクトを確認します。
+            List<Collider2D> colliders = new List<Collider2D>();
+            _boxCollider2d.Overlap(colliders);
+
+            // 対象のゲームオブジェクトを取得します。
+            var eventObj = GetGameObjectFromColliders(colliders);
+            if (eventObj == null)
+            {
+                return false;
+            }
+
+            // 対象のゲームオブジェクトのマップ上の位置を確認します。
+            var eventPos = _tilemapManager.GetPositionOnTilemap(eventObj.transform.position);
+            if (eventPos != _playerMover.PosOnTile)
+            {
+                return false;
+            }
+
+            // イベントファイルをイベント処理のクラスに渡します。
+            StartEvent(eventObj, RpgEventTrigger.OnTile);
+            return true;
         }
 
         /// <summary>

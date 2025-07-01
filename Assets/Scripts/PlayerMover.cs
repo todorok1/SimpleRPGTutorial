@@ -91,6 +91,18 @@ namespace SimpleRpg
         /// </summary>
         protected override void PostMove()
         {
+            // イベント中など、移動後の処理を行わない場合は処理を抜けます。
+            if (!_isCheckPostMove)
+            {
+                return;
+            }
+
+            // 移動後のマスにイベントがあるかどうかを確認します。
+            if (_playerEventChecker.CheckOnTileEvent())
+            {
+                return;
+            }
+
             // イベントがない場合は、エンカウントの確認を行います。
             CheckEncounter();
         }

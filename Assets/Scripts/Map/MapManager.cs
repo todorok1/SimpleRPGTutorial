@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -152,6 +153,7 @@ namespace SimpleRpg
                 _characterMoverManager.ResetPositions();
 
                 SimpleLogger.Instance.Log($"マップを表示します。 ID: {mapId} Name: {_currentMapController.MapName}");
+                CheckEvent();
             }
         }
 
@@ -225,6 +227,44 @@ namespace SimpleRpg
             }
 
             return controller.MapName;
+        }
+
+        /// <summary>
+        /// マップ内のイベントを取得します。
+        /// </summary>
+        public EventFileData[] GetEventsInMap()
+        {
+            var eventFiles = _currentMapController.GetComponentsInChildren<EventFileData>();
+            return eventFiles;
+        }
+
+        /// <summary>
+        /// マップ内のイベントを確認します。
+        /// </summary>
+        public void CheckEvent()
+        {
+            StartCoroutine(CheckEventProcess());
+        }
+
+        /// <summary>
+        /// マップ内のイベントを確認します。
+        /// </summary>
+        IEnumerator CheckEventProcess()
+        {
+            var eventFiles = GetEventsInMap();
+            yield return StartCoroutine(CheckEventGraphic(eventFiles));
+        }
+
+        /// <summary>
+        /// マップ内のイベントのグラフィックを確認します。
+        /// </summary>
+        public IEnumerator CheckEventGraphic(EventFileData[] eventFiles)
+        {
+            yield return null;
+            foreach (var eventData in eventFiles)
+            {
+                eventData.SetEventGraphic();
+            }
         }
     }
 }
