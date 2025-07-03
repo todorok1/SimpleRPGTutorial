@@ -476,6 +476,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Map_0001_Village
       objectReference: {fileID: 0}
+    - target: {fileID: 1089271857413231137, guid: 4179c78a21f92459b89587a7e247851a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

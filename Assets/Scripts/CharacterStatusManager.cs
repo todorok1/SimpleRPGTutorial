@@ -218,6 +218,10 @@ namespace SimpleRpg
             else
             {
                 partyItemInfo.itemNum += itemNum;
+                if (partyItemInfo.itemNum > ValueSettings.MaxItemNum)
+                {
+                    partyItemInfo.itemNum = ValueSettings.MaxItemNum;
+                }
             }
         }
 
@@ -304,6 +308,14 @@ namespace SimpleRpg
         public static void IncreaseGold(int gold)
         {
             partyGold += gold;
+            if (partyGold < 0)
+            {
+                partyGold = 0;
+            }
+            else if (partyGold > ValueSettings.MaxGold)
+            {
+                partyGold = ValueSettings.MaxGold;
+            }
         }
 
         /// <summary>

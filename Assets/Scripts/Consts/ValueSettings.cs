@@ -14,5 +14,15 @@ namespace SimpleRpg
         /// MPの上限値です。
         /// </summary>
         public const int MaxMp = 999;
+
+        /// <summary>
+        /// アイテム所持数の上限値です。
+        /// </summary>
+        public const int MaxItemNum = 99;
+
+        /// <summary>
+        /// 所持金の上限値です。
+        /// </summary>
+        public const int MaxGold = 999999;
     }
 }

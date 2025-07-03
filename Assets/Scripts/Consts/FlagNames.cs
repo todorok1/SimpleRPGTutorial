@@ -16,6 +16,11 @@ namespace SimpleRpg
         public const string DungeonTreasure = "DungeonTreasure";
 
         /// <summary>
+        /// 洞窟の宝箱のフラグ名です。
+        /// </summary>
+        public const string DungeonTreasureGold = "DungeonTreasureGold";
+
+        /// <summary>
         /// 洞窟のボス討伐のフラグ名です。
         /// </summary>
         public const string DungeonBossWin = "DungeonBossWin";
