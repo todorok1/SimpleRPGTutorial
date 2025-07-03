@@ -113,6 +113,17 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// パーティ内のキャラクターを全回復させます。
+        /// </summary>
+        public static void RefreshPartyCharacter()
+        {
+            foreach (int characterId in partyCharacter)
+            {
+                ChangeCharacterStatus(characterId, ValueSettings.MaxHp, ValueSettings.MaxMp);
+            }
+        }
+
+        /// <summary>
         /// 対象のキャラクターが倒れたかどうかを取得します。
         /// </summary>
         /// <param name="characterId">キャラクターのID</param>
