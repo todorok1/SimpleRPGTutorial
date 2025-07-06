@@ -28,7 +28,7 @@ namespace SimpleRpg
         /// <summary>
         /// 選択された選択肢のインデックスです。
         /// </summary>
-        int _selectedIndex;
+        protected int _selectedIndex;
 
         /// <summary>
         /// コントローラの状態をセットアップします。
@@ -122,7 +122,7 @@ namespace SimpleRpg
         /// <summary>
         /// 決定ボタンが押された時の処理です。
         /// </summary>
-        void OnPressedConfirmButton()
+        protected virtual void OnPressedConfirmButton()
         {
             if (_callback != null)
             {
@@ -134,7 +134,7 @@ namespace SimpleRpg
         /// <summary>
         /// キャンセルボタンが押された時の処理です。
         /// </summary>
-        void OnPressedCancelButton()
+        protected virtual void OnPressedCancelButton()
         {
             // キャンセルされた場合は、区別できるように-1を渡します。
             int canceledIndex = -1;
@@ -148,7 +148,7 @@ namespace SimpleRpg
         /// <summary>
         /// 選択ウィンドウを非表示にする処理です。
         /// </summary>
-        IEnumerator HideProcess()
+        protected IEnumerator HideProcess()
         {
             _canSelect = false;
             yield return null;
