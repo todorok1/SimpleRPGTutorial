@@ -26,6 +26,12 @@ namespace SimpleRpg
         ShopItemWindowBuyController _buyController;
 
         /// <summary>
+        /// アイテム売却に関する処理を制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        ShopItemWindowSellController _sellController;
+
+        /// <summary>
         /// お店で装備に関する情報表示のウィンドウを制御するクラスへの参照です。
         /// </summary>
         [SerializeField]
@@ -76,6 +82,14 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 売却に関する制御クラスへの参照を取得します。
+        /// </summary>
+        public ShopItemWindowSellController GetSellController()
+        {
+            return _sellController;
+        }
+
+        /// <summary>
         /// コントローラの状態をセットアップします。
         /// </summary>
         void InitializeControllers()
@@ -83,6 +97,10 @@ namespace SimpleRpg
             _buyController.SetItemsInPage(ItemsInPage);
             _buyController.SetReferences(this);
             _buyController.InitializeItemInfo();
+
+            _sellController.SetItemsInPage(ItemsInPage);
+            _sellController.SetReferences(this);
+            _sellController.InitializeItemInfo();
         }
 
         void Update()
@@ -144,7 +162,7 @@ namespace SimpleRpg
             }
             else if (_shopManager.SelectedCommand == ShopCommand.Sell)
             {
-
+                isValid = _sellController.IsValidIndex(index);
             }
             return isValid;
         }
@@ -161,7 +179,7 @@ namespace SimpleRpg
             }
             else if (_shopManager.SelectedCommand == ShopCommand.Sell)
             {
-
+                isValid = _sellController.IsValidSelection(_selectedIndex);
             }
             return isValid;
         }
@@ -272,7 +290,7 @@ namespace SimpleRpg
             }
             else if (_shopManager.SelectedCommand == ShopCommand.Sell)
             {
-
+                itemCount = _sellController.GetPageItemCount();
             }
             return itemCount;
         }
@@ -289,7 +307,7 @@ namespace SimpleRpg
             }
             else if (_shopManager.SelectedCommand == ShopCommand.Sell)
             {
-
+                maxPage = _sellController.GetMaxPageNum();
             }
             return maxPage;
         }
@@ -315,7 +333,8 @@ namespace SimpleRpg
             }
             else if (_shopManager.SelectedCommand == ShopCommand.Sell)
             {
-
+                _selectedIndex = _sellController.VerifyIndex(_selectedIndex);
+                _page = _sellController.VerifyPage(_page);
             }
         }
 
@@ -345,7 +364,12 @@ namespace SimpleRpg
             }
             else if (_shopManager.SelectedCommand == ShopCommand.Sell)
             {
-
+                _sellController.SetItemDescription(_selectedIndex, _uiController);
+                var itemInfo = _sellController.GetItemInfo(_selectedIndex);
+                if (itemInfo != null)
+                {
+                    itemId = itemInfo.itemId;
+                }
             }
             SetEquipmentInformation(itemId);
         }
@@ -366,6 +390,9 @@ namespace SimpleRpg
             }
             else
             {
+                newWeaponId = status.equipWeaponId;
+                newArmorId = status.equipArmorId;
+
                 var itemData = ItemDataManager.GetItemDataById(itemId);
                 if (itemData == null)
                 {
@@ -382,11 +409,6 @@ namespace SimpleRpg
                     {
                         newWeaponId = status.equipWeaponId;
                         newArmorId = itemId;
-                    }
-                    else
-                    {
-                        newWeaponId = status.equipWeaponId;
-                        newArmorId = status.equipArmorId;
                     }
                 }
             }
@@ -442,7 +464,7 @@ namespace SimpleRpg
             }
             else if (_shopManager.SelectedCommand == ShopCommand.Sell)
             {
-
+                _sellController.SetPageItem(_page, _uiController);
             }
 
             // ページ送りのカーソルの表示状態を確認します。左右にループして表示するため、最大ページ数が1より大きい場合は表示するようにします。
@@ -474,7 +496,12 @@ namespace SimpleRpg
             }
             else if (_shopManager.SelectedCommand == ShopCommand.Sell)
             {
-
+                var itemData = _sellController.GetItemData(_selectedIndex);
+                if (itemData == null)
+                {
+                    return;
+                }
+                _shopManager.OnSelectedItem(itemData);
             }
             SetCanSelectState(false);
         }

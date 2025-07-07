@@ -41,6 +41,12 @@ namespace SimpleRpg
         ShopProcessorBuy _shopProcessorBuy;
 
         /// <summary>
+        /// お店でアイテムの売却処理を制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        ShopProcessorSell _shopProcessorSell;
+
+        /// <summary>
         /// お店の処理が完了した際に呼び出されるコールバックです。
         /// </summary>
         IShopCallback _callback;
@@ -112,6 +118,7 @@ namespace SimpleRpg
             _callback = callback;
             _windowController.SetUpController(this);
             _shopProcessorBuy.SetReferences(_windowController);
+            _shopProcessorSell.SetReferences(_windowController);
             _shopItems = shopItemIds;
             _shopMasterName = shopMasterName;
 
@@ -223,7 +230,7 @@ namespace SimpleRpg
                 }
                 else if (_selectedCommand == ShopCommand.Sell)
                 {
-
+                    _shopProcessorSell.SellSelectedItem(_selectedItemData);
                 }
             }
             else
@@ -288,8 +295,30 @@ namespace SimpleRpg
             }
             else if (_selectedCommand == ShopCommand.Sell)
             {
-
+                ShowSellMessage(selectedItemData);
             }
+        }
+
+        /// <summary>
+        /// 売却時のメッセージを表示します。
+        /// </summary>
+        /// <param name="selectedItemData">選択されたアイテムデータ</param>
+        void ShowSellMessage(ItemData selectedItemData)
+        {
+            if (selectedItemData == null)
+            {
+                SimpleLogger.Instance.LogError("売却対象のアイテムがnullです。");
+                return;
+            }
+
+            _selectedItemData = selectedItemData;
+            string itemName = selectedItemData.itemName;
+            int price = (int)(selectedItemData.price * ValueSettings.SellPriceMultiplier);
+            string message = $"{itemName} なら {price} ゴールドで引き取るよ。\n売ってくれるかい？";
+            string fullMessage = GetFullMessage(message);
+            _mapMessageWindowController.ShowWindow();
+            _mapMessageWindowController.ShowGeneralMessage(fullMessage, 0.5f);
+            ShowOption();
         }
 
         /// <summary>
