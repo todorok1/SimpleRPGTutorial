@@ -24,5 +24,10 @@ namespace SimpleRpg
         /// 所持金の上限値です。
         /// </summary>
         public const int MaxGold = 999999;
+
+        /// <summary>
+        /// アイテムの売値の倍率です。
+        /// </summary>
+        public const float SellPriceMultiplier = 0.5f;
     }
 }

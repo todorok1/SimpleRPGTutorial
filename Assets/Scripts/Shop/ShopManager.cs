@@ -29,6 +29,18 @@ namespace SimpleRpg
         MapMessageWindowController _mapMessageWindowController;
 
         /// <summary>
+        /// お店画面のアイテムウィンドウを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        ShopItemWindowController _windowController;
+
+        /// <summary>
+        /// お店でアイテムの購入処理を制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        ShopProcessorBuy _shopProcessorBuy;
+
+        /// <summary>
         /// お店の処理が完了した際に呼び出されるコールバックです。
         /// </summary>
         IShopCallback _callback;
@@ -98,6 +110,8 @@ namespace SimpleRpg
         public void StartShopProcess(IShopCallback callback, List<int> shopItemIds, string shopMasterName)
         {
             _callback = callback;
+            _windowController.SetUpController(this);
+            _shopProcessorBuy.SetReferences(_windowController);
             _shopItems = shopItemIds;
             _shopMasterName = shopMasterName;
 
@@ -200,7 +214,23 @@ namespace SimpleRpg
         public void OnSelectedOption(int selectedIndex)
         {
             _mapMessageWindowController.HideWindow();
-            SimpleLogger.Instance.Log($"OnSelectedOption()で選択されたインデックス: {selectedIndex}");
+            if (selectedIndex == 0)
+            {
+                // はいを選択した場合の処理です。
+                if (_selectedCommand == ShopCommand.Buy)
+                {
+                    _shopProcessorBuy.BuySelectedItem(_selectedItemData);
+                }
+                else if (_selectedCommand == ShopCommand.Sell)
+                {
+
+                }
+            }
+            else
+            {
+                // いいえ、またはキャンセルを選択した場合はアイテム選択に戻ります。
+                _windowController.SetCanSelectState(true);
+            }
         }
 
         /// <summary>
@@ -215,14 +245,20 @@ namespace SimpleRpg
                 // 買うを選択した場合の処理です。
                 _selectedCommand = ShopCommand.Buy;
                 _mapMessageWindowController.HideWindow();
-                SimpleLogger.Instance.Log("「買う」を選択しました。");
+                _windowController.SetUpWindow();
+                _windowController.SetPageElement();
+                _windowController.ShowWindow();
+                _windowController.SetCanSelectState(true);
             }
             else if (selectedIndex == 1)
             {
                 // 売るを選択した場合の処理です。
                 _selectedCommand = ShopCommand.Sell;
                 _mapMessageWindowController.HideWindow();
-                SimpleLogger.Instance.Log("「売る」を選択しました。");
+                _windowController.SetUpWindow();
+                _windowController.SetPageElement();
+                _windowController.ShowWindow();
+                _windowController.SetCanSelectState(true);
             }
             else
             {
@@ -230,6 +266,78 @@ namespace SimpleRpg
                 _selectedCommand = ShopCommand.Exit;
                 ShowExitMessage();
             }
+        }
+
+        /// <summary>
+        /// アイテムが選択された時の処理です。
+        /// </summary>
+        /// <param name="selectedItemData">選択されたアイテムデータ</param>
+        public void OnSelectedItem(ItemData selectedItemData)
+        {
+            if (selectedItemData == null)
+            {
+                SimpleLogger.Instance.LogError("購入対象のアイテムがnullです。");
+                return;
+            }
+
+            _selectedItemData = selectedItemData;
+
+            if (_selectedCommand == ShopCommand.Buy)
+            {
+                ShowBuyMessage(selectedItemData);
+            }
+            else if (_selectedCommand == ShopCommand.Sell)
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// 購入時のメッセージを表示します。
+        /// </summary>
+        /// <param name="selectedItemData">選択されたアイテムデータ</param>
+        public void ShowBuyMessage(ItemData selectedItemData)
+        {
+            if (selectedItemData == null)
+            {
+                SimpleLogger.Instance.LogError("購入対象のアイテムがnullです。");
+                return;
+            }
+
+            _selectedItemData = selectedItemData;
+            string itemName = selectedItemData.itemName;
+            string message = $"{itemName} なら {selectedItemData.price} ゴールドだよ。\n買っていくかい？";
+            string fullMessage = GetFullMessage(message);
+            _mapMessageWindowController.ShowWindow();
+            _mapMessageWindowController.ShowGeneralMessage(fullMessage, 0.5f);
+            ShowOption();
+        }
+
+        /// <summary>
+        /// 購入または売却後の処理を行います。
+        /// </summary>
+        public void PostAction()
+        {
+            StartCoroutine(PostMessageProcess());
+        }
+
+        /// <summary>
+        /// 購入または売却後のメッセージ表示を行います。
+        /// </summary>
+        IEnumerator PostMessageProcess()
+        {
+            yield return null;
+            string message = $"まいどあり！";
+            string fullMessage = GetFullMessage(message);
+            _mapMessageWindowController.ShowWindow();
+            float waitTime = 1.0f;
+            _mapMessageWindowController.ShowGeneralMessage(fullMessage, waitTime);
+            yield return new WaitForSeconds(waitTime);
+
+            _mapMessageWindowController.HideWindow();
+            _isSecondVisit = true;
+            _selectedCommand = ShopCommand.None;
+            ShowWelcomeMessage();
         }
 
         /// <summary>
