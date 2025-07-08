@@ -21,6 +21,18 @@ namespace SimpleRpg
         CharacterMoverManager _characterMoverManager;
 
         /// <summary>
+        /// イベントの処理を行うクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        EventProcessor _eventProcessor;
+
+        /// <summary>
+        /// 戦闘に負けた時に実行するイベントデータです。
+        /// </summary>
+        [SerializeField]
+        EventFileData _loseEvent;
+
+        /// <summary>
         /// 現在のマップのエンカウント情報です。
         /// </summary>
         EncounterData _currentEncounterData;
@@ -149,6 +161,7 @@ namespace SimpleRpg
         public void OnLostBattle()
         {
             // 戦闘に負けた場合は村長の前に戻します。
+            _eventProcessor.ExecuteEvent(_loseEvent, RpgEventTrigger.System, null);
         }
     }
 }
