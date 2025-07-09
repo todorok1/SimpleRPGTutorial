@@ -41,6 +41,12 @@ namespace SimpleRpg
         [SerializeField]
         CharacterMoverManager _characterMoverManager;
 
+        /// <summary>
+        /// イベントの処理を行うクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        EventProcessor _eventProcessor;
+
         [Header("テスト用設定")]
         /// <summary>
         /// テスト用に表示するマップのIDです。
@@ -251,8 +257,12 @@ namespace SimpleRpg
         /// </summary>
         IEnumerator CheckEventProcess()
         {
+            _characterMoverManager.StopCharacterMover();
+            yield return null;
+
             var eventFiles = GetEventsInMap();
             yield return StartCoroutine(CheckEventGraphic(eventFiles));
+            yield return StartCoroutine(CheckAutoEventProcess(eventFiles));
         }
 
         /// <summary>
@@ -265,6 +275,33 @@ namespace SimpleRpg
             {
                 eventData.SetEventGraphic();
             }
+        }
+
+        /// <summary>
+        /// マップ内の自動イベントを確認します。
+        /// </summary>
+        public IEnumerator CheckAutoEventProcess(EventFileData[] eventFiles)
+        {
+            yield return null;
+
+            if (_currentMapController == null)
+            {
+                SimpleLogger.Instance.Log("現在のマップコントローラーが設定されていません。");
+                yield break;
+            }
+
+            foreach (var eventData in eventFiles)
+            {
+                // 自動イベントを実行します。
+                var eventQueue = new EventQueue
+                {
+                    targetObj = eventData.gameObject,
+                    rpgEventTrigger = RpgEventTrigger.Auto,
+                    callback = null
+                };
+                _eventProcessor.AddQueue(eventQueue);
+            }
+            _eventProcessor.StartEvent();
         }
     }
 }
