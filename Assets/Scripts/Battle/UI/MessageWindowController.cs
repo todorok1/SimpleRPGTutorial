@@ -156,5 +156,15 @@ namespace SimpleRpg
             string message = $"{characterName}{BattleMessage.LevelUpNameSuffix} {level} {BattleMessage.LevelUpNumberSuffix}";
             StartCoroutine(ShowMessageAutoProcess(message));
         }
+
+        /// <summary>
+        /// 逃げられない戦闘である時のメッセージを生成します。
+        /// </summary>
+        public void GenerateCannotRunawayMessage()
+        {
+            uiController.ClearMessage();
+            string message = BattleMessage.CannotRunaway;
+            StartCoroutine(ShowMessageAutoProcess(message));
+        }
     }
 }

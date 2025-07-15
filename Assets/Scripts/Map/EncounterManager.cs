@@ -69,6 +69,7 @@ namespace SimpleRpg
             // エンカウントが発生する場合は、キャラクターの移動を停止します。
             _characterMoverManager.StopCharacterMover();
             _battleManager.SetUpEnemyStatus(enemyId);
+            _battleManager.SetCanRunaway(true);
             _battleManager.RegisterCallback(this);
             _battleManager.StartBattle();
         }

@@ -87,6 +87,16 @@ namespace SimpleRpg
         public bool IsBattleFinished { get; private set; }
 
         /// <summary>
+        /// 戦闘から逃げられるかどうかのフラグです。
+        /// </summary>
+        public bool CanRunaway { get; private set; }
+
+        /// <summary>
+        /// 逃走選択時のメッセージを処理するかどうかのフラグです。
+        /// </summary>
+        bool _handleRunnawayMessage;
+
+        /// <summary>
         /// 戦闘のフェーズを変更します。
         /// </summary>
         /// <param name="battlePhase">変更後のフェーズ</param>
@@ -111,6 +121,15 @@ namespace SimpleRpg
         public void RegisterCallback(IPostBattle postBattle)
         {
             _postBattle = postBattle;
+        }
+
+        /// <summary>
+        /// 戦闘から逃げられるかどうかのフラグをセットします。
+        /// </summary>
+        /// <param name="canRunaway">逃げられるかどうかのフラグ</param>
+        public void SetCanRunaway(bool canRunaway)
+        {
+            CanRunaway = canRunaway;
         }
 
         /// <summary>
@@ -170,6 +189,8 @@ namespace SimpleRpg
             messageWindowController.HideWindow();
             BattlePhase = BattlePhase.InputCommand;
             _battleActionProcessor.InitializeActions();
+            var commandWindow = _battleWindowManager.GetCommandWindowController();
+            commandWindow.SetCanSelectFlag(true);
         }
 
         /// <summary>
@@ -305,6 +326,13 @@ namespace SimpleRpg
         /// </summary>
         void SetRunCommandAction()
         {
+            // 逃げられない戦闘の場合はメッセージ表示後、コマンド入力フェーズに戻ります。
+            if (!CanRunaway)
+            {
+                ShowCannotRunawayMessage();
+                return;
+            }
+
             int actorId = CharacterStatusManager.partyCharacter[0];
             _battleActionRegister.SetFriendRunAction(actorId);
 
@@ -312,10 +340,36 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 逃げられない場合のメッセージを表示します。
+        /// </summary>
+        void ShowCannotRunawayMessage()
+        {
+            var commandWindow = _battleWindowManager.GetCommandWindowController();
+            commandWindow.SetCanSelectFlag(false);
+
+            _handleRunnawayMessage = true;
+            var messageWindowController = _battleWindowManager.GetMessageWindowController();
+            messageWindowController.HidePager();
+            messageWindowController.ShowWindow();
+            messageWindowController.GenerateCannotRunawayMessage();
+        }
+
+        /// <summary>
         /// メッセージウィンドウでメッセージの表示が完了した時のコールバックです。
         /// </summary>
         public void OnFinishedShowMessage()
         {
+            if (_handleRunnawayMessage)
+            {
+                _handleRunnawayMessage = false;
+                if (!CanRunaway)
+                {
+                    SimpleLogger.Instance.Log("逃げられない戦闘のため、コマンド入力フェーズに戻ります。");
+                    StartInputCommandPhase();
+                    return;
+                }
+            }
+
             switch (BattlePhase)
             {
                 case BattlePhase.ShowEnemy:

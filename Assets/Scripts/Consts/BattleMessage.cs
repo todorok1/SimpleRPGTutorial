@@ -104,5 +104,10 @@ namespace SimpleRpg
         /// レベルが上がった時の数値の後ろに表示するメッセージのフォーマットです。
         /// </summary>
         public static readonly string LevelUpNumberSuffix = "に上がった！";
+
+        /// <summary>
+        /// 逃げられない戦闘の時に表示するメッセージのフォーマットです。
+        /// </summary>
+        public static readonly string CannotRunaway = "この戦いからは逃げられない！";
     }
 }

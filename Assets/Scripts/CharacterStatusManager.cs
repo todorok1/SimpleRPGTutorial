@@ -120,7 +120,25 @@ namespace SimpleRpg
             foreach (int characterId in partyCharacter)
             {
                 ChangeCharacterStatus(characterId, ValueSettings.MaxHp, ValueSettings.MaxMp);
+                SetDefeatedFlag(characterId, false);
             }
+        }
+
+        /// <summary>
+        /// 対象のキャラクターが倒れたかどうかを取得します。
+        /// </summary>
+        /// <param name="characterId">キャラクターのID</param>
+        /// <param name="isDefeated">キャラクターが倒れたかどうかのフラグ</param>
+        public static void SetDefeatedFlag(int characterId, bool isDefeated)
+        {
+            var characterStatus = GetCharacterStatusById(characterId);
+            if (characterStatus == null)
+            {
+                Debug.LogWarning($"キャラクターのステータスが見つかりませんでした。 ID : {characterId}");
+                return;
+            }
+
+            characterStatus.isDefeated = isDefeated;
         }
 
         /// <summary>

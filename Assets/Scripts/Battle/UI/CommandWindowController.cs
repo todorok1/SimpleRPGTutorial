@@ -24,11 +24,24 @@ namespace SimpleRpg
         BattleCommand _selectedCommand;
 
         /// <summary>
+        /// コマンドを選択できるかどうかのフラグです。
+        /// </summary>
+        bool _canSelect;
+
+        /// <summary>
         /// コントローラの状態をセットアップします。
         /// </summary>
         public void SetUpController(BattleManager battleManager)
         {
             _battleManager = battleManager;
+        }
+
+        /// <summary>
+        /// コマンドを選択できるかどうかのフラグを設定します。
+        /// </summary>
+        public void SetCanSelectFlag(bool canSelect)
+        {
+            _canSelect = canSelect;
         }
 
         void Update()
@@ -47,6 +60,11 @@ namespace SimpleRpg
             }
 
             if (_battleManager.BattlePhase != BattlePhase.InputCommand)
+            {
+                return;
+            }
+
+            if (!_canSelect)
             {
                 return;
             }

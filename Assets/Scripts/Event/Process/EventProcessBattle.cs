@@ -14,6 +14,12 @@ namespace SimpleRpg
         int _enemyId;
 
         /// <summary>
+        /// 戦闘から逃げられるかどうかのフラグです。
+        /// </summary>
+        [SerializeField]
+        bool _canRunaway;
+
+        /// <summary>
         /// 戦闘に負けた時に呼ばれるイベントの処理です。
         /// </summary>
         [SerializeField]
@@ -32,6 +38,7 @@ namespace SimpleRpg
             }
             
             battleManager.SetUpEnemyStatus(_enemyId);
+            battleManager.SetCanRunaway(_canRunaway);
             battleManager.RegisterCallback(this);
             battleManager.StartBattle();
         }
