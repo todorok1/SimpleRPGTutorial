@@ -87,6 +87,11 @@ namespace SimpleRpg
         /// </summary>
         protected bool _isCheckPostMove = true;
 
+        /// <summary>
+        /// 移動後に実行する処理を確認するコールバックです。
+        /// </summary>
+        protected ICharacterMoveCallback _moveCallback;
+
         protected virtual void Start()
         {
             CheckComponents();
@@ -175,6 +180,48 @@ namespace SimpleRpg
                     break;
             }
             return moveDirection;
+        }
+
+        /// <summary>
+        /// キャラクターを外部から移動させます。
+        /// </summary>
+        /// <param name="moveDirection">移動方向</param>
+        /// <param name="animDirection">アニメーションの方向</param>
+        public virtual void ForceMoveCharacter(MoveAnimationDirection direction, int steps, bool checkPostMove, ICharacterMoveCallback moveCallback)
+        {
+            _moveCallback = moveCallback;
+            StartCoroutine(ForceMoveCharacterProcess(direction, steps, checkPostMove));
+        }
+
+        /// <summary>
+        /// キャラクターを外部から移動させます。
+        /// </summary>
+        /// <param name="direction">移動方向</param>
+        /// <param name="steps">移動するステップ数</param>
+        /// <param name="checkPostMove">移動後の処理を確認するかどうか</param>
+        IEnumerator ForceMoveCharacterProcess(MoveAnimationDirection direction, int steps, bool checkPostMove)
+        {
+            _isCheckPostMove = checkPostMove;
+            var moveDirection = GetMoveDirection(direction);
+            for (int i = 0; i < steps; i++)
+            {
+                while (_isMoving)
+                {
+                    // キャラクターが移動中の場合は待機します。
+                    yield return null;
+                }
+
+                // キャラクターを移動させます。
+                _isMovingPaused = false;
+                MoveCharacter(moveDirection, direction);
+            }
+            _isCheckPostMove = true;
+            _isMovingPaused = true;
+
+            if (_moveCallback != null)
+            {
+                _moveCallback.OnFinishedMove();
+            }
         }
 
         /// <summary>
