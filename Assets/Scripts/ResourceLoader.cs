@@ -1,21 +1,14 @@
-using UnityEngine;
-
 namespace SimpleRpg
 {
     /// <summary>
     /// 定義データをロードするクラスです。
     /// </summary>
-    public class ResourceLoader : MonoBehaviour
+    public static class ResourceLoader
     {
-        void Start()
-        {
-            LoadDefinitionData();
-        }
-
         /// <summary>
         /// 定義データをロードします。
         /// </summary>
-        void LoadDefinitionData()
+        public static void LoadDefinitionData()
         {
             CharacterDataManager.LoadCharacterData();
             CharacterDataManager.LoadExpTables();

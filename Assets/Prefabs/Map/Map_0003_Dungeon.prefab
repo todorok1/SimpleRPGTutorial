@@ -805,6 +805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nextProcess: {fileID: 529679893142953486}
   _enemyId: 3
+  _canRunaway: 0
   _loseProcess: {fileID: 6831675457297784613}
 --- !u!1 &3091370198115094643
 GameObject:
