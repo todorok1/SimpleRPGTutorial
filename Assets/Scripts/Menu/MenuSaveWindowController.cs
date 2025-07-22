@@ -105,7 +105,7 @@ namespace SimpleRpg
                 {
                     mapId = saveSlot.saveInfoMap.mapId;
                 }
-                string place = _mapManager.GetMapNameFromId(mapId);
+                string place = MapDataManager.GetMapName(mapId);
 
                 _uiController.SetSlotInfo(i, characterName, level, place);
             }

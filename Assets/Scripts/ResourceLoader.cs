@@ -17,6 +17,7 @@ namespace SimpleRpg
             EnemyDataManager.LoadEnemyData();
             ItemDataManager.LoadItemData();
             MagicDataManager.LoadMagicData();
+            MapDataManager.LoadMapData();
         }
     }
 }
