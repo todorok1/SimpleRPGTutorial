@@ -1022,6 +1022,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _titleMenuWindowController: {fileID: 1630380680}
+  _titleStartController: {fileID: 1148446594}
+  _titleQuitGameController: {fileID: 1279740317}
 --- !u!1 &787134548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1248,7 +1250,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0675c9350b5924686bae9f63fde59603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _flagManager: {fileID: 91282906}
+  _flagManager: {fileID: 0}
+--- !u!1 &1148446592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1148446593}
+  - component: {fileID: 1148446594}
+  m_Layer: 0
+  m_Name: TitleStartController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1148446593
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148446592}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1340454902}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1148446594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148446592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66d4d0019b6384902be692cfb4158ede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterStatusSetter: {fileID: 1159698690}
 --- !u!1 &1159698688
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,6 +1481,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1269609117}
   m_CullTransparentMesh: 1
+--- !u!1 &1279740315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1279740316}
+  - component: {fileID: 1279740317}
+  m_Layer: 0
+  m_Name: TitleQuitGameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1279740316
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279740315}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1340454902}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1279740317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279740315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9ae67e5587434b64a864e694dde9203, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1340454901
 GameObject:
   m_ObjectHideFlags: 0
@@ -1468,6 +1559,8 @@ Transform:
   - {fileID: 267327720}
   - {fileID: 784514850}
   - {fileID: 1630380679}
+  - {fileID: 1148446593}
+  - {fileID: 1279740316}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1484309937

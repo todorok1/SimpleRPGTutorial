@@ -14,6 +14,18 @@ namespace SimpleRpg
         TitleMenuWindowController _titleMenuWindowController;
 
         /// <summary>
+        /// タイトル画面のはじめからのメニューを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        TitleStartController _titleStartController;
+
+        /// <summary>
+        /// タイトル画面のゲームの終了メニューを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        TitleQuitGameController _titleQuitGameController;
+
+        /// <summary>
         /// 選択されたメニューです。
         /// </summary>
         public TitleCommand SelectedMenu { get; private set; }
@@ -58,13 +70,13 @@ namespace SimpleRpg
             switch (SelectedMenu)
             {
                 case TitleCommand.Start:
-                    // はじめからゲームを開始します。
+                    _titleStartController.StartNewGame();
                     break;
                 case TitleCommand.Continue:
                     // ロード画面を表示します。
                     break;
                 case TitleCommand.Quit:
-                   // ゲームを終了します。
+                    _titleQuitGameController.QuitGame();
                     break;
             }
         }
@@ -83,7 +95,7 @@ namespace SimpleRpg
         /// </summary>
         public void OnSelectedSlotId(int slotId)
         {
-            
+            _titleStartController.ContinueGame(slotId);
         }
     }
 }

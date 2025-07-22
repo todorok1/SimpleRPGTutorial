@@ -82,26 +82,29 @@ namespace SimpleRpg
 
         void Start()
         {
-            LoadMapPrefab();
+            
         }
 
         /// <summary>
         /// マップ用Prefabをロードします。
         /// </summary>
-        public async void LoadMapPrefab()
+        public async void LoadMapPrefab(IMapLoadCallback callback)
         {
             AsyncOperationHandle<IList<GameObject>> handle = Addressables.LoadAssetsAsync<GameObject>(AddressablesLabels.Map, null);
             await handle.Task;
             _mapPrefabs = new List<GameObject>(handle.Result);
             handle.Release();
 
-            ShowStartMap();
+            if (callback != null)
+            {
+                callback.OnFinishedLoad();
+            }
         }
 
         /// <summary>
         /// ゲーム開始時のマップを表示します。
         /// </summary>
-        void ShowStartMap()
+        public void ShowStartMap()
         {
             // ゲーム開始時のマップを表示します。
             ShowMap(_gameStartMapId);

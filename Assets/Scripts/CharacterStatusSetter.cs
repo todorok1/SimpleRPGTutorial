@@ -38,14 +38,13 @@ namespace SimpleRpg
         [SerializeField]
         List<PartyItemInfo> _partyItemInfoList = new();
 
-        void Update()
+        /// <summary>
+        /// 味方キャラクターのステータスをセットします。
+        /// </summary>
+        public void SetUpCharacterStatus()
         {
-            if (Time.frameCount == 5)
-            {
-                SetPlayerStatus();
-                SetPartyItems();
-                GameStateManager.ChangeToMoving();
-            }
+            SetPlayerStatus();
+            SetPartyItems();
         }
 
         /// <summary>
