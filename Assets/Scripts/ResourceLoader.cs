@@ -18,6 +18,8 @@ namespace SimpleRpg
             ItemDataManager.LoadItemData();
             MagicDataManager.LoadMagicData();
             MapDataManager.LoadMapData();
+
+            SaveDataHolder.Load();
         }
     }
 }

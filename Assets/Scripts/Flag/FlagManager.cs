@@ -66,14 +66,6 @@ namespace SimpleRpg
             LoadFlagNames();
         }
 
-        void Update()
-        {
-            if (Time.frameCount == 5)
-            {
-                InitializeFlagList();
-            }
-        }
-
         /// <summary>
         /// フラグ名のデータをロードします。
         /// </summary>

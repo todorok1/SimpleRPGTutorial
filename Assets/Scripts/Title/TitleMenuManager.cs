@@ -20,6 +20,12 @@ namespace SimpleRpg
         TitleStartController _titleStartController;
 
         /// <summary>
+        /// タイトル画面のつづきからのメニューを制御するクラスへの参照です。
+        /// </summary>
+        [SerializeField]
+        TitleContinueController _titleContinueController;
+
+        /// <summary>
         /// タイトル画面のゲームの終了メニューを制御するクラスへの参照です。
         /// </summary>
         [SerializeField]
@@ -73,7 +79,8 @@ namespace SimpleRpg
                     _titleStartController.StartNewGame();
                     break;
                 case TitleCommand.Continue:
-                    // ロード画面を表示します。
+                    _titleContinueController.SetUpController(this);
+                    _titleContinueController.ShowWindow();
                     break;
                 case TitleCommand.Quit:
                     _titleQuitGameController.QuitGame();

@@ -12,9 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: MapData
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: MapData
   m_GUID: 3b44bdc29ae1a4382b0c01aa65ddce97
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: cabbd4a52fb4f46e89606f54ff6fbb32
+    m_Address: MapData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MapData
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6ae338e6728164d80a129b02d5a68589, type: 2}
   m_SchemaSet:

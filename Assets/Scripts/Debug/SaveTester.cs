@@ -34,7 +34,7 @@ namespace SimpleRpg
 
         void Start()
         {
-            _saveDataManager.LoadFile();
+
         }
 
         void Update()
