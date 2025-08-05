@@ -49,5 +49,15 @@ namespace SimpleRpg
         /// フラグ名のデータのラベルです。
         /// </summary>
         public static readonly string Flag = "Flag";
+
+        /// <summary>
+        /// BGMのデータのラベルです。
+        /// </summary>
+        public static readonly string BGM = "BGM";
+
+        /// <summary>
+        /// 効果音のデータのラベルです。
+        /// </summary>
+        public static readonly string SE = "SE";
     }
 }

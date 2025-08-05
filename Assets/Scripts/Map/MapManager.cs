@@ -143,7 +143,7 @@ namespace SimpleRpg
         /// <summary>
         /// マップIDに対応するマップを表示します。
         /// </summary>
-        public void ShowMap(int mapId)
+        public void ShowMap(int mapId, bool switchBgm = true)
         {
             _currentMapController = GetTargetMap(mapId);
             if (_currentMapController == null)
@@ -163,6 +163,16 @@ namespace SimpleRpg
 
                 SimpleLogger.Instance.Log($"マップを表示します。 ID: {mapId} Name: {_currentMapController.MapName}");
                 CheckEvent();
+
+                if (switchBgm)
+                {
+                    // マップのBGMを再生します。
+                    var mapDataRecord = MapDataManager.GetMapDataRecordById(mapId);
+                    if (mapDataRecord != null && !string.IsNullOrEmpty(mapDataRecord.bgmName))
+                    {
+                        AudioManager.Instance.PlayBgm(mapDataRecord.bgmName);
+                    }
+                }
             }
         }
 

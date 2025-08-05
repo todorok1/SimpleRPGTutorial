@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: SE
+  m_EditorClassIdentifier: 
+  m_GroupName: SE
+  m_GUID: a8bbf2708b66042b3968f871bdd8783f
+  m_SerializeEntries:
+  - m_GUID: 108fcb7832cc246ff95813b3adc25c88
+    m_Address: Gameover
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a3330b98f45e418f903d9407017b63e
+    m_Address: Magic
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 360a4f413524941d292310ace880e4da
+    m_Address: BattleWin
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 418fbcb1aad8f4bafb141d74d9c6add5
+    m_Address: BattleStart
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 65400d73cb0464f3389d57dc042f3136
+    m_Address: Cancel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 965c9b5f176ab4967b8e850a499599aa
+    m_Address: Move
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0a82d6d5b8b5460e8868196c4f428d0
+    m_Address: Attack
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b27ed4e67124142d4850d138bb161927
+    m_Address: Treasure
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c39dd6c390aab4b85864f648cdd82b69
+    m_Address: LevelUp
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca4d81111e72f495fbe94333febd137d
+    m_Address: Damage
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccf8f944e2e38462b9a50c8bb389d2eb
+    m_Address: OK
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dcc6d91a63e124df880eb6efd5cd4543
+    m_Address: Inn
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ded1c97f6ced94579ba473177b752564
+    m_Address: Heal
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SE
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 6ae338e6728164d80a129b02d5a68589, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a46ed3279afb140848c5e502a5cb1531, type: 2}
+    - {fileID: 11400000, guid: 5afe58c39c3ba4707b0e9eddb97c1e77, type: 2}

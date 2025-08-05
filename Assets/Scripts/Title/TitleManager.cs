@@ -36,6 +36,9 @@ namespace SimpleRpg
             // 画面をフェードインさせます。
             FadeManager.Instance.SetCallback(this);
             FadeManager.Instance.FadeInScreen();
+
+            // BGMを再生します。
+            AudioManager.Instance.PlayBgm(BgmNames.Title);
         }
 
         /// <summary>

@@ -17,5 +17,10 @@ namespace SimpleRpg
         /// マップ名です。
         /// </summary>
         public string name;
+
+        /// <summary>
+        /// マップのBGM名です。
+        /// </summary>
+        public string bgmName;
     }
 }
