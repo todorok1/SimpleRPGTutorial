@@ -492,10 +492,10 @@ namespace SimpleRpg
                 {
                     return;
                 }
+                _shopManager.OnSelectedItem(itemData);
 
                 // 選択時の効果音を再生します。
                 AudioManager.Instance.PlaySe(SeNames.OK);
-                _shopManager.OnSelectedItem(itemData);
             }
             else if (_shopManager.SelectedCommand == ShopCommand.Sell)
             {
@@ -504,10 +504,10 @@ namespace SimpleRpg
                 {
                     return;
                 }
+                _shopManager.OnSelectedItem(itemData);
 
                 // 選択時の効果音を再生します。
                 AudioManager.Instance.PlaySe(SeNames.OK);
-                _shopManager.OnSelectedItem(itemData);
             }
             SetCanSelectState(false);
         }

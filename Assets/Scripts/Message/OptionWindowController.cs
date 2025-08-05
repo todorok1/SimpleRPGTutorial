@@ -128,10 +128,10 @@ namespace SimpleRpg
             {
                 _callback.OnSelectedOption(_selectedIndex);
             }
+            StartCoroutine(HideProcess());
 
             // 選択時の効果音を再生します。
             AudioManager.Instance.PlaySe(SeNames.OK);
-            StartCoroutine(HideProcess());
         }
 
         /// <summary>
@@ -145,10 +145,10 @@ namespace SimpleRpg
             {
                 _callback.OnSelectedOption(canceledIndex);
             }
+            StartCoroutine(HideProcess());
 
             // キャンセル時の効果音を再生します。
             AudioManager.Instance.PlaySe(SeNames.Cancel);
-            StartCoroutine(HideProcess());
         }
 
         /// <summary>
