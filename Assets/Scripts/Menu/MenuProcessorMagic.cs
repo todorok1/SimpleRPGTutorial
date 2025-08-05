@@ -111,6 +111,9 @@ namespace SimpleRpg
             _mapMessageWindowController.HidePager();
             _mapMessageWindowController.ShowWindow();
 
+            // 魔法使用時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Magic);
+
             _windowController.SetCanSelectState(false);
             _windowController.SetPauseMessageState(true);
             _mapMessageWindowController.GenerateMagicCastMessage(actorName, magicName);
@@ -118,6 +121,9 @@ namespace SimpleRpg
             {
                 yield return null;
             }
+
+            // 回復の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Heal);
 
             _windowController.SetPauseMessageState(true);
             _mapMessageWindowController.GenerateHpHealMessage(targetName, healValue);
@@ -133,6 +139,9 @@ namespace SimpleRpg
             {
                 yield return null;
             }
+
+            // 選択時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.OK);
 
             _pauseMagicEffect = false;
         }

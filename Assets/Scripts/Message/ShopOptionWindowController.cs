@@ -29,6 +29,9 @@ namespace SimpleRpg
             {
                 _callback.OnSelectedShopOption(_selectedIndex);
             }
+
+            // 選択時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.OK);
             StartCoroutine(HideProcess());
         }
 
@@ -43,6 +46,9 @@ namespace SimpleRpg
             {
                 _callback.OnSelectedShopOption(canceledIndex);
             }
+
+            // キャンセル時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Cancel);
             StartCoroutine(HideProcess());
         }
     }

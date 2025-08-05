@@ -70,6 +70,9 @@ namespace SimpleRpg
                 {
                     yield return null;
                 }
+
+                // 選択時の効果音を再生します。
+                AudioManager.Instance.PlaySe(SeNames.OK);
             }
 
             if (!_keepWindowOpen)

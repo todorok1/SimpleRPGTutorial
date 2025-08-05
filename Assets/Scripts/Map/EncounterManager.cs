@@ -93,6 +93,9 @@ namespace SimpleRpg
             // 現在のBGMを停止します。
             float fadeTime = 0.1f;
             AudioManager.Instance.StopAllBgm(fadeTime);
+
+            // 戦闘開始の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.BattleStart);
             yield return new WaitForSeconds(fadeTime);
 
             _battleManager.SetUpEnemyStatus(enemyId);

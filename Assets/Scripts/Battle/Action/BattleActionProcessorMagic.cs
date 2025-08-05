@@ -134,12 +134,18 @@ namespace SimpleRpg
             string actorName = _actionProcessor.GetCharacterName(action.actorId, action.isActorFriend);
             string targetName = _actionProcessor.GetCharacterName(action.targetId, action.isTargetFriend);
 
+            // 魔法の詠唱時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Magic);
+
             _actionProcessor.SetPauseMessage(true);
             _messageWindowController.GenerateMagicCastMessage(actorName, magicName);
             while (_actionProcessor.IsPausedMessage)
             {
                 yield return null;
             }
+
+            // 回復の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Heal);
 
             _actionProcessor.SetPauseMessage(true);
             _messageWindowController.GenerateHpHealMessage(targetName, healValue);

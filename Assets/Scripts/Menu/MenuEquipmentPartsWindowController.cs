@@ -181,6 +181,9 @@ namespace SimpleRpg
         /// </summary>
         void OnPressedConfirmButton()
         {
+            // 選択時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.OK);
+
             _windowController.OnSelectedEquipmentParts(_selectedParts);
         }
 
@@ -189,6 +192,9 @@ namespace SimpleRpg
         /// </summary>
         void OnPressedCancelButton()
         {
+            // キャンセル時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Cancel);
+
             StartCoroutine(HideProcess());
         }
 

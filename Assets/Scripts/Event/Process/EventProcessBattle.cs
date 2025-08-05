@@ -48,7 +48,6 @@ namespace SimpleRpg
             // 現在のBGMを停止します。
             float fadeTime = 0.1f;
             AudioManager.Instance.StopAllBgm(fadeTime);
-            yield return new WaitForSeconds(fadeTime);
 
             var battleManager = FindAnyObjectByType<BattleManager>();
             if (battleManager == null)
@@ -56,6 +55,10 @@ namespace SimpleRpg
                 SimpleLogger.Instance.LogError("シーン内のBattleManagerが見つかりませんでした。");
                 CallNextProcess();
             }
+
+            // 戦闘開始の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.BattleStart);
+            yield return new WaitForSeconds(fadeTime);
 
             battleManager.SetUpEnemyStatus(_enemyId);
             battleManager.SetCanRunaway(_canRunaway);

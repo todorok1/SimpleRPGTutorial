@@ -112,11 +112,17 @@ namespace SimpleRpg
                 yield return null;
             }
 
+            // 選択時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.OK);
+
             foreach (var id in CharacterStatusManager.partyCharacter)
             {
                 var isLevelUp = CharacterStatusManager.CheckLevelUp(id);
                 if (isLevelUp)
                 {
+                    // レベルアップ時のジングルを再生します。
+                    AudioManager.Instance.PlaySe(SeNames.LevelUp);
+
                     _pauseMessage = true;
                     var characterStatus = CharacterStatusManager.GetCharacterStatusById(id);
                     var level = characterStatus.level;
@@ -134,6 +140,9 @@ namespace SimpleRpg
                     {
                         yield return null;
                     }
+
+                    // 選択時のジングルを再生します。
+                    AudioManager.Instance.PlaySe(SeNames.OK);
                 }
             }
 
