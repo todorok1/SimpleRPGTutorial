@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace SimpleRpg
@@ -26,21 +27,43 @@ namespace SimpleRpg
         EventProcessBase _loseProcess;
 
         /// <summary>
+        /// この戦闘で使用するBGMの名前です。
+        /// </summary>
+        [SerializeField]
+        string _battleBgmName = BgmNames.Battle;
+
+        /// <summary>
         /// イベントの処理を実行します。
         /// </summary>
         public override void Execute()
         {
+            StartCoroutine(StartBattleProcess());
+        }
+
+        /// <summary>
+        /// 戦闘の開始処理を行います。
+        /// </summary>
+        IEnumerator StartBattleProcess()
+        {
+            // 現在のBGMを停止します。
+            float fadeTime = 0.1f;
+            AudioManager.Instance.StopAllBgm(fadeTime);
+            yield return new WaitForSeconds(fadeTime);
+
             var battleManager = FindAnyObjectByType<BattleManager>();
             if (battleManager == null)
             {
                 SimpleLogger.Instance.LogError("シーン内のBattleManagerが見つかりませんでした。");
                 CallNextProcess();
             }
-            
+
             battleManager.SetUpEnemyStatus(_enemyId);
             battleManager.SetCanRunaway(_canRunaway);
             battleManager.RegisterCallback(this);
             battleManager.StartBattle();
+
+            // 戦闘BGMを再生します。
+            AudioManager.Instance.PlayBgm(_battleBgmName, false, true);
         }
 
         /// <summary>
@@ -48,6 +71,16 @@ namespace SimpleRpg
         /// </summary>
         public void OnFinishedBattle()
         {
+            // 現在のマップIDを取得します。
+            var mapManager = FindAnyObjectByType<MapManager>();
+            if (mapManager != null)
+            {
+                // BGMを続きから再生します。
+                int mapId = mapManager.GetCurrentMapController().MapId;
+                string bgmName = MapDataManager.GetMapBgmName(mapId);
+                AudioManager.Instance.PlayBgm(bgmName, true, true);
+            }
+
             CallNextProcess();
         }
 

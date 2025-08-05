@@ -16416,6 +16416,7 @@ MonoBehaviour:
   _characterMoverManager: {fileID: 496981833}
   _eventProcessor: {fileID: 1270350621}
   _loseEvent: {fileID: 1268103100}
+  _battleBgmName: Battle
 --- !u!1 &1703442638
 GameObject:
   m_ObjectHideFlags: 0

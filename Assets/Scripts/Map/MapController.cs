@@ -65,7 +65,7 @@ namespace SimpleRpg
         /// </summary>
         public void SetEncounterData(EncounterManager encounterManager)
         {
-            encounterManager.SetCurrentEncounterData(_encounterData);
+            encounterManager.SetCurrentEncounterData(_mapId, _encounterData);
         }
 
         /// <summary>

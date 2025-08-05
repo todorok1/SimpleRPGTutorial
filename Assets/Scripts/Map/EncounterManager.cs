@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using System.Collections;
 
 namespace SimpleRpg
 {
@@ -33,16 +34,29 @@ namespace SimpleRpg
         EventFileData _loseEvent;
 
         /// <summary>
+        /// 戦闘で使用するBGMの名前です。
+        /// </summary>
+        [SerializeField]
+        string _battleBgmName = BgmNames.Battle;
+
+        /// <summary>
         /// 現在のマップのエンカウント情報です。
         /// </summary>
         EncounterData _currentEncounterData;
 
         /// <summary>
+        /// 現在のマップのIDです。
+        /// </summary>
+        int _currentMapId;
+
+        /// <summary>
         /// 現在のマップのエンカウント情報をセットします。
         /// </summary>
+        /// <param name="mapId">マップID</param>
         /// <param name="encounterData">エンカウントデータ</param>
-        public void SetCurrentEncounterData(EncounterData encounterData)
+        public void SetCurrentEncounterData(int mapId, EncounterData encounterData)
         {
+            _currentMapId = mapId;
             _currentEncounterData = encounterData;
         }
 
@@ -68,10 +82,24 @@ namespace SimpleRpg
 
             // エンカウントが発生する場合は、キャラクターの移動を停止します。
             _characterMoverManager.StopCharacterMover();
+            StartCoroutine(StartBattleProcess(enemyId));
+        }
+
+        /// <summary>
+        /// エンカウントが発生するかどうか確認します。
+        /// </summary>
+        IEnumerator StartBattleProcess(int enemyId)
+        {
+            // 現在のBGMを停止します。
+            float fadeTime = 0.1f;
+            AudioManager.Instance.StopAllBgm(fadeTime);
+            yield return new WaitForSeconds(fadeTime);
+
             _battleManager.SetUpEnemyStatus(enemyId);
             _battleManager.SetCanRunaway(true);
             _battleManager.RegisterCallback(this);
             _battleManager.StartBattle();
+            AudioManager.Instance.PlayBgm(_battleBgmName, false, true);
         }
 
         /// <summary>
@@ -154,6 +182,10 @@ namespace SimpleRpg
             // キャラクターが移動できるようにします。
             _characterMoverManager.ResumeCharacterMover();
             GameStateManager.ChangeToMoving();
+
+            // BGMを続きから再生します。
+            string bgmName = MapDataManager.GetMapBgmName(_currentMapId);
+            AudioManager.Instance.PlayBgm(bgmName, true, true);
         }
 
         /// <summary>

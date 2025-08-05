@@ -466,8 +466,22 @@ namespace SimpleRpg
         /// </summary>
         public void OnRunaway()
         {
+            StartCoroutine(RunawayProcess());
+        }
+
+        /// <summary>
+        /// 味方が逃走に成功した時の処理です。
+        /// </summary>
+        IEnumerator RunawayProcess()
+        {
             SimpleLogger.Instance.Log("逃走に成功しました。");
             IsBattleFinished = true;
+
+            // 戦闘BGMを停止します。
+            float fadeTime = 0.1f;
+            AudioManager.Instance.StopAllBgm(fadeTime);
+            yield return new WaitForSeconds(fadeTime);
+
             OnFinishBattle();
         }
 

@@ -105,7 +105,6 @@ namespace SimpleRpg
         /// <param name="fadeTime">フェードアウトにかかる時間</param>
         public void StopAllBgm(float fadeTime = 0.5f)
         {
-            SimpleLogger.Instance.Log($"StopAllBgm()が呼ばれました。_audioChannelInfoList.Count: {_audioChannelInfoList.Count}");
             foreach (var channelInfo in _audioChannelInfoList)
             {
                 if (channelInfo.audioSource == null)
@@ -123,7 +122,6 @@ namespace SimpleRpg
         /// <param name="fadeTime">フェードアウトにかかる時間</param>
         public IEnumerator StopBgmProcess(string bgmName, AudioSource audioSource, float fadeTime = 0f)
         {
-            SimpleLogger.Instance.Log($"StopBgmProcess()が呼ばれました。");
             yield return StartCoroutine(AudioManager.Instance.FadeAudio(audioSource, 0f, fadeTime));
             KeepPlaybackPosition(bgmName, audioSource);
             audioSource.Stop();
@@ -137,6 +135,11 @@ namespace SimpleRpg
         public void KeepPlaybackPosition(string bgmName, AudioSource audioSource)
         {
             if (audioSource == null)
+            {
+                return;
+            }
+
+            if (audioSource.clip == null)
             {
                 return;
             }
