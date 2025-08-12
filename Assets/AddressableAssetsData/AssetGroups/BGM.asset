@@ -12,9 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: BGM
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: BGM
   m_GUID: 716c82b459fc949ebabebf2d03165102
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 145c0b0b5abb94db9b6252383a0eed74
+    m_Address: Dungeon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a1ef0b37c6a541069ce07bc062a70aa
+    m_Address: Village
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 604eaf9de99404799830a7fe115f5225
+    m_Address: Title
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1c96d737c32f49d980e4727af8888fa
+    m_Address: Field
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fa93ad0843db945e1bc5a8dbead9d5cb
+    m_Address: Battle
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6ae338e6728164d80a129b02d5a68589, type: 2}
   m_SchemaSet:

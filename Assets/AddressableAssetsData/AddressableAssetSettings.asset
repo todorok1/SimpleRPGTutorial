@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 2d4b61087d1bc4c4bb8a00a6d31e9506
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 3f885e361e5b496441b3db1c28cc372d
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -117,6 +117,8 @@ MonoBehaviour:
     - Map
     - Flag
     - MapData
+    - BGM
+    - SE
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 6361d2e5fa5664457b214586aa61f9bb, type: 2}

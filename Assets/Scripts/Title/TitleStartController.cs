@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -50,6 +51,18 @@ namespace SimpleRpg
         /// </summary>
         public void OnFinishedFade()
         {
+            StartCoroutine(SwitchSceneProcess());
+        }
+
+        /// <summary>
+        /// シーンを切り替える処理を行います。
+        /// </summary>
+        IEnumerator SwitchSceneProcess()
+        {
+            // BGMの停止を待ちます。
+            AudioManager.Instance.StopAllBgm();
+            yield return new WaitForSeconds(0.25f);
+
             _characterStatusSetter.SetUpCharacterStatus();
             FlagManager.Instance.InitializeFlagList();
 
