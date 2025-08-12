@@ -121,7 +121,6 @@ namespace SimpleRpg
         /// </summary>
         public void StopAllBgm(float fadeTime = 0.5f)
         {
-            SimpleLogger.Instance.Log($"AudioManagerのStopAllBgm()が呼ばれました。");
             SetUpReferences();
             _bgmManager.StopAllBgm(fadeTime);
         }
@@ -133,6 +132,15 @@ namespace SimpleRpg
         {
             SetUpReferences();
             _seManager.Play(seName, isLoop);
+        }
+
+        /// <summary>
+        /// 全ての効果音を停止します。
+        /// </summary>
+        public void StopAllSe(float fadeTime = 0.25f)
+        {
+            SetUpReferences();
+            _seManager.StopAllSe(fadeTime);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -11,9 +12,9 @@ namespace SimpleRpg
     public class SeManager : MonoBehaviour
     {
         /// <summary>
-        /// 生成済みのAudioSourceを保持するリストです。
+        /// チャンネルの情報を保持するリストです。
         /// </summary>
-        List<AudioSource> _audioSourceList = new();
+        List<AudioChannelInfo> _audioChannelInfoList = new();
 
         /// <summary>
         /// 効果音の音量です。
@@ -52,6 +53,33 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 全ての効果音を停止します。
+        /// </summary>
+        /// <param name="fadeTime">フェードアウトにかかる時間</param>
+        public void StopAllSe(float fadeTime = 0.25f)
+        {
+            foreach (var channelInfo in _audioChannelInfoList)
+            {
+                if (channelInfo.audioSource == null)
+                {
+                    continue;
+                }
+
+                StartCoroutine(StopSeProcess(channelInfo.playingAudioName, channelInfo.audioSource, fadeTime));
+            }
+        }
+
+        /// <summary>
+        /// BGMを停止します。
+        /// </summary>
+        /// <param name="fadeTime">フェードアウトにかかる時間</param>
+        public IEnumerator StopSeProcess(string seName, AudioSource audioSource, float fadeTime = 0f)
+        {
+            yield return StartCoroutine(AudioManager.Instance.FadeAudio(audioSource, 0f, fadeTime));
+            audioSource.Stop();
+        }
+
+        /// <summary>
         /// オーディオを再生するAudioSourceを取得します。
         /// </summary>
         public AudioSource GetAudioSource()
@@ -66,7 +94,13 @@ namespace SimpleRpg
             GameObject audioSourceObject = new(ChannelPrefix);
             audioSourceObject.transform.SetParent(transform);
             AudioSource newAudioSource = audioSourceObject.AddComponent<AudioSource>();
-            _audioSourceList.Add(newAudioSource);
+            AudioChannelInfo audioChannelInfo = new()
+            {
+                channelId = GetNewChannelId(),
+                audioSource = newAudioSource,
+                playingAudioName = string.Empty,
+            };
+            _audioChannelInfoList.Add(audioChannelInfo);
             return newAudioSource;
         }
 
@@ -75,14 +109,27 @@ namespace SimpleRpg
         /// </summary>
         public AudioSource GetStoppedAudioSource()
         {
-            foreach (var audioSource in _audioSourceList)
+            foreach (var audioChannelInfo in _audioChannelInfoList)
             {
-                if (!audioSource.isPlaying)
+                if (!audioChannelInfo.IsPlaying())
                 {
-                    return audioSource;
+                    return audioChannelInfo.audioSource;
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// 新しいチャンネルIDを取得します。
+        /// </summary>
+        int GetNewChannelId()
+        {
+            int newChannelId = 0;
+            while (_audioChannelInfoList.Exists(info => info.channelId == newChannelId))
+            {
+                newChannelId++;
+            }
+            return newChannelId;
         }
     }
 }
