@@ -407,6 +407,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nextProcess: {fileID: 8747879743864300869}
   _targetDirection: 2
+--- !u!1 &1507931064130117557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9176609176370133707}
+  - component: {fileID: 7298946451811178251}
+  m_Layer: 0
+  m_Name: PlaySe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9176609176370133707
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507931064130117557}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11, y: -9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 57923216373336030}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7298946451811178251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507931064130117557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb45142556f04efa8e2c56735634ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nextProcess: {fileID: 2342712068156281192}
+  _seName: Move
+  _isLoop: 0
 --- !u!1 &1573923148806190112
 GameObject:
   m_ObjectHideFlags: 0
@@ -25821,6 +25868,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _flagName: DungeonTreasureGold
   _state: 1
+--- !u!1 &7209510866938014949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7076447151443985500}
+  - component: {fileID: 268100707627214650}
+  m_Layer: 0
+  m_Name: StopBgm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7076447151443985500
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7209510866938014949}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11, y: -9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 57923216373336030}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &268100707627214650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7209510866938014949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f67fc0a94ac0433cac765b8d456529b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nextProcess: {fileID: 7298946451811178251}
+  _fadeTime: 0.25
+  _isStopAll: 1
+  _bgmName: 
 --- !u!1 &7264971096939805521
 GameObject:
   m_ObjectHideFlags: 0
@@ -26714,7 +26809,7 @@ PrefabInstance:
     - target: {fileID: 1035361443152023442, guid: 9d5d37d72fc5146508c2faec2c10eeb8, type: 3}
       propertyPath: _startProcess
       value: 
-      objectReference: {fileID: 2342712068156281192}
+      objectReference: {fileID: 268100707627214650}
     - target: {fileID: 1763412286859826415, guid: 9d5d37d72fc5146508c2faec2c10eeb8, type: 3}
       propertyPath: _spriteRenderer
       value: 
@@ -26786,6 +26881,12 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6611527477330277340, guid: 9d5d37d72fc5146508c2faec2c10eeb8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7076447151443985500}
+    - targetCorrespondingSourceObject: {fileID: 6611527477330277340, guid: 9d5d37d72fc5146508c2faec2c10eeb8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9176609176370133707}
     - targetCorrespondingSourceObject: {fileID: 6611527477330277340, guid: 9d5d37d72fc5146508c2faec2c10eeb8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8788799087798109229}
