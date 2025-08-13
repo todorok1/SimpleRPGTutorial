@@ -83,12 +83,18 @@ namespace SimpleRpg
             string actorName = _actionProcessor.GetCharacterName(action.actorId, action.isActorFriend);
             string targetName = _actionProcessor.GetCharacterName(action.targetId, action.isTargetFriend);
 
+            // 攻撃時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Attack);
+
             _actionProcessor.SetPauseMessage(true);
             _messageWindowController.GenerateAttackMessage(actorName);
             while (_actionProcessor.IsPausedMessage)
             {
                 yield return null;
             }
+
+            // ダメージの効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Damage);
 
             _actionProcessor.SetPauseMessage(true);
             _messageWindowController.GenerateDamageMessage(targetName, damage);

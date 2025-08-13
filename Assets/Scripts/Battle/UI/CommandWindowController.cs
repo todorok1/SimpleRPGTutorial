@@ -81,6 +81,8 @@ namespace SimpleRpg
             }
             else if (InputGameKey.ConfirmButton())
             {
+                // 選択時の効果音を再生します。
+                AudioManager.Instance.PlaySe(SeNames.OK);
                 _battleManager.OnCommandSelected(_selectedCommand);
             }
         }

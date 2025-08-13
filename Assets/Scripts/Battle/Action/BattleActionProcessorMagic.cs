@@ -72,6 +72,9 @@ namespace SimpleRpg
         /// </summary>
         IEnumerator ProcessMagicActionCoroutine(BattleAction action, MagicData magicData)
         {
+            // 魔法の詠唱時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Magic);
+
             // 魔法の効果を処理します。
             foreach (var magicEffect in magicData.magicEffects)
             {
@@ -140,6 +143,9 @@ namespace SimpleRpg
             {
                 yield return null;
             }
+
+            // 回復の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Heal);
 
             _actionProcessor.SetPauseMessage(true);
             _messageWindowController.GenerateHpHealMessage(targetName, healValue);

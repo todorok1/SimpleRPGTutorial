@@ -331,6 +331,9 @@ namespace SimpleRpg
                 return;
             }
 
+            // 選択時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.OK);
+
             if (_battleManager.SelectedCommand == BattleCommand.Magic)
             {
                 var magicData = _magicController.GetMagicData(_selectedIndex);
@@ -358,6 +361,9 @@ namespace SimpleRpg
         /// </summary>
         void OnPressedCancelButton()
         {
+            // キャンセル時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Cancel);
+
             _battleManager.OnItemCanceled();
             HideWindow();
             SetCanSelectState(false);

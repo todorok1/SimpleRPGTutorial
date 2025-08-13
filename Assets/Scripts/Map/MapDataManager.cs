@@ -46,8 +46,8 @@ namespace SimpleRpg
 
         /// <summary>
         /// マップIDからマップ名を取得します。
-        /// <param name="mapId">マップID</param>
         /// </summary>
+        /// <param name="mapId">マップID</param>
         public static string GetMapName(int mapId)
         {
             string mapName = string.Empty;
@@ -57,6 +57,21 @@ namespace SimpleRpg
                 mapName = mapDataRecord.name;
             }
             return mapName;
+        }
+
+        /// <summary>
+        /// マップIDからマップのBGM名を取得します。
+        /// </summary>
+        /// <param name="mapId">マップID</param>
+        public static string GetMapBgmName(int mapId)
+        {
+            string bgmName = string.Empty;
+            var mapDataRecord = GetMapDataRecordById(mapId);
+            if (mapDataRecord != null)
+            {
+                bgmName = mapDataRecord.bgmName;
+            }
+            return bgmName;
         }
     }
 }

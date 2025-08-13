@@ -67,6 +67,13 @@ namespace SimpleRpg
         /// <param name="gold">獲得ゴールド</param>
         IEnumerator WinMessageProcess(int exp, int gold)
         {
+            // 戦闘BGMを停止します。
+            float fadeTime = 0.1f;
+            AudioManager.Instance.StopAllBgm(fadeTime);
+
+            // 戦闘勝利のジングルを再生します。
+            AudioManager.Instance.PlaySe(SeNames.BattleWin);
+
             // パーティの最初のメンバーの名前を取得します。
             var firstMemberId = CharacterStatusManager.partyCharacter[0];
             var characterName = CharacterDataManager.GetCharacterName(firstMemberId);
@@ -105,11 +112,17 @@ namespace SimpleRpg
                 yield return null;
             }
 
+            // 選択時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.OK);
+
             foreach (var id in CharacterStatusManager.partyCharacter)
             {
                 var isLevelUp = CharacterStatusManager.CheckLevelUp(id);
                 if (isLevelUp)
                 {
+                    // レベルアップ時のジングルを再生します。
+                    AudioManager.Instance.PlaySe(SeNames.LevelUp);
+
                     _pauseMessage = true;
                     var characterStatus = CharacterStatusManager.GetCharacterStatusById(id);
                     var level = characterStatus.level;
@@ -127,6 +140,9 @@ namespace SimpleRpg
                     {
                         yield return null;
                     }
+
+                    // 選択時のジングルを再生します。
+                    AudioManager.Instance.PlaySe(SeNames.OK);
                 }
             }
 
@@ -147,6 +163,13 @@ namespace SimpleRpg
         /// </summary>
         IEnumerator LoseMessageProcess()
         {
+            // 戦闘BGMを停止します。
+            float fadeTime = 0.1f;
+            AudioManager.Instance.StopAllBgm(fadeTime);
+
+            // 戦闘敗北時のジングルを再生します。
+            AudioManager.Instance.PlaySe(SeNames.Gameover);
+
             // パーティの最初のメンバーの名前を取得します。
             var firstMemberId = CharacterStatusManager.partyCharacter[0];
             var characterName = CharacterDataManager.GetCharacterName(firstMemberId);
@@ -157,6 +180,9 @@ namespace SimpleRpg
             {
                 yield return null;
             }
+
+            float waitTime = 1.0f;
+            yield return new WaitForSeconds(waitTime);
 
             // キー入力を待ちます。
             _messageWindowController.StartKeyWait();

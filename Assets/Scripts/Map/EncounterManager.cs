@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using System.Collections;
 
 namespace SimpleRpg
 {
@@ -31,6 +32,12 @@ namespace SimpleRpg
         /// </summary>
         [SerializeField]
         EventFileData _loseEvent;
+
+        /// <summary>
+        /// 戦闘で使用するBGMの名前です。
+        /// </summary>
+        [SerializeField]
+        string _battleBgmName = BgmNames.Battle;
 
         /// <summary>
         /// 現在のマップのエンカウント情報です。
@@ -68,10 +75,27 @@ namespace SimpleRpg
 
             // エンカウントが発生する場合は、キャラクターの移動を停止します。
             _characterMoverManager.StopCharacterMover();
+            StartCoroutine(StartBattleProcess(enemyId));
+        }
+
+        /// <summary>
+        /// エンカウントが発生するかどうか確認します。
+        /// </summary>
+        IEnumerator StartBattleProcess(int enemyId)
+        {
+            // 現在のBGMを停止します。
+            float fadeTime = 0.1f;
+            AudioManager.Instance.StopAllBgm(fadeTime);
+
+            // 戦闘開始の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.BattleStart);
+            yield return new WaitForSeconds(fadeTime);
+
             _battleManager.SetUpEnemyStatus(enemyId);
             _battleManager.SetCanRunaway(true);
             _battleManager.RegisterCallback(this);
             _battleManager.StartBattle();
+            AudioManager.Instance.PlayBgm(_battleBgmName, false, true);
         }
 
         /// <summary>
@@ -154,6 +178,16 @@ namespace SimpleRpg
             // キャラクターが移動できるようにします。
             _characterMoverManager.ResumeCharacterMover();
             GameStateManager.ChangeToMoving();
+
+            // 現在のマップIDを取得します。
+            var mapManager = FindAnyObjectByType<MapManager>();
+            if (mapManager != null)
+            {
+                // BGMを続きから再生します。
+                int mapId = mapManager.GetCurrentMapController().MapId;
+                string bgmName = MapDataManager.GetMapBgmName(mapId);
+                AudioManager.Instance.PlayBgm(bgmName, true, true);
+            }
         }
 
         /// <summary>
