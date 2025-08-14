@@ -104,6 +104,8 @@ namespace SimpleRpg
             // メニューを開くキーが押された場合、メニューを開きます。
             if (InputGameKey.CancelButton())
             {
+                // 選択時の効果音を再生します。
+                AudioManager.Instance.PlaySe(SeNames.OK);
                 OpenMenu();
             }
         }

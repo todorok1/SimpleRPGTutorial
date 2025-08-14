@@ -465,6 +465,9 @@ namespace SimpleRpg
                 {
                     return;
                 }
+
+                // 選択時の効果音を再生します。
+                AudioManager.Instance.PlaySe(SeNames.OK);
                 _menuProcessorItem.UseSelectedItem(itemInfo.itemId);
             }
             else if (_menuManager.SelectedMenu == MenuCommand.Magic)
@@ -474,6 +477,9 @@ namespace SimpleRpg
                 {
                     return;
                 }
+
+                // 選択時の効果音を再生します。
+                AudioManager.Instance.PlaySe(SeNames.OK);
                 _menuProcessorMagic.UseSelectedMagic(magicData.magicId);
             }
         }
@@ -483,6 +489,9 @@ namespace SimpleRpg
         /// </summary>
         void OnPressedCancelButton()
         {
+            // キャンセル時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Cancel);
+
             StartCoroutine(HideProcess());
         }
 

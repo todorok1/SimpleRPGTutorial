@@ -124,6 +124,9 @@ namespace SimpleRpg
         /// </summary>
         void OnPressedConfirmButton()
         {
+            // 選択時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.OK);
+
             SetCanSelectState(false);
             _titleMenuManager.OnSelectedMenu(_selectedCommand);
         }

@@ -64,10 +64,14 @@ namespace SimpleRpg
             }
             else if (InputGameKey.ConfirmButton())
             {
+                // 選択時の効果音を再生します。
+                AudioManager.Instance.PlaySe(SeNames.OK);
                 _menuManager.OnSelectedMenu(_selectedCommand);
             }
             else if (InputGameKey.CancelButton())
             {
+                // キャンセル時の効果音を再生します。
+                AudioManager.Instance.PlaySe(SeNames.Cancel);
                 CloseMenu();
             }
         }
