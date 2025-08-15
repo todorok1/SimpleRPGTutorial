@@ -255,7 +255,7 @@ namespace SimpleRpg
                 _windowController.SetUpWindow();
                 _windowController.SetPageElement();
                 _windowController.ShowWindow();
-                _windowController.SetCanSelectState(true);
+                StartCoroutine(DelaySetSelectState());
             }
             else if (selectedIndex == 1)
             {
@@ -265,7 +265,7 @@ namespace SimpleRpg
                 _windowController.SetUpWindow();
                 _windowController.SetPageElement();
                 _windowController.ShowWindow();
-                _windowController.SetCanSelectState(true);
+                StartCoroutine(DelaySetSelectState());
             }
             else
             {
@@ -273,6 +273,15 @@ namespace SimpleRpg
                 _selectedCommand = ShopCommand.Exit;
                 ShowExitMessage();
             }
+        }
+
+        /// <summary>
+        /// 選択ウィンドウで選択可能な状態にするための処理です。
+        /// </summary>
+        IEnumerator DelaySetSelectState()
+        {
+            yield return null;
+            _windowController.SetCanSelectState(true);
         }
 
         /// <summary>
@@ -393,6 +402,10 @@ namespace SimpleRpg
             {
                 yield return null;
             }
+
+            // 選択時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.OK);
+
             _mapMessageWindowController.HidePager();
             _mapMessageWindowController.HideWindow();
             ExitProcess();

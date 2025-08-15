@@ -493,6 +493,9 @@ namespace SimpleRpg
                     return;
                 }
                 _shopManager.OnSelectedItem(itemData);
+
+                // 選択時の効果音を再生します。
+                AudioManager.Instance.PlaySe(SeNames.OK);
             }
             else if (_shopManager.SelectedCommand == ShopCommand.Sell)
             {
@@ -502,6 +505,9 @@ namespace SimpleRpg
                     return;
                 }
                 _shopManager.OnSelectedItem(itemData);
+
+                // 選択時の効果音を再生します。
+                AudioManager.Instance.PlaySe(SeNames.OK);
             }
             SetCanSelectState(false);
         }
@@ -511,6 +517,8 @@ namespace SimpleRpg
         /// </summary>
         void OnPressedCancelButton()
         {
+            // キャンセル時の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Cancel);
             StartCoroutine(HideProcess());
         }
 
