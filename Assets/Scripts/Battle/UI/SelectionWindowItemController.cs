@@ -38,8 +38,7 @@ namespace SimpleRpg
             }
 
             var itemId = _itemIdDictionary[indexInPage];
-            var partyItemInfo = CharacterStatusManager.partyItemInfoList.Find(info => info.itemId == itemId);
-            isValid = partyItemInfo.itemNum > 0;
+            isValid = CanSelectItem(itemId);
             return isValid;
         }
 
@@ -94,8 +93,19 @@ namespace SimpleRpg
         /// <param name="itemId">アイテムID</param>
         bool CanSelectItem(int itemId)
         {
+            // アイテムの個数が0より大きいことを確認します。
             var partyItemInfo = CharacterStatusManager.partyItemInfoList.Find(info => info.itemId == itemId);
-            return partyItemInfo.itemNum > 0;
+            bool isValidNum = partyItemInfo != null && partyItemInfo.itemNum > 0;
+
+            // アイテムの効果がNoneでないことを確認します。
+            var itemData = ItemDataManager.GetItemDataById(itemId);
+            if (itemData == null)
+            {
+                SimpleLogger.Instance.LogWarning($"アイテムデータが見つかりませんでした。 ID: {itemId}");
+                return false;
+            }
+            bool isValidEffect = itemData.itemEffect.itemEffectCategory != ItemEffectCategory.None;
+            return isValidNum && isValidEffect;
         }
 
         /// <summary>

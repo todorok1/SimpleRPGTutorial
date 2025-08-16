@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Magic
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4fdfb90da1dea40bbb2c820ec1f623b5
+    m_Address: MagicData_0002
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Magic
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6ae338e6728164d80a129b02d5a68589, type: 2}
   m_SchemaSet:

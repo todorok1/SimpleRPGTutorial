@@ -17,3 +17,5 @@ MonoBehaviour:
   characterMagicRecords:
   - level: 2
     magicId: 1
+  - level: 2
+    magicId: 2

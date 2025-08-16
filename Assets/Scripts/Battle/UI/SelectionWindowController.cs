@@ -159,7 +159,7 @@ namespace SimpleRpg
                 _selectedIndex += 1;
             }
 
-            ShowSelectionCursor();
+            PostSelection();
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace SimpleRpg
                 _selectedIndex -= 1;
             }
 
-            ShowSelectionCursor();
+            PostSelection();
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace SimpleRpg
                 }
             }
 
-            ShowSelectionCursor();
+            PostSelection();
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace SimpleRpg
                 }
             }
 
-            ShowSelectionCursor();
+            PostSelection();
         }
 
         /// <summary>
@@ -272,10 +272,48 @@ namespace SimpleRpg
         /// <summary>
         /// 選択中の位置に応じたカーソルを表示します。
         /// </summary>
+        void PostSelection()
+        {
+            ShowSelectionCursor();
+            ShowSelectedItemDescription();
+        }
+
+        /// <summary>
+        /// 選択中の位置に応じたカーソルを表示します。
+        /// </summary>
         void ShowSelectionCursor()
         {
             int index = _selectedIndex % 4;
             _uiController.ShowSelectedCursor(index);
+        }
+
+        /// <summary>
+        /// 選択中の項目の説明を表示します。
+        /// </summary>
+        void ShowSelectedItemDescription()
+        {
+            string description = string.Empty;
+            if (_battleManager.SelectedCommand == BattleCommand.Magic)
+            {
+                var magicData = _magicController.GetMagicData(_selectedIndex);
+                if (magicData != null)
+                {
+                    description = magicData.magicDesc;
+                }
+            }
+            else if (_battleManager.SelectedCommand == BattleCommand.Item)
+            {
+                var itemInfo = _itemController.GetItemInfo(_selectedIndex);
+                if (itemInfo != null)
+                {
+                    var itemData = ItemDataManager.GetItemDataById(itemInfo.itemId);
+                    if (itemData != null)
+                    {
+                        description = itemData.itemDesc;
+                    }
+                }
+            }
+            _uiController.SetDescriptionText(description);
         }
 
         /// <summary>
@@ -298,6 +336,7 @@ namespace SimpleRpg
             _page = 0;
             _selectedIndex = SelectionItemPosition.LeftTop;
             _uiController.ShowSelectedCursor(_selectedIndex);
+            PostSelection();
         }
 
         /// <summary>
@@ -374,6 +413,7 @@ namespace SimpleRpg
         /// </summary>
         public void ShowWindow()
         {
+            InitializeSelect();
             _uiController.Show();
         }
 

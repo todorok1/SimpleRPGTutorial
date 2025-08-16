@@ -74,9 +74,14 @@ namespace SimpleRpg
 
                 StartCoroutine(ShowItemHealMessage(action, itemData.itemName, hpDelta));
             }
+            else if (itemData.itemEffect.itemEffectCategory == ItemEffectCategory.None)
+            {
+                StartCoroutine(ShowNoEffectItemMessage(action, itemData.itemName));
+            }
             else
             {
-                Debug.LogWarning($"未定義のアイテム効果です。 ID: {itemData.itemId}");
+                SimpleLogger.Instance.LogWarning($"未定義のアイテム効果です。 ID: {itemData.itemId}");
+                StartCoroutine(ShowNoEffectItemMessage(action, itemData.itemName));
             }
         }
 
@@ -101,6 +106,29 @@ namespace SimpleRpg
             _actionProcessor.SetPauseMessage(true);
             _messageWindowController.GenerateHpHealMessage(targetName, healValue);
             _battleManager.OnUpdateStatus();
+            while (_actionProcessor.IsPausedMessage)
+            {
+                yield return null;
+            }
+
+            _actionProcessor.SetPauseProcess(false);
+        }
+
+        /// <summary>
+        /// アイテムの効果がないときのメッセージを表示します。
+        /// </summary>
+        IEnumerator ShowNoEffectItemMessage(BattleAction action, string itemName)
+        {
+            string actorName = _actionProcessor.GetCharacterName(action.actorId, action.isActorFriend);
+            _actionProcessor.SetPauseMessage(true);
+            _messageWindowController.GenerateUseItemMessage(actorName, itemName);
+            while (_actionProcessor.IsPausedMessage)
+            {
+                yield return null;
+            }
+
+            _actionProcessor.SetPauseMessage(true);
+            _messageWindowController.GenerateNoEffectMessage();
             while (_actionProcessor.IsPausedMessage)
             {
                 yield return null;

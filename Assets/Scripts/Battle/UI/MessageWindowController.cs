@@ -91,6 +91,15 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// アイテムや魔法などの効果がない時のメッセージを生成します。
+        /// </summary>
+        public void GenerateNoEffectMessage()
+        {
+            string message = BattleMessage.NoEffect;
+            StartCoroutine(ShowMessageAutoProcess(message));
+        }
+
+        /// <summary>
         /// 逃走した時のメッセージを生成します。
         /// </summary>
         public void GenerateRunMessage(string characterName)

@@ -109,5 +109,10 @@ namespace SimpleRpg
         /// 逃げられない戦闘の時に表示するメッセージのフォーマットです。
         /// </summary>
         public static readonly string CannotRunaway = "この戦いからは逃げられない！";
+
+        /// <summary>
+        /// 効果がない時に表示するメッセージのフォーマットです。
+        /// </summary>
+        public static readonly string NoEffect = "しかし何も起きなかった！";
     }
 }

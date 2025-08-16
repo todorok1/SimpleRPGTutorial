@@ -115,9 +115,19 @@ namespace SimpleRpg
                     _pauseMagicEffect = true;
                     StartCoroutine(ShowMagicHealMessage(messageAction, magicData.magicName, hpDelta));
                 }
+                else if (magicEffect.magicCategory == MagicCategory.None)
+                {
+                    // 効果がない場合のメッセージを表示します。
+                    _pauseMagicEffect = true;
+                    StartCoroutine(ShowNoEffectMessage(messageAction, magicData.magicName));
+                }
                 else
                 {
-                    Debug.LogWarning($"未定義の魔法効果です。 ID: {magicData.magicId}");
+                    SimpleLogger.Instance.LogWarning($"未定義の魔法効果です。 ID: {magicData.magicId}");
+
+                    // 効果がない場合のメッセージを表示します。
+                    _pauseMagicEffect = true;
+                    StartCoroutine(ShowNoEffectMessage(messageAction, magicData.magicName));
                 }
 
                 while (_pauseMagicEffect)
@@ -172,6 +182,32 @@ namespace SimpleRpg
                 isFriend = true;
             }
             return isFriend;
+        }
+
+        /// <summary>
+        /// 魔法の効果がない場合のメッセージを表示します。
+        /// </summary>
+        IEnumerator ShowNoEffectMessage(BattleAction action, string magicName)
+        {
+            string actorName = _actionProcessor.GetCharacterName(action.actorId, action.isActorFriend);
+            string targetName = _actionProcessor.GetCharacterName(action.targetId, action.isTargetFriend);
+
+            _actionProcessor.SetPauseMessage(true);
+            _messageWindowController.GenerateMagicCastMessage(actorName, magicName);
+            while (_actionProcessor.IsPausedMessage)
+            {
+                yield return null;
+            }
+
+            _actionProcessor.SetPauseMessage(true);
+            _messageWindowController.GenerateNoEffectMessage();
+            _battleManager.OnUpdateStatus();
+            while (_actionProcessor.IsPausedMessage)
+            {
+                yield return null;
+            }
+
+            _pauseMagicEffect = false;
         }
     }
 }
