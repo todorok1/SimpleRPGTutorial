@@ -74,7 +74,6 @@ namespace SimpleRpg
             AsyncOperationHandle<IList<FlagNameData>> handle = Addressables.LoadAssetsAsync<FlagNameData>(AddressablesLabels.Flag, null);
             await handle.Task;
             _flagNameData = handle.Result[0];
-            handle.Release();
         }
 
         /// <summary>

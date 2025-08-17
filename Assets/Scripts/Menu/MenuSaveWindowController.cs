@@ -265,6 +265,7 @@ namespace SimpleRpg
 
             _selectedSlot = 1;
             ShowSelectionCursor();
+            SaveDataHolder.Load();
             SetUpSlotInfo();
 
             // セーブ画面を開いたフレームでボタンの検知をしないようにします。

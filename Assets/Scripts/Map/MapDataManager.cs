@@ -22,7 +22,6 @@ namespace SimpleRpg
             AsyncOperationHandle<IList<MapData>> handle = Addressables.LoadAssetsAsync<MapData>(AddressablesLabels.MapData, null);
             await handle.Task;
             _mapDataList = new List<MapData>(handle.Result);
-            handle.Release();
         }
 
         /// <summary>

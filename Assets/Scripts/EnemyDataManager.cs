@@ -22,7 +22,6 @@ namespace SimpleRpg
             AsyncOperationHandle<IList<EnemyData>> handle = Addressables.LoadAssetsAsync<EnemyData>(AddressablesLabels.Enemy, null);
             await handle.Task;
             _enemyData = new List<EnemyData>(handle.Result);
-            handle.Release();
         }
 
         /// <summary>

@@ -33,7 +33,6 @@ namespace SimpleRpg
             AsyncOperationHandle<IList<ExpTable>> handle = Addressables.LoadAssetsAsync<ExpTable>(AddressablesLabels.ExpTable, null);
             await handle.Task;
             _expTables = new List<ExpTable>(handle.Result);
-            handle.Release();
         }
 
         /// <summary>
@@ -57,7 +56,6 @@ namespace SimpleRpg
             AsyncOperationHandle<IList<ParameterTable>> handle = Addressables.LoadAssetsAsync<ParameterTable>(AddressablesLabels.ParameterTable, null);
             await handle.Task;
             _parameterTables = new List<ParameterTable>(handle.Result);
-            handle.Release();
         }
 
         /// <summary>
@@ -77,7 +75,6 @@ namespace SimpleRpg
             AsyncOperationHandle<IList<CharacterData>> handle = Addressables.LoadAssetsAsync<CharacterData>(AddressablesLabels.Character, null);
             await handle.Task;
             _characterDataList = new List<CharacterData>(handle.Result);
-            handle.Release();
         }
 
         /// <summary>

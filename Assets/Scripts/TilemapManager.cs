@@ -86,7 +86,7 @@ namespace SimpleRpg
 
             if (_noEntryTileData == null)
             {
-                Debug.LogWarning("侵入できないタイル一覧の定義ファイルがnullです。[NoEntryTileData]のフィールドに定義ファイルをアサインしてください。");
+                SimpleLogger.Instance.LogWarning("侵入できないタイル一覧の定義ファイルがnullです。[NoEntryTileData]のフィールドに定義ファイルをアサインしてください。");
                 return canEntry;
             }
 
@@ -103,12 +103,18 @@ namespace SimpleRpg
             // 定義ファイルのタイルと照合します。
             foreach (var tile in targetTiles)
             {
+                if (tile == null)
+                {
+                    break;
+                }
+
                 if (_noEntryTileData.noEntryTiles == null)
                 {
                     break;
                 }
 
-                if (_noEntryTileData.noEntryTiles.Contains(tile))
+                var noEntryTile = _noEntryTileData.noEntryTiles.Find(t => t.name == tile.name);
+                if (noEntryTile != null)
                 {
                     canEntry = false;
                     break;
@@ -128,7 +134,7 @@ namespace SimpleRpg
 
             if (_throughTileData == null)
             {
-                Debug.LogWarning("ひとつ先まで確認するタイル一覧の定義ファイルがnullです。[ThroughTileData]のフィールドに定義ファイルをアサインしてください。");
+                SimpleLogger.Instance.LogWarning("ひとつ先まで確認するタイル一覧の定義ファイルがnullです。[ThroughTileData]のフィールドに定義ファイルをアサインしてください。");
                 return isThroughTile;
             }
 
@@ -138,12 +144,18 @@ namespace SimpleRpg
             // 定義ファイルのタイルと照合します。
             foreach (var tile in targetTiles)
             {
+                if (tile == null)
+                {
+                    break;
+                }
+
                 if (_throughTileData.throughTiles == null)
                 {
                     break;
                 }
 
-                if (_throughTileData.throughTiles.Contains(tile))
+                var throughTile = _throughTileData.throughTiles.Find(t => t.name == tile.name);
+                if (throughTile != null)
                 {
                     isThroughTile = true;
                     break;

@@ -93,7 +93,6 @@ namespace SimpleRpg
             AsyncOperationHandle<IList<GameObject>> handle = Addressables.LoadAssetsAsync<GameObject>(AddressablesLabels.Map, null);
             await handle.Task;
             _mapPrefabs = new List<GameObject>(handle.Result);
-            handle.Release();
 
             if (callback != null)
             {

@@ -22,7 +22,6 @@ namespace SimpleRpg
             AsyncOperationHandle<IList<MagicData>> handle = Addressables.LoadAssetsAsync<MagicData>(AddressablesLabels.Magic, null);
             await handle.Task;
             _magicDataList = new List<MagicData>(handle.Result);
-            handle.Release();
         }
 
         /// <summary>
