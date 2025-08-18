@@ -11455,8 +11455,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _partyCharacters: 01000000
   _playerLevel: 1
-  _weaponId: 2
-  _armorId: 4
+  _weaponId: 0
+  _armorId: 0
   _partyItemInfoList: []
 --- !u!1 &1170379597
 GameObject:

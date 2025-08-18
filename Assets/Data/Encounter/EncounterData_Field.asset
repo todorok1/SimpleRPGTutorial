@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EncounterData_Field
   m_EditorClassIdentifier: 
   hasEncounter: 1
-  rate: 10
+  rate: 7
   enemyRates:
   - enemyId: 1
     rate: 1
