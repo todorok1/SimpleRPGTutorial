@@ -45,6 +45,18 @@ namespace SimpleRpg
         TextMeshProUGUI _placeText;
 
         /// <summary>
+        /// 項目が選択可能なときの色です。
+        /// </summary>
+        [SerializeField]
+        Color _selectableColor = Color.white;
+
+        /// <summary>
+        /// 項目が選択不可能なときの色です。
+        /// </summary>
+        [SerializeField]
+        Color _unselectableColor = Color.gray;
+
+        /// <summary>
         /// ファイル名テキストをセットします。
         /// </summary>
         /// <param name="slotId">セーブ枠のID</param>
@@ -91,6 +103,35 @@ namespace SimpleRpg
             _levelTitleText.text = string.Empty;
             _levelValueText.text = string.Empty;
             _placeText.text = string.Empty;
+        }
+
+        /// <summary>
+        /// セーブ枠内のテキストの色をセットします。
+        /// </summary>
+        /// <param name="color">設定する色</param>
+        public void SetTextColor(Color color)
+        {
+            _fileNameText.color = color;
+            _characterNameText.color = color;
+            _levelTitleText.color = color;
+            _levelValueText.color = color;
+            _placeText.color = color;
+        }
+
+        /// <summary>
+        /// 項目が選択できる時のセーブ枠内のテキストの色をセットします。
+        /// </summary>
+        public void SetEnabledColor()
+        {
+            SetTextColor(_selectableColor);
+        }
+
+        /// <summary>
+        /// 項目が選択できない時のセーブ枠内のテキストの色をセットします。
+        /// </summary>
+        public void SetDisabledColor()
+        {
+            SetTextColor(_unselectableColor);
         }
 
         /// <summary>

@@ -183,10 +183,36 @@ namespace SimpleRpg
         }
 
         /// <summary>
+        /// 選択されたセーブ枠がロード可能かどうかを確認します。
+        /// </summary>
+        bool CanLoadSlot()
+        {
+            var saveSlot = _saveDataManager.GetSaveSlot(_selectedSlot);
+            if (saveSlot == null)
+            {
+                return false;
+            }
+
+            var statusInfo = saveSlot.saveInfoStatus;
+            if (statusInfo == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// 決定ボタンが押された時の処理です。
         /// </summary>
         void OnPressedConfirmButton()
         {
+            // セーブ枠がロードできない場合は処理を抜けます。
+            if (!CanLoadSlot())
+            {
+                return;
+            }
+
             // 選択時の効果音を再生します。
             AudioManager.Instance.PlaySe(SeNames.OK);
 

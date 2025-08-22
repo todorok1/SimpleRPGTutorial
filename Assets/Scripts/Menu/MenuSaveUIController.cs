@@ -88,6 +88,7 @@ namespace SimpleRpg
             controller.SetCharacterNameText(characterName);
             controller.SetLevelText(level);
             controller.SetPlaceText(place);
+            controller.SetEnabledColor();
         }
 
         /// <summary>
@@ -106,6 +107,7 @@ namespace SimpleRpg
             controller.ClearSlotInfoText();
             controller.SetFileNameText(slotId);
             controller.SetCharacterNameText(emptyName);
+            controller.SetDisabledColor();
         }
 
         /// <summary>
