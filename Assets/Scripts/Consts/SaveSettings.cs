@@ -14,5 +14,10 @@ namespace SimpleRpg
         /// セーブファイルの名前です。
         /// </summary>
         public const string SaveFileName = "SimpleSave.json";
+
+        /// <summary>
+        /// WebGLのセーブデータのキー名です。
+        /// </summary>
+        public const string WebGLSaveKey = "SimpleRpgSaveData";
     }
 }

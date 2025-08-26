@@ -84,6 +84,9 @@ namespace SimpleRpg
                 yield return null;
             }
 
+            // 回復の効果音を再生します。
+            AudioManager.Instance.PlaySe(SeNames.Heal);
+
             _windowController.SetPauseMessageState(true);
             _mapMessageWindowController.GenerateHpHealMessage(targetName, healValue);
             _windowController.UpdateStatus();
