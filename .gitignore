@@ -76,3 +76,4 @@ crashlytics-build.properties
 !/[Aa]ssets/**/*.png
 !/[Aa]ssets/**/*.asset
 !/[Aa]ssets/**/*.dll
+!/[Pp]rojectSettings/**/*.asset
