@@ -10453,8 +10453,6 @@ Transform:
   - {fileID: 772418237}
   - {fileID: 697484768}
   - {fileID: 1061982545}
-  - {fileID: 1506465727}
-  - {fileID: 91282905}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1358706572
