@@ -10954,7 +10954,7 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
-  m_Mode: 0
+  m_Mode: 2
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
 --- !u!1 &3992814908264779171
@@ -24024,7 +24024,7 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
-  m_Mode: 0
+  m_Mode: 2
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
 --- !u!1 &5707699804634273028
@@ -24284,7 +24284,7 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
-  m_Mode: 0
+  m_Mode: 2
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
 --- !u!1001 &6560924343376753666
